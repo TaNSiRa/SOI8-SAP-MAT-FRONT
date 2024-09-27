@@ -71,7 +71,9 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
 
     // กรองข้อมูลด้วย Type ,YEAR ,MONTH
     List<P02PROGRESSGETDATAclass> filteredData = _datain.where((data) {
-      return data.TYPE == selectedType && data.YEAR == selectedYear;
+      return data.TYPE == selectedType &&
+          data.YEAR == selectedYear &&
+          data.MONTH == selectedMonth;
     }).toList();
 
     //แยกข้อมูล week 1-4
