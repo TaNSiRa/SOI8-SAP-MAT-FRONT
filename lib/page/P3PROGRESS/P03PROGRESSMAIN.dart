@@ -6,6 +6,7 @@ import '../../widget/common/Advancedropdown.dart';
 import 'P03PROGRESSVAR.dart';
 
 late BuildContext P03PROGRESSMAINcontext;
+ScrollController _controllerIN01 = ScrollController();
 
 class P03PROGRESSMAIN extends StatefulWidget {
   P03PROGRESSMAIN({
@@ -886,201 +887,218 @@ class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
       SuccessReportMonths.add(successReportPercent);
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: ShaderMask(
-                shaderCallback: (bounds) => LinearGradient(
-                  colors: const [Colors.blueAccent, Colors.lightBlueAccent],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ).createShader(bounds),
-                child: Text(
-                  'SAR : Report Performance Yr.$selectedYear',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Center(
-            child: Text(
-              '% Achieved Customer $selectedType',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          SizedBox(
-            height: 380,
-            width: 1100,
-            child: Stack(
+    return Scrollbar(
+      controller: _controllerIN01,
+      thumbVisibility: true,
+      interactive: true,
+      thickness: 10,
+      radius: Radius.circular(20),
+      child: Center(
+        child: SingleChildScrollView(
+          controller: _controllerIN01,
+          scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
-                Stack(
-                  children: [
-                    Center(
-                      child: CustomBarChart(
-                        SuccessReportMonths: SuccessReportMonths,
-                        maxY: 140,
-                      ),
-                    ),
-                    Positioned(
-                      top: 93,
-                      right: 0,
-                      child: Row(
-                        children: [
-                          Icon(Icons.arrow_back_rounded,
-                              size: 20, color: Colors.blue.shade900),
-                          Container(
-                            alignment: Alignment.center,
-                            height: 40,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.blue.shade900,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Target 100%',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: ShaderMask(
+                      shaderCallback: (bounds) => LinearGradient(
+                        colors: const [
+                          Colors.blueAccent,
+                          Colors.lightBlueAccent
                         ],
-                      ),
-                    )
-                  ],
-                ),
-                Positioned(
-                  top: 180,
-                  left: 30,
-                  child: Transform.rotate(
-                    angle: -90 * (3.14159 / 180),
-                    child: Container(
-                      alignment: Alignment.center,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds),
                       child: Text(
-                        '% Achieved Customer $selectedType',
+                        'SAR : Report Performance',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 20.0,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Column(
+                Center(
+                  child: Text(
+                    '% Achieved Customer $selectedType (Yr.$selectedYear)',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 380,
+                  width: 1100,
+                  child: Stack(
                     children: [
-                      Column(
+                      Stack(
                         children: [
-                          if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
-                              P03PROGRESSVAR.DropDownYear.isNotEmpty)
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'TYPE',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                          Center(
+                            child: CustomBarChart(
+                              SuccessReportMonths: SuccessReportMonths,
+                              maxY: 140,
                             ),
-                          AdvanceDropDown(
-                            hint: "TYPE",
-                            listdropdown: const [
-                              MapEntry("TYPE", ""),
-                              MapEntry("Group A", "Group A"),
-                              MapEntry("Group B", "Group B"),
-                            ],
-                            onChangeinside: (d, k) {
-                              setState(() {
-                                P03PROGRESSVAR.DropDownType = d;
-                              });
-                            },
-                            value: P03PROGRESSVAR.DropDownType,
-                            height: 30,
-                            width: 100,
                           ),
+                          Positioned(
+                            top: 93,
+                            right: 0,
+                            child: Row(
+                              children: [
+                                Icon(Icons.arrow_back_rounded,
+                                    size: 20, color: Colors.blue.shade900),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.blue.shade900,
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Target 100%',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Column(
-                        children: [
-                          if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
-                              P03PROGRESSVAR.DropDownYear.isNotEmpty) ...[
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'YEAR',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      Positioned(
+                        top: 180,
+                        left: 30,
+                        child: Transform.rotate(
+                          angle: -90 * (3.14159 / 180),
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '% Achieved Customer $selectedType',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
+                                    P03PROGRESSVAR.DropDownYear.isNotEmpty)
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'TYPE',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                AdvanceDropDown(
+                                  hint: "TYPE",
+                                  listdropdown: const [
+                                    MapEntry("TYPE", ""),
+                                    MapEntry("Group A", "Group A"),
+                                    MapEntry("Group B", "Group B"),
+                                  ],
+                                  onChangeinside: (d, k) {
+                                    setState(() {
+                                      P03PROGRESSVAR.DropDownType = d;
+                                    });
+                                  },
+                                  value: P03PROGRESSVAR.DropDownType,
+                                  height: 30,
+                                  width: 100,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Column(
+                              children: [
+                                if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
+                                    P03PROGRESSVAR.DropDownYear.isNotEmpty) ...[
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'YEAR',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                AdvanceDropDown(
+                                  hint: "YEAR",
+                                  listdropdown: const [
+                                    MapEntry("YEAR", ""),
+                                    MapEntry("2024", "2024"),
+                                    MapEntry("2025", "2025"),
+                                    MapEntry("2026", "2026"),
+                                    MapEntry("2027", "2027"),
+                                    MapEntry("2028", "2028"),
+                                    MapEntry("2029", "2029"),
+                                    MapEntry("2030", "2030"),
+                                    MapEntry("2031", "2031"),
+                                    MapEntry("2032", "2032"),
+                                    MapEntry("2033", "2033"),
+                                    MapEntry("2034", "2034"),
+                                    MapEntry("2035", "2035"),
+                                    MapEntry("2036", "2036"),
+                                    MapEntry("2037", "2037"),
+                                    MapEntry("2038", "2038"),
+                                    MapEntry("2039", "2039"),
+                                    MapEntry("2040", "2040"),
+                                  ],
+                                  onChangeinside: (d, k) {
+                                    setState(() {
+                                      P03PROGRESSVAR.DropDownYear = d;
+                                    });
+                                  },
+                                  value: P03PROGRESSVAR.DropDownYear,
+                                  height: 30,
+                                  width: 100,
+                                ),
+                              ],
                             ),
                           ],
-                          AdvanceDropDown(
-                            hint: "YEAR",
-                            listdropdown: const [
-                              MapEntry("YEAR", ""),
-                              MapEntry("2024", "2024"),
-                              MapEntry("2025", "2025"),
-                              MapEntry("2026", "2026"),
-                              MapEntry("2027", "2027"),
-                              MapEntry("2028", "2028"),
-                              MapEntry("2029", "2029"),
-                              MapEntry("2030", "2030"),
-                              MapEntry("2031", "2031"),
-                              MapEntry("2032", "2032"),
-                              MapEntry("2033", "2033"),
-                              MapEntry("2034", "2034"),
-                              MapEntry("2035", "2035"),
-                              MapEntry("2036", "2036"),
-                              MapEntry("2037", "2037"),
-                              MapEntry("2038", "2038"),
-                              MapEntry("2039", "2039"),
-                              MapEntry("2040", "2040"),
-                            ],
-                            onChangeinside: (d, k) {
-                              setState(() {
-                                P03PROGRESSVAR.DropDownYear = d;
-                              });
-                            },
-                            value: P03PROGRESSVAR.DropDownYear,
-                            height: 30,
-                            width: 100,
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 20),
               ],
             ),
           ),
-          SizedBox(height: 20),
-        ],
+        ),
       ),
     );
   }

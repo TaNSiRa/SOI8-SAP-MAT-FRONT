@@ -21,6 +21,8 @@ class P02PROGRESSVAR {
     'TTC analysis',
     'Sampling - TTC',
   ];
+  static String GroupAsampleTime = 'A) Long sample preparation time';
+  static String GroupBsampleTime = 'B) No long sample preparation time';
   static const List<double> GroupATargetDays = [
     12,
     1,

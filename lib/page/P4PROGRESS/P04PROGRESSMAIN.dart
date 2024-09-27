@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/BlocEvent/04-01-P04PROGRESSGETDATA.dart';
@@ -436,24 +436,46 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
         int.parse(item['rep days']!) >= 16).length.toDouble();
     IssueReportMore15 = double.parse(IssueReportMore15.toStringAsFixed(1));
 
+    // Map pieData1 กับข้อมูลที่คำนวณมา
     Map<String, double> pieData1 = {};
     pieData1['Achieved KPI (Iss.)'] = SuccessReport;
     pieData1['Not Achieved KPI (Iss.)'] = IssueReport;
 
+    // คำนวณมุมของ Not Achieved KPI (Iss.) ที่ต้องแสดงด้านขวาของ pieData1
+    double IssueReportPercent = (IssueReport / AllReport) * 100;
+
+    double initialAngleInDegree = (IssueReportPercent * 3.6) / 2;
+
+    if (initialAngleInDegree.isNaN) {
+      initialAngleInDegree = 0;
+    }
+
+    // Map pieData2 กับข้อมูลที่คำนวณมา
     Map<String, double> pieData2 = {};
     pieData2['13-15 Working days'] = IssueReport1315;
     pieData2['More than 15 Working days'] = IssueReportMore15;
 
-    return Stack(
-      children: [
-        Scrollbar(
+    // คำนวณมุมของ 13-15 Working days ที่ต้องแสดงด้านซ้ายของ pieData2
+    double notAchievedPercent1315 = (IssueReportMore15 / IssueReport) * 100;
+
+    double initialAngleInDegree1315 = ((notAchievedPercent1315 * 3.6) / 2);
+
+    if (initialAngleInDegree1315.isNaN) {
+      initialAngleInDegree1315 = 0;
+    }
+
+    return Scrollbar(
+      controller: _controllerIN01,
+      thumbVisibility: true,
+      interactive: true,
+      thickness: 10,
+      radius: Radius.circular(20),
+      child: Center(
+        child: SingleChildScrollView(
           controller: _controllerIN01,
-          thumbVisibility: true,
-          interactive: true,
-          thickness: 10,
-          radius: Radius.circular(20),
+          scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
-            controller: _controllerIN01,
+            scrollDirection: Axis.vertical,
             child: Column(
               children: [
                 Padding(
@@ -469,7 +491,7 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                         end: Alignment.bottomRight,
                       ).createShader(bounds),
                       child: Text(
-                        'SAR : Report Performance ($selectedMonth $selectedYear)',
+                        'SAR : Report Performance',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -481,7 +503,7 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                 ),
                 Text(
                   '$selectedType\n'
-                  '$GroupTargetDays',
+                  '$GroupTargetDays ($selectedMonth $selectedYear)',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18.0,
@@ -489,244 +511,286 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Positioned(
-                      top: 0,
-                      right: 100,
-                      child: Column(
+                SizedBox(
+                  width: 1000,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'TYPE',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                AdvanceDropDown(
+                                  hint: "TYPE",
+                                  listdropdown: const [
+                                    MapEntry("TYPE", ""),
+                                    MapEntry("Group A", "Group A"),
+                                    MapEntry("Group B", "Group B"),
+                                  ],
+                                  onChangeinside: (d, k) {
+                                    setState(() {
+                                      P04PROGRESSVAR.DropDownType = d;
+                                    });
+                                  },
+                                  value: P04PROGRESSVAR.DropDownType,
+                                  height: 30,
+                                  width: 100,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Column(
+                              children: [
+                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'YEAR',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                AdvanceDropDown(
+                                  hint: "YEAR",
+                                  listdropdown: const [
+                                    MapEntry("YEAR", ""),
+                                    MapEntry("2024", "2024"),
+                                    MapEntry("2025", "2025"),
+                                    MapEntry("2026", "2026"),
+                                    MapEntry("2027", "2027"),
+                                    MapEntry("2028", "2028"),
+                                    MapEntry("2029", "2029"),
+                                    MapEntry("2030", "2030"),
+                                    MapEntry("2031", "2031"),
+                                    MapEntry("2032", "2032"),
+                                    MapEntry("2033", "2033"),
+                                    MapEntry("2034", "2034"),
+                                    MapEntry("2035", "2035"),
+                                    MapEntry("2036", "2036"),
+                                    MapEntry("2037", "2037"),
+                                    MapEntry("2038", "2038"),
+                                    MapEntry("2039", "2039"),
+                                    MapEntry("2040", "2040"),
+                                  ],
+                                  onChangeinside: (d, k) {
+                                    setState(() {
+                                      P04PROGRESSVAR.DropDownYear = d;
+                                    });
+                                  },
+                                  value: P04PROGRESSVAR.DropDownYear,
+                                  height: 30,
+                                  width: 100,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Column(
+                              children: [
+                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
+                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      'MONTH',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                AdvanceDropDown(
+                                  hint: "MONTH",
+                                  listdropdown: const [
+                                    MapEntry("MONTH", ""),
+                                    MapEntry("Jan", "Jan"),
+                                    MapEntry("Feb", "Feb"),
+                                    MapEntry("Mar", "Mar"),
+                                    MapEntry("Apr", "Apr"),
+                                    MapEntry("May", "May"),
+                                    MapEntry("Jun", "Jun"),
+                                    MapEntry("Jul", "Jul"),
+                                    MapEntry("Aug", "Aug"),
+                                    MapEntry("Sep", "Sep"),
+                                    MapEntry("Oct", "Oct"),
+                                    MapEntry("Nov", "Nov"),
+                                    MapEntry("Dec", "Dec"),
+                                  ],
+                                  onChangeinside: (d, k) {
+                                    setState(() {
+                                      P04PROGRESSVAR.DropDownMonth = d;
+                                    });
+                                  },
+                                  value: P04PROGRESSVAR.DropDownMonth,
+                                  height: 30,
+                                  width: 100,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Column(
-                            children: [
-                              if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownMonth.isNotEmpty)
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    'TYPE',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              AdvanceDropDown(
-                                hint: "TYPE",
-                                listdropdown: const [
-                                  MapEntry("TYPE", ""),
-                                  MapEntry("Group A", "Group A"),
-                                  MapEntry("Group B", "Group B"),
-                                ],
-                                onChangeinside: (d, k) {
-                                  setState(() {
-                                    P04PROGRESSVAR.DropDownType = d;
-                                  });
-                                },
-                                value: P04PROGRESSVAR.DropDownType,
-                                height: 30,
-                                width: 100,
-                              ),
+                          PieChart(
+                            dataMap: pieData1,
+                            chartRadius: 300,
+                            colorList: [
+                              Colors.lightGreen,
+                              Colors.yellow.shade200
                             ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Column(
-                            children: [
-                              if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownMonth.isNotEmpty)
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    'YEAR',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              AdvanceDropDown(
-                                hint: "YEAR",
-                                listdropdown: const [
-                                  MapEntry("YEAR", ""),
-                                  MapEntry("2024", "2024"),
-                                  MapEntry("2025", "2025"),
-                                  MapEntry("2026", "2026"),
-                                  MapEntry("2027", "2027"),
-                                  MapEntry("2028", "2028"),
-                                  MapEntry("2029", "2029"),
-                                  MapEntry("2030", "2030"),
-                                  MapEntry("2031", "2031"),
-                                  MapEntry("2032", "2032"),
-                                  MapEntry("2033", "2033"),
-                                  MapEntry("2034", "2034"),
-                                  MapEntry("2035", "2035"),
-                                  MapEntry("2036", "2036"),
-                                  MapEntry("2037", "2037"),
-                                  MapEntry("2038", "2038"),
-                                  MapEntry("2039", "2039"),
-                                  MapEntry("2040", "2040"),
-                                ],
-                                onChangeinside: (d, k) {
-                                  setState(() {
-                                    P04PROGRESSVAR.DropDownYear = d;
-                                  });
-                                },
-                                value: P04PROGRESSVAR.DropDownYear,
-                                height: 30,
-                                width: 100,
+                            chartValuesOptions: ChartValuesOptions(
+                              showChartValueBackground: true,
+                              chartValueBackgroundColor: Colors.white,
+                              showChartValues: true,
+                              chartValueStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Column(
-                            children: [
-                              if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                  P04PROGRESSVAR.DropDownMonth.isNotEmpty)
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    'MONTH',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              AdvanceDropDown(
-                                hint: "MONTH",
-                                listdropdown: const [
-                                  MapEntry("MONTH", ""),
-                                  MapEntry("Jan", "Jan"),
-                                  MapEntry("Feb", "Feb"),
-                                  MapEntry("Mar", "Mar"),
-                                  MapEntry("Apr", "Apr"),
-                                  MapEntry("May", "May"),
-                                  MapEntry("Jun", "Jun"),
-                                  MapEntry("Jul", "Jul"),
-                                  MapEntry("Aug", "Aug"),
-                                  MapEntry("Sep", "Sep"),
-                                  MapEntry("Oct", "Oct"),
-                                  MapEntry("Nov", "Nov"),
-                                  MapEntry("Dec", "Dec"),
-                                ],
-                                onChangeinside: (d, k) {
-                                  setState(() {
-                                    P04PROGRESSVAR.DropDownMonth = d;
-                                  });
-                                },
-                                value: P04PROGRESSVAR.DropDownMonth,
-                                height: 30,
-                                width: 100,
+                            ),
+                            legendOptions: LegendOptions(
+                              legendPosition: LegendPosition.bottom,
+                              showLegendsInRow: true,
+                              legendTextStyle: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                            ],
+                            ),
+                            chartType: ChartType.disc,
+                            baseChartColor: Colors.grey[300]!,
+                            centerTextStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            initialAngleInDegree: initialAngleInDegree,
+                          ),
+                          SizedBox(width: 35),
+                          Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Text(
+                              'Total : $AllReport Iss.',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          PieChart(
+                            dataMap: pieData2,
+                            chartRadius: 200,
+                            colorList: [Colors.yellow.shade200, Colors.red],
+                            chartValuesOptions: ChartValuesOptions(
+                              showChartValueBackground: true,
+                              chartValueBackgroundColor: Colors.white,
+                              showChartValues: true,
+                              chartValueStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            legendOptions: LegendOptions(
+                              legendPosition: LegendPosition.bottom,
+                              showLegendsInRow: true,
+                              legendTextStyle: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            chartType: ChartType.disc,
+                            baseChartColor: Colors.grey[300]!,
+                            centerTextStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            initialAngleInDegree: initialAngleInDegree1315,
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        PieChart(
-                          dataMap: pieData1,
-                          chartRadius: MediaQuery.of(context).size.width / 4,
-                          colorList: [
-                            Colors.lightGreen,
-                            Colors.yellow.shade200
-                          ],
-                          chartValuesOptions: ChartValuesOptions(
-                            showChartValueBackground: true,
-                            chartValueBackgroundColor: Colors.white,
-                            showChartValues: true,
-                            chartValueStyle: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                          legendOptions: LegendOptions(
-                            legendPosition: LegendPosition.bottom,
-                            showLegendsInRow: true,
-                            legendTextStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          chartType: ChartType.disc,
-                          baseChartColor: Colors.grey[300]!,
-                          centerTextStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                      Container(
+                        // color: Colors.grey[300],
+                        child: CustomPaint(
+                          size: Size(800, 400), // กำหนดขนาดของพื้นที่วาด
+                          painter:
+                              LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
                         ),
-                        SizedBox(width: 35),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Text(
-                            'Total : ${AllReport} Iss.',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        PieChart(
-                          dataMap: pieData2,
-                          chartRadius: MediaQuery.of(context).size.width / 6,
-                          colorList: [Colors.yellow.shade200, Colors.red],
-                          chartValuesOptions: ChartValuesOptions(
-                            showChartValueBackground: true,
-                            chartValueBackgroundColor: Colors.white,
-                            showChartValues: true,
-                            chartValueStyle: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          legendOptions: LegendOptions(
-                            legendPosition: LegendPosition.bottom,
-                            showLegendsInRow: true,
-                            legendTextStyle: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          chartType: ChartType.disc,
-                          baseChartColor: Colors.grey[300]!,
-                          centerTextStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
+  }
+}
+
+class LinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // สีเส้น
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 1;
+
+    // จุดเริ่มต้นและสิ้นสุดของเส้น
+    final startPoint = Offset(150, 13);
+    final endPoint = Offset(645, 62);
+
+    // วาดเส้น
+    canvas.drawLine(startPoint, endPoint, paint);
+
+    // วาดเส้นที่สอง
+    final startPoint2 = Offset(150, 315);
+    final endPoint2 = Offset(645, 265);
+
+    // วาดเส้นที่สอง
+    canvas.drawLine(startPoint2, endPoint2, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false; // ไม่ต้อง repaint ถ้าไม่มีอะไรเปลี่ยนแปลง
   }
 }
