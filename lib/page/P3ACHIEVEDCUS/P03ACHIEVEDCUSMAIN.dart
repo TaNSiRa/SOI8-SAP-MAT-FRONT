@@ -1,46 +1,46 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/03-01-P03PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/03-01-P03ACHIEVEDCUSGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
-import 'P03PROGRESSVAR.dart';
+import '../P3ACHIEVEDCUS/P03ACHIEVEDCUSVAR.dart';
 
-late BuildContext P03PROGRESSMAINcontext;
+late BuildContext P03ACHIEVEDCUSMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P03PROGRESSMAIN extends StatefulWidget {
-  P03PROGRESSMAIN({
+class P03ACHIEVEDCUSMAIN extends StatefulWidget {
+  P03ACHIEVEDCUSMAIN({
     super.key,
     this.data,
   });
-  List<P03PROGRESSGETDATAclass>? data;
+  List<P03ACHIEVEDCUSGETDATAclass>? data;
 
   @override
-  State<P03PROGRESSMAIN> createState() => _P03PROGRESSMAINState();
+  State<P03ACHIEVEDCUSMAIN> createState() => _P03ACHIEVEDCUSMAINState();
 }
 
-class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
+class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P03PROGRESSGETDATA_Bloc>().add(P03PROGRESSGETDATA_GET());
+    context.read<P03ACHIEVEDCUSGETDATA_Bloc>().add(P03ACHIEVEDCUSGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P03PROGRESSMAINcontext = context;
-    List<P03PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P03ACHIEVEDCUSMAINcontext = context;
+    List<P03ACHIEVEDCUSGETDATAclass> _datain = widget.data ?? [];
 
     // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedType = (P03PROGRESSVAR.DropDownType.isNotEmpty)
-        ? P03PROGRESSVAR.DropDownType
+    final selectedType = (P03ACHIEVEDCUSVAR.DropDownType.isNotEmpty)
+        ? P03ACHIEVEDCUSVAR.DropDownType
         : 'Group A';
-    final selectedYear = (P03PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P03PROGRESSVAR.DropDownYear
-        : P03PROGRESSVAR.currentYear;
+    final selectedYear = (P03ACHIEVEDCUSVAR.DropDownYear.isNotEmpty)
+        ? P03ACHIEVEDCUSVAR.DropDownYear
+        : P03ACHIEVEDCUSVAR.currentYear;
 
     // กรองข้อมูลด้วยปีและเดือน
-    List<P03PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P03ACHIEVEDCUSGETDATAclass> filteredData = _datain.where((data) {
       return data.TYPE == selectedType && data.YEAR == selectedYear;
     }).toList();
 
@@ -1004,8 +1004,8 @@ class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
                           children: [
                             Column(
                               children: [
-                                if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P03PROGRESSVAR.DropDownYear.isNotEmpty)
+                                if (P03ACHIEVEDCUSVAR.DropDownType.isNotEmpty ||
+                                    P03ACHIEVEDCUSVAR.DropDownYear.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -1026,10 +1026,10 @@ class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P03PROGRESSVAR.DropDownType = d;
+                                      P03ACHIEVEDCUSVAR.DropDownType = d;
                                     });
                                   },
-                                  value: P03PROGRESSVAR.DropDownType,
+                                  value: P03ACHIEVEDCUSVAR.DropDownType,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -1040,8 +1040,9 @@ class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P03PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P03PROGRESSVAR.DropDownYear.isNotEmpty) ...[
+                                if (P03ACHIEVEDCUSVAR.DropDownType.isNotEmpty ||
+                                    P03ACHIEVEDCUSVAR
+                                        .DropDownYear.isNotEmpty) ...[
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -1079,10 +1080,10 @@ class _P03PROGRESSMAINState extends State<P03PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P03PROGRESSVAR.DropDownYear = d;
+                                      P03ACHIEVEDCUSVAR.DropDownYear = d;
                                     });
                                   },
-                                  value: P03PROGRESSVAR.DropDownYear,
+                                  value: P03ACHIEVEDCUSVAR.DropDownYear,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -1134,9 +1135,9 @@ class CustomBarChart extends StatelessWidget {
 class BarChartPainter extends CustomPainter {
   final List<double> SuccessReportMonths;
   final double maxY;
-  final selectedYear = (P03PROGRESSVAR.DropDownYear.isNotEmpty)
-      ? P03PROGRESSVAR.DropDownYear
-      : P03PROGRESSVAR.currentYear;
+  final selectedYear = (P03ACHIEVEDCUSVAR.DropDownYear.isNotEmpty)
+      ? P03ACHIEVEDCUSVAR.DropDownYear
+      : P03ACHIEVEDCUSVAR.currentYear;
 
   BarChartPainter({
     required this.SuccessReportMonths,
@@ -1258,11 +1259,11 @@ class BarChartPainter extends CustomPainter {
       if (i == 0) {
         // ถ้าเป็นเดือนแรกให้ใช้ "Avg" และลบปีไป 1
         monthText =
-            '${P03PROGRESSVAR.months[i]} ${(int.parse(selectedYear) - 1).toString().substring(2)}';
+            '${P03ACHIEVEDCUSVAR.months[i]} ${(int.parse(selectedYear) - 1).toString().substring(2)}';
       } else {
         // เดือนอื่นๆ ใช้ชื่อเดือนตามปกติ
         monthText =
-            '${P03PROGRESSVAR.months[i]} ${selectedYear.toString().substring(2)}';
+            '${P03ACHIEVEDCUSVAR.months[i]} ${selectedYear.toString().substring(2)}';
       }
 
       textPainter.text = TextSpan(

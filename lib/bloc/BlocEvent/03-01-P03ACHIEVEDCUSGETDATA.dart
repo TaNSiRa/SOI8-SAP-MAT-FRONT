@@ -1,48 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/dummydata2.dart';
-import '../../page/P6PROGRESS/P06PROGRESSMAIN.dart';
+import '../../page/P3ACHIEVEDCUS/P03ACHIEVEDCUSMAIN.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
 
-abstract class P06PROGRESSGETDATA_Event {}
+abstract class P03ACHIEVEDCUSGETDATA_Event {}
 
-class P06PROGRESSGETDATA_GET extends P06PROGRESSGETDATA_Event {}
+class P03ACHIEVEDCUSGETDATA_GET extends P03ACHIEVEDCUSGETDATA_Event {}
 
-class P06PROGRESSGETDATA_GET2 extends P06PROGRESSGETDATA_Event {}
+class P03ACHIEVEDCUSGETDATA_GET2 extends P03ACHIEVEDCUSGETDATA_Event {}
 
-class P06PROGRESSGETDATA_GET3 extends P06PROGRESSGETDATA_Event {}
+class P03ACHIEVEDCUSGETDATA_GET3 extends P03ACHIEVEDCUSGETDATA_Event {}
 
-class P06PROGRESSGETDATA_FLUSH extends P06PROGRESSGETDATA_Event {}
+class P03ACHIEVEDCUSGETDATA_FLUSH extends P03ACHIEVEDCUSGETDATA_Event {}
 
-class P06PROGRESSGETDATA_Bloc
-    extends Bloc<P06PROGRESSGETDATA_Event, List<P06PROGRESSGETDATAclass>> {
-  P06PROGRESSGETDATA_Bloc() : super([]) {
-    on<P06PROGRESSGETDATA_GET>((event, emit) {
-      return _P06PROGRESSGETDATA_GET([], emit);
+class P03ACHIEVEDCUSGETDATA_Bloc extends Bloc<P03ACHIEVEDCUSGETDATA_Event,
+    List<P03ACHIEVEDCUSGETDATAclass>> {
+  P03ACHIEVEDCUSGETDATA_Bloc() : super([]) {
+    on<P03ACHIEVEDCUSGETDATA_GET>((event, emit) {
+      return _P03ACHIEVEDCUSGETDATA_GET([], emit);
     });
 
-    on<P06PROGRESSGETDATA_GET2>((event, emit) {
-      return _P06PROGRESSGETDATA_GET2([], emit);
+    on<P03ACHIEVEDCUSGETDATA_GET2>((event, emit) {
+      return _P03ACHIEVEDCUSGETDATA_GET2([], emit);
     });
-    on<P06PROGRESSGETDATA_GET3>((event, emit) {
-      return _P06PROGRESSGETDATA_GET3([], emit);
+    on<P03ACHIEVEDCUSGETDATA_GET3>((event, emit) {
+      return _P03ACHIEVEDCUSGETDATA_GET3([], emit);
     });
-    on<P06PROGRESSGETDATA_FLUSH>((event, emit) {
-      return _P06PROGRESSGETDATA_FLUSH([], emit);
+    on<P03ACHIEVEDCUSGETDATA_FLUSH>((event, emit) {
+      return _P03ACHIEVEDCUSGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P06PROGRESSGETDATA_GET(List<P06PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P06PROGRESSGETDATAclass>> emit) async {
-    FreeLoadingTan(P06PROGRESSMAINcontext);
-    List<P06PROGRESSGETDATAclass> output = [];
+  Future<void> _P03ACHIEVEDCUSGETDATA_GET(
+      List<P03ACHIEVEDCUSGETDATAclass> toAdd,
+      Emitter<List<P03ACHIEVEDCUSGETDATAclass>> emit) async {
+    FreeLoadingTan(P03ACHIEVEDCUSMAINcontext);
+    List<P03ACHIEVEDCUSGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     var input = dummydatainput6;
 
-    List<P06PROGRESSGETDATAclass> outputdata = input.map((data) {
-      return P06PROGRESSGETDATAclass(
+    List<P03ACHIEVEDCUSGETDATAclass> outputdata = input.map((data) {
+      return P03ACHIEVEDCUSGETDATAclass(
         TYPE: savenull(data['type']),
         MKTGROUP: savenull(data['mktgroup']),
         GROUP: savenull(data['group']),
@@ -157,24 +158,25 @@ class P06PROGRESSGETDATA_Bloc
       );
     }).toList();
     // print(outputdata);
-    Navigator.pop(P06PROGRESSMAINcontext);
+    Navigator.pop(P03ACHIEVEDCUSMAINcontext);
     output = outputdata;
     emit(output);
   }
 
-  Future<void> _P06PROGRESSGETDATA_GET2(List<P06PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P06PROGRESSGETDATAclass>> emit) async {
-    // List<P06PROGRESSGETDATAclass> output = [];
+  Future<void> _P03ACHIEVEDCUSGETDATA_GET2(
+      List<P03ACHIEVEDCUSGETDATAclass> toAdd,
+      Emitter<List<P03ACHIEVEDCUSGETDATAclass>> emit) async {
+    // List<P03ACHIEVEDCUSGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
 
-    // List<P06PROGRESSGETDATAclass> outputdata = input
+    // List<P03ACHIEVEDCUSGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&
     //         data['plant'] == 'YES' &&
     //         data['step01'] == 'YES')
     //     .map((data) {
-    //   return P06PROGRESSGETDATAclass(
+    //   return P03ACHIEVEDCUSGETDATAclass(
     //     PLANT: savenull(data['plant']),
     //     ORDER: savenull(data['order']),
     //     MAT: savenull(data['mat']),
@@ -199,30 +201,31 @@ class P06PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P06PROGRESSGETDATA_GET3(List<P06PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P06PROGRESSGETDATAclass>> emit) async {
-    // List<P06PROGRESSGETDATAclass> output = [];
+  Future<void> _P03ACHIEVEDCUSGETDATA_GET3(
+      List<P03ACHIEVEDCUSGETDATAclass> toAdd,
+      Emitter<List<P03ACHIEVEDCUSGETDATAclass>> emit) async {
+    // List<P03ACHIEVEDCUSGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    // List<P06PROGRESSGETDATAclass> datadummy = [
-    //   P06PROGRESSGETDATAclass(
+    // List<P03ACHIEVEDCUSGETDATAclass> datadummy = [
+    //   P03ACHIEVEDCUSGETDATAclass(
     //     PLANT: "PH PO:1234",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //   ),
-    //   P06PROGRESSGETDATAclass(
+    //   P03ACHIEVEDCUSGETDATAclass(
     //     PLANT: "PH PO:5555",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //     STEP04: "YES",
     //   ),
-    //   P06PROGRESSGETDATAclass(
+    //   P03ACHIEVEDCUSGETDATAclass(
     //     PLANT: "PH PO:5556",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //   ),
-    //   P06PROGRESSGETDATAclass(
+    //   P03ACHIEVEDCUSGETDATAclass(
     //     PLANT: "PH PO:9999",
     //   ),
     // ];
@@ -232,15 +235,16 @@ class P06PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P06PROGRESSGETDATA_FLUSH(List<P06PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P06PROGRESSGETDATAclass>> emit) async {
-    List<P06PROGRESSGETDATAclass> output = [];
+  Future<void> _P03ACHIEVEDCUSGETDATA_FLUSH(
+      List<P03ACHIEVEDCUSGETDATAclass> toAdd,
+      Emitter<List<P03ACHIEVEDCUSGETDATAclass>> emit) async {
+    List<P03ACHIEVEDCUSGETDATAclass> output = [];
     emit(output);
   }
 }
 
-class P06PROGRESSGETDATAclass {
-  P06PROGRESSGETDATAclass({
+class P03ACHIEVEDCUSGETDATAclass {
+  P03ACHIEVEDCUSGETDATAclass({
     this.TYPE = '',
     this.MKTGROUP = '',
     this.GROUP = '',

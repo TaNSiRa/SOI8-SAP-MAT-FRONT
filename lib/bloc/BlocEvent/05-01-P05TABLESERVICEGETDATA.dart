@@ -1,48 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/dummydata2.dart';
-import '../../page/P5PROGRESS/P05PROGRESSMAIN.dart';
+import '../../page/P5TABLESERVICE/P05TABLESERVICEMAIN.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
 
-abstract class P05PROGRESSGETDATA_Event {}
+abstract class P05TABLESERVICEGETDATA_Event {}
 
-class P05PROGRESSGETDATA_GET extends P05PROGRESSGETDATA_Event {}
+class P05TABLESERVICEGETDATA_GET extends P05TABLESERVICEGETDATA_Event {}
 
-class P05PROGRESSGETDATA_GET2 extends P05PROGRESSGETDATA_Event {}
+class P05TABLESERVICEGETDATA_GET2 extends P05TABLESERVICEGETDATA_Event {}
 
-class P05PROGRESSGETDATA_GET3 extends P05PROGRESSGETDATA_Event {}
+class P05TABLESERVICEGETDATA_GET3 extends P05TABLESERVICEGETDATA_Event {}
 
-class P05PROGRESSGETDATA_FLUSH extends P05PROGRESSGETDATA_Event {}
+class P05TABLESERVICEGETDATA_FLUSH extends P05TABLESERVICEGETDATA_Event {}
 
-class P05PROGRESSGETDATA_Bloc
-    extends Bloc<P05PROGRESSGETDATA_Event, List<P05PROGRESSGETDATAclass>> {
-  P05PROGRESSGETDATA_Bloc() : super([]) {
-    on<P05PROGRESSGETDATA_GET>((event, emit) {
-      return _P05PROGRESSGETDATA_GET([], emit);
+class P05TABLESERVICEGETDATA_Bloc extends Bloc<P05TABLESERVICEGETDATA_Event,
+    List<P05TABLESERVICEGETDATAclass>> {
+  P05TABLESERVICEGETDATA_Bloc() : super([]) {
+    on<P05TABLESERVICEGETDATA_GET>((event, emit) {
+      return _P05TABLESERVICEGETDATA_GET([], emit);
     });
 
-    on<P05PROGRESSGETDATA_GET2>((event, emit) {
-      return _P05PROGRESSGETDATA_GET2([], emit);
+    on<P05TABLESERVICEGETDATA_GET2>((event, emit) {
+      return _P05TABLESERVICEGETDATA_GET2([], emit);
     });
-    on<P05PROGRESSGETDATA_GET3>((event, emit) {
-      return _P05PROGRESSGETDATA_GET3([], emit);
+    on<P05TABLESERVICEGETDATA_GET3>((event, emit) {
+      return _P05TABLESERVICEGETDATA_GET3([], emit);
     });
-    on<P05PROGRESSGETDATA_FLUSH>((event, emit) {
-      return _P05PROGRESSGETDATA_FLUSH([], emit);
+    on<P05TABLESERVICEGETDATA_FLUSH>((event, emit) {
+      return _P05TABLESERVICEGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P05PROGRESSGETDATA_GET(List<P05PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P05PROGRESSGETDATAclass>> emit) async {
-    FreeLoadingTan(P05PROGRESSMAINcontext);
-    List<P05PROGRESSGETDATAclass> output = [];
+  Future<void> _P05TABLESERVICEGETDATA_GET(
+      List<P05TABLESERVICEGETDATAclass> toAdd,
+      Emitter<List<P05TABLESERVICEGETDATAclass>> emit) async {
+    FreeLoadingTan(P05TABLESERVICEMAINcontext);
+    List<P05TABLESERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     var input = dummydatainput6;
 
-    List<P05PROGRESSGETDATAclass> outputdata = input.map((data) {
-      return P05PROGRESSGETDATAclass(
+    List<P05TABLESERVICEGETDATAclass> outputdata = input.map((data) {
+      return P05TABLESERVICEGETDATAclass(
         TYPE: savenull(data['type']),
         MKTGROUP: savenull(data['mktgroup']),
         GROUP: savenull(data['group']),
@@ -81,24 +82,25 @@ class P05PROGRESSGETDATA_Bloc
       );
     }).toList();
     // print(outputdata);
-    Navigator.pop(P05PROGRESSMAINcontext);
+    Navigator.pop(P05TABLESERVICEMAINcontext);
     output = outputdata;
     emit(output);
   }
 
-  Future<void> _P05PROGRESSGETDATA_GET2(List<P05PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P05PROGRESSGETDATAclass>> emit) async {
-    // List<P05PROGRESSGETDATAclass> output = [];
+  Future<void> _P05TABLESERVICEGETDATA_GET2(
+      List<P05TABLESERVICEGETDATAclass> toAdd,
+      Emitter<List<P05TABLESERVICEGETDATAclass>> emit) async {
+    // List<P05TABLESERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
 
-    // List<P05PROGRESSGETDATAclass> outputdata = input
+    // List<P05TABLESERVICEGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&
     //         data['plant'] == 'YES' &&
     //         data['step01'] == 'YES')
     //     .map((data) {
-    //   return P05PROGRESSGETDATAclass(
+    //   return P05TABLESERVICEGETDATAclass(
     //     PLANT: savenull(data['plant']),
     //     ORDER: savenull(data['order']),
     //     MAT: savenull(data['mat']),
@@ -123,30 +125,31 @@ class P05PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P05PROGRESSGETDATA_GET3(List<P05PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P05PROGRESSGETDATAclass>> emit) async {
-    // List<P05PROGRESSGETDATAclass> output = [];
+  Future<void> _P05TABLESERVICEGETDATA_GET3(
+      List<P05TABLESERVICEGETDATAclass> toAdd,
+      Emitter<List<P05TABLESERVICEGETDATAclass>> emit) async {
+    // List<P05TABLESERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    // List<P05PROGRESSGETDATAclass> datadummy = [
-    //   P05PROGRESSGETDATAclass(
+    // List<P05TABLESERVICEGETDATAclass> datadummy = [
+    //   P05TABLESERVICEGETDATAclass(
     //     PLANT: "PH PO:1234",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //   ),
-    //   P05PROGRESSGETDATAclass(
+    //   P05TABLESERVICEGETDATAclass(
     //     PLANT: "PH PO:5555",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //     STEP04: "YES",
     //   ),
-    //   P05PROGRESSGETDATAclass(
+    //   P05TABLESERVICEGETDATAclass(
     //     PLANT: "PH PO:5556",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //   ),
-    //   P05PROGRESSGETDATAclass(
+    //   P05TABLESERVICEGETDATAclass(
     //     PLANT: "PH PO:9999",
     //   ),
     // ];
@@ -156,15 +159,16 @@ class P05PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P05PROGRESSGETDATA_FLUSH(List<P05PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P05PROGRESSGETDATAclass>> emit) async {
-    List<P05PROGRESSGETDATAclass> output = [];
+  Future<void> _P05TABLESERVICEGETDATA_FLUSH(
+      List<P05TABLESERVICEGETDATAclass> toAdd,
+      Emitter<List<P05TABLESERVICEGETDATAclass>> emit) async {
+    List<P05TABLESERVICEGETDATAclass> output = [];
     emit(output);
   }
 }
 
-class P05PROGRESSGETDATAclass {
-  P05PROGRESSGETDATAclass({
+class P05TABLESERVICEGETDATAclass {
+  P05TABLESERVICEGETDATAclass({
     this.TYPE = '',
     this.MKTGROUP = '',
     this.GROUP = '',

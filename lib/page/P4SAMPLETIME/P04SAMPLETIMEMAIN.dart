@@ -1,62 +1,62 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/04-01-P04PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/04-01-P04SAMPLETIMEGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
 import '../../widget/piechart/chart_values_options.dart';
 import '../../widget/piechart/legend_options.dart';
 import '../../widget/piechart/pie_chart.dart';
-import 'P04PROGRESSVAR.dart';
+import 'P04SAMPLETIMEVAR.dart';
 
-late BuildContext P04PROGRESSMAINcontext;
+late BuildContext P04SAMPLETIMEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P04PROGRESSMAIN extends StatefulWidget {
-  P04PROGRESSMAIN({
+class P04SAMPLETIMEMAIN extends StatefulWidget {
+  P04SAMPLETIMEMAIN({
     super.key,
     this.data,
   });
-  List<P04PROGRESSGETDATAclass>? data;
+  List<P04SAMPLETIMEGETDATAclass>? data;
 
   @override
-  State<P04PROGRESSMAIN> createState() => _P04PROGRESSMAINState();
+  State<P04SAMPLETIMEMAIN> createState() => _P04SAMPLETIMEMAINState();
 }
 
-class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
+class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P04PROGRESSGETDATA_Bloc>().add(P04PROGRESSGETDATA_GET());
+    context.read<P04SAMPLETIMEGETDATA_Bloc>().add(P04SAMPLETIMEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P04PROGRESSMAINcontext = context;
-    List<P04PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P04SAMPLETIMEMAINcontext = context;
+    List<P04SAMPLETIMEGETDATAclass> _datain = widget.data ?? [];
 
 // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedType = (P04PROGRESSVAR.DropDownType.isNotEmpty)
-        ? P04PROGRESSVAR.DropDownType
+    final selectedType = (P04SAMPLETIMEVAR.DropDownType.isNotEmpty)
+        ? P04SAMPLETIMEVAR.DropDownType
         : 'Group A';
-    final selectedYear = (P04PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P04PROGRESSVAR.DropDownYear
-        : P04PROGRESSVAR.currentYear;
-    final selectedMonth = (P04PROGRESSVAR.DropDownMonth.isNotEmpty)
-        ? P04PROGRESSVAR.DropDownMonth
-        : P04PROGRESSVAR.currentMonth;
+    final selectedYear = (P04SAMPLETIMEVAR.DropDownYear.isNotEmpty)
+        ? P04SAMPLETIMEVAR.DropDownYear
+        : P04SAMPLETIMEVAR.currentYear;
+    final selectedMonth = (P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
+        ? P04SAMPLETIMEVAR.DropDownMonth
+        : P04SAMPLETIMEVAR.currentMonth;
 
 // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
-      'Group A': P04PROGRESSVAR.GroupA,
-      'Group B': P04PROGRESSVAR.GroupB,
+      'Group A': P04SAMPLETIMEVAR.GroupA,
+      'Group B': P04SAMPLETIMEVAR.GroupB,
     };
 
     // เลือก Group A,B ตาม selectedType
     final GroupTargetDays =
-        groupTargetDaysMap[selectedType] ?? P04PROGRESSVAR.GroupA;
+        groupTargetDaysMap[selectedType] ?? P04SAMPLETIMEVAR.GroupA;
 
     // กรองข้อมูลด้วยปีและเดือน
-    List<P04PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P04SAMPLETIMEGETDATAclass> filteredData = _datain.where((data) {
       return data.TYPE == selectedType &&
           data.YEAR == selectedYear &&
           data.MONTH == selectedMonth;
@@ -524,9 +524,9 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                           children: [
                             Column(
                               children: [
-                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -547,10 +547,10 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P04PROGRESSVAR.DropDownType = d;
+                                      P04SAMPLETIMEVAR.DropDownType = d;
                                     });
                                   },
-                                  value: P04PROGRESSVAR.DropDownType,
+                                  value: P04SAMPLETIMEVAR.DropDownType,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -561,9 +561,9 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -599,10 +599,10 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P04PROGRESSVAR.DropDownYear = d;
+                                      P04SAMPLETIMEVAR.DropDownYear = d;
                                     });
                                   },
-                                  value: P04PROGRESSVAR.DropDownYear,
+                                  value: P04SAMPLETIMEVAR.DropDownYear,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -613,9 +613,9 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P04PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P04PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
+                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -646,10 +646,10 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P04PROGRESSVAR.DropDownMonth = d;
+                                      P04SAMPLETIMEVAR.DropDownMonth = d;
                                     });
                                   },
-                                  value: P04PROGRESSVAR.DropDownMonth,
+                                  value: P04SAMPLETIMEVAR.DropDownMonth,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -746,13 +746,10 @@ class _P04PROGRESSMAINState extends State<P04PROGRESSMAIN> {
                           ),
                         ],
                       ),
-                      Container(
-                        // color: Colors.grey[300],
-                        child: CustomPaint(
-                          size: Size(800, 400), // กำหนดขนาดของพื้นที่วาด
-                          painter:
-                              LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
-                        ),
+                      CustomPaint(
+                        size: Size(800, 400), // กำหนดขนาดของพื้นที่วาด
+                        painter:
+                            LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
                       ),
                     ],
                   ),

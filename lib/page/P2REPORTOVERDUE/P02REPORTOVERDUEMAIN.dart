@@ -1,66 +1,68 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, avoid_print
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, avoid_print, file_names, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/02-01-P02PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/02-01-P02REPORTOVERDUEGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
-import 'P02PROGRESSVAR.dart';
+import 'P02REPORTOVERDUEVAR.dart';
 
-late BuildContext P02PROGRESSMAINcontext;
+late BuildContext P02REPORTOVERDUEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P02PROGRESSMAIN extends StatefulWidget {
-  P02PROGRESSMAIN({
+class P02REPORTOVERDUEMAIN extends StatefulWidget {
+  P02REPORTOVERDUEMAIN({
     super.key,
     this.data,
   });
-  List<P02PROGRESSGETDATAclass>? data;
+  List<P02REPORTOVERDUEGETDATAclass>? data;
 
   @override
-  State<P02PROGRESSMAIN> createState() => _P02PROGRESSMAINState();
+  State<P02REPORTOVERDUEMAIN> createState() => _P02REPORTOVERDUEMAINState();
 }
 
-class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
+class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P02PROGRESSGETDATA_Bloc>().add(P02PROGRESSGETDATA_GET());
+    context
+        .read<P02REPORTOVERDUEGETDATA_Bloc>()
+        .add(P02REPORTOVERDUEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P02PROGRESSMAINcontext = context;
-    List<P02PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P02REPORTOVERDUEMAINcontext = context;
+    List<P02REPORTOVERDUEGETDATAclass> _datain = widget.data ?? [];
 
     // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedType = (P02PROGRESSVAR.DropDownType.isNotEmpty)
-        ? P02PROGRESSVAR.DropDownType
+    final selectedType = (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty)
+        ? P02REPORTOVERDUEVAR.DropDownType
         : 'Group A';
-    final selectedYear = (P02PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P02PROGRESSVAR.DropDownYear
-        : P02PROGRESSVAR.currentYear;
-    final selectedMonth = (P02PROGRESSVAR.DropDownMonth.isNotEmpty)
-        ? P02PROGRESSVAR.DropDownMonth
-        : P02PROGRESSVAR.currentMonth;
+    final selectedYear = (P02REPORTOVERDUEVAR.DropDownYear.isNotEmpty)
+        ? P02REPORTOVERDUEVAR.DropDownYear
+        : P02REPORTOVERDUEVAR.currentYear;
+    final selectedMonth = (P02REPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+        ? P02REPORTOVERDUEVAR.DropDownMonth
+        : P02REPORTOVERDUEVAR.currentMonth;
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
-      'Group A': P02PROGRESSVAR.GroupATargetDays,
-      'Group B': P02PROGRESSVAR.GroupBTargetDays,
+      'Group A': P02REPORTOVERDUEVAR.GroupATargetDays,
+      'Group B': P02REPORTOVERDUEVAR.GroupBTargetDays,
     };
 
     // เลือก Group A,B ตาม selectedType
-    final GroupTargetDays =
-        groupTargetDaysMap[selectedType] ?? P02PROGRESSVAR.GroupATargetDays;
+    final GroupTargetDays = groupTargetDaysMap[selectedType] ??
+        P02REPORTOVERDUEVAR.GroupATargetDays;
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupSampleTimeMap = {
-      'Group A': P02PROGRESSVAR.GroupAsampleTime,
-      'Group B': P02PROGRESSVAR.GroupBsampleTime,
+      'Group A': P02REPORTOVERDUEVAR.GroupAsampleTime,
+      'Group B': P02REPORTOVERDUEVAR.GroupBsampleTime,
     };
 
     // เลือก Group A,B ตาม selectedType
-    final groupSampleTime =
-        groupSampleTimeMap[selectedType] ?? P02PROGRESSVAR.GroupAsampleTime;
+    final groupSampleTime = groupSampleTimeMap[selectedType] ??
+        P02REPORTOVERDUEVAR.GroupAsampleTime;
 
     // กำหนด Period ตาม selectedType
     final typeValue = (selectedType == 'Group A')
@@ -70,7 +72,7 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
             : 0;
 
     // กรองข้อมูลด้วย Type ,YEAR ,MONTH
-    List<P02PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P02REPORTOVERDUEGETDATAclass> filteredData = _datain.where((data) {
       return data.TYPE == selectedType &&
           data.YEAR == selectedYear &&
           data.MONTH == selectedMonth;
@@ -430,9 +432,11 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                           children: [
                             Column(
                               children: [
-                                if (P02PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownYear.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -453,10 +457,10 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02PROGRESSVAR.DropDownType = d;
+                                      P02REPORTOVERDUEVAR.DropDownType = d;
                                     });
                                   },
-                                  value: P02PROGRESSVAR.DropDownType,
+                                  value: P02REPORTOVERDUEVAR.DropDownType,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -467,9 +471,11 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P02PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownYear.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -505,10 +511,10 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02PROGRESSVAR.DropDownYear = d;
+                                      P02REPORTOVERDUEVAR.DropDownYear = d;
                                     });
                                   },
-                                  value: P02PROGRESSVAR.DropDownYear,
+                                  value: P02REPORTOVERDUEVAR.DropDownYear,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -519,9 +525,11 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P02PROGRESSVAR.DropDownType.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownYear.isNotEmpty ||
-                                    P02PROGRESSVAR.DropDownMonth.isNotEmpty)
+                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownYear.isNotEmpty ||
+                                    P02REPORTOVERDUEVAR
+                                        .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
                                     child: Text(
@@ -552,10 +560,10 @@ class _P02PROGRESSMAINState extends State<P02PROGRESSMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02PROGRESSVAR.DropDownMonth = d;
+                                      P02REPORTOVERDUEVAR.DropDownMonth = d;
                                     });
                                   },
-                                  value: P02PROGRESSVAR.DropDownMonth,
+                                  value: P02REPORTOVERDUEVAR.DropDownMonth,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -611,9 +619,9 @@ class BarChartPainter extends CustomPainter {
   final List<double> GroupTargetDays;
   final List<double> avgAllBreakdown;
   final double maxY;
-  final selectedYear = (P02PROGRESSVAR.DropDownYear.isNotEmpty)
-      ? P02PROGRESSVAR.DropDownYear
-      : P02PROGRESSVAR.currentYear;
+  final selectedYear = (P02REPORTOVERDUEVAR.DropDownYear.isNotEmpty)
+      ? P02REPORTOVERDUEVAR.DropDownYear
+      : P02REPORTOVERDUEVAR.currentYear;
 
   BarChartPainter({
     required this.GroupTargetDays,
@@ -797,7 +805,7 @@ class BarChartPainter extends CustomPainter {
     for (int i = 0; i < GroupTargetDays.length; i++) {
       String monthText;
 
-      monthText = P02PROGRESSVAR.breakdown[i];
+      monthText = P02REPORTOVERDUEVAR.breakdown[i];
 
       textPainter.text = TextSpan(
         text: monthText,

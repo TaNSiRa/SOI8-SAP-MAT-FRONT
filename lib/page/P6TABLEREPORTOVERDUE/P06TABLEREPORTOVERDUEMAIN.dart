@@ -1,66 +1,76 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/06-01-P06PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/06-01-P06TABLEREPORTOVERDUEGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
 import '../../widget/common/ComInputTextTan.dart';
-import 'P06PROGRESSVAR.dart';
+import 'P06TABLEREPORTOVERDUEVAR.dart';
 
-late BuildContext P06PROGRESSMAINcontext;
+late BuildContext P05TABLEREPORTOVERDUEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P06PROGRESSMAIN extends StatefulWidget {
-  P06PROGRESSMAIN({
+class P05TABLEREPORTOVERDUEMAIN extends StatefulWidget {
+  P05TABLEREPORTOVERDUEMAIN({
     super.key,
     this.data,
   });
-  List<P06PROGRESSGETDATAclass>? data;
+  List<P05TABLEREPORTOVERDUEGETDATAclass>? data;
 
   @override
-  State<P06PROGRESSMAIN> createState() => _P06PROGRESSMAINState();
+  State<P05TABLEREPORTOVERDUEMAIN> createState() =>
+      _P05TABLEREPORTOVERDUEMAINState();
 }
 
-class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
+class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P06PROGRESSGETDATA_Bloc>().add(P06PROGRESSGETDATA_GET());
+    context
+        .read<P05TABLEREPORTOVERDUEGETDATA_Bloc>()
+        .add(P05TABLEREPORTOVERDUEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P06PROGRESSMAINcontext = context;
-    List<P06PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P05TABLEREPORTOVERDUEMAINcontext = context;
+    List<P05TABLEREPORTOVERDUEGETDATAclass> _datain = widget.data ?? [];
 
 // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedGroup = (P06PROGRESSVAR.DropDownGroup.isNotEmpty)
-        ? P06PROGRESSVAR.DropDownGroup
+    final selectedGroup = (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty)
+        ? P05TABLEREPORTOVERDUEVAR.DropDownGroup
         : '1';
-    final selectedYear = (P06PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P06PROGRESSVAR.DropDownYear
-        : P06PROGRESSVAR.currentYear;
-    final selectedMonth = (P06PROGRESSVAR.DropDownMonth.isNotEmpty)
-        ? P06PROGRESSVAR.DropDownMonth
-        : P06PROGRESSVAR.currentMonth;
+    final selectedYear = (P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty)
+        ? P05TABLEREPORTOVERDUEVAR.DropDownYear
+        : P05TABLEREPORTOVERDUEVAR.currentYear;
+    final selectedMonth = (P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+        ? P05TABLEREPORTOVERDUEVAR.DropDownMonth
+        : P05TABLEREPORTOVERDUEVAR.currentMonth;
 
 // กรองข้อมูลด้วยปีและเดือน
-    List<P06PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P05TABLEREPORTOVERDUEGETDATAclass> filteredData =
+        _datain.where((data) {
       return data.MKTGROUP == selectedGroup &&
           data.YEAR == selectedYear &&
           data.MONTH == selectedMonth;
     }).toList();
 
 // กรองข้อมูลในตารางด้วยการค้นหา
-    List<P06PROGRESSGETDATAclass> _datasearch = [];
+    List<P05TABLEREPORTOVERDUEGETDATAclass> _datasearch = [];
     _datasearch.addAll(
       filteredData.where(
         (data) =>
-            data.TYPE.toLowerCase().contains(P06PROGRESSVAR.SEARCH) ||
-            data.GROUP.toLowerCase().contains(P06PROGRESSVAR.SEARCH) ||
-            data.CUSTOMER.toLowerCase().contains(P06PROGRESSVAR.SEARCH) ||
-            data.INCHARGE.toLowerCase().contains(P06PROGRESSVAR.SEARCH),
+            data.TYPE.toLowerCase().contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+            data.GROUP
+                .toLowerCase()
+                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+            data.CUSTOMER
+                .toLowerCase()
+                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+            data.INCHARGE
+                .toLowerCase()
+                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH),
       ),
     );
 
@@ -306,42 +316,42 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                     isSideIcon: false,
                     height: 30,
                     width: 400,
-                    isContr: P06PROGRESSVAR.iscontrol,
+                    isContr: P05TABLEREPORTOVERDUEVAR.iscontrol,
                     fnContr: (input) {
-                      P06PROGRESSVAR.iscontrol = input;
+                      P05TABLEREPORTOVERDUEVAR.iscontrol = input;
                     },
-                    sValue: P06PROGRESSVAR.SEARCH,
+                    sValue: P05TABLEREPORTOVERDUEVAR.SEARCH,
                     returnfunc: (String s) {
                       setState(() {
-                        P06PROGRESSVAR.SEARCH = s;
+                        P05TABLEREPORTOVERDUEVAR.SEARCH = s;
                       });
                     },
                   ),
                   MouseRegion(
                     onEnter: (_) {
                       setState(() {
-                        P06PROGRESSVAR.isHoveredClear = true;
+                        P05TABLEREPORTOVERDUEVAR.isHoveredClear = true;
                       });
                     },
                     onExit: (_) {
                       setState(() {
-                        P06PROGRESSVAR.isHoveredClear = false;
+                        P05TABLEREPORTOVERDUEVAR.isHoveredClear = false;
                       });
                     },
                     child: InkWell(
                       overlayColor: WidgetStateProperty.all(Colors.transparent),
                       onTap: () {
                         setState(() {
-                          P06PROGRESSVAR.isHoveredClear = false;
-                          P06PROGRESSVAR.iscontrol = true;
-                          P06PROGRESSVAR.SEARCH = '';
+                          P05TABLEREPORTOVERDUEVAR.isHoveredClear = false;
+                          P05TABLEREPORTOVERDUEVAR.iscontrol = true;
+                          P05TABLEREPORTOVERDUEVAR.SEARCH = '';
                         });
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: P06PROGRESSVAR.isHoveredClear
+                            color: P05TABLEREPORTOVERDUEVAR.isHoveredClear
                                 ? Colors.yellowAccent.shade700
                                 : Colors.redAccent.shade700,
                             width: 3.0,
@@ -363,17 +373,23 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                               ).createShader(bounds),
                               child: TweenAnimationBuilder<double>(
                                 tween: Tween<double>(
-                                  begin: P06PROGRESSVAR.isHoveredClear ? 8 : 8,
-                                  end: P06PROGRESSVAR.isHoveredClear ? 8 : 8,
+                                  begin: P05TABLEREPORTOVERDUEVAR.isHoveredClear
+                                      ? 8
+                                      : 8,
+                                  end: P05TABLEREPORTOVERDUEVAR.isHoveredClear
+                                      ? 8
+                                      : 8,
                                 ),
                                 duration: Duration(milliseconds: 200),
                                 builder: (context, size, child) {
                                   return TweenAnimationBuilder<Color?>(
                                     tween: ColorTween(
-                                      begin: P06PROGRESSVAR.isHoveredClear
+                                      begin: P05TABLEREPORTOVERDUEVAR
+                                              .isHoveredClear
                                           ? Colors.redAccent.shade700
                                           : Colors.yellowAccent.shade700,
-                                      end: P06PROGRESSVAR.isHoveredClear
+                                      end: P05TABLEREPORTOVERDUEVAR
+                                              .isHoveredClear
                                           ? Colors.yellowAccent.shade700
                                           : Colors.redAccent.shade700,
                                     ),
@@ -400,8 +416,8 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                   ElevatedButton(
                     onPressed: () {
                       context
-                          .read<P06PROGRESSGETDATA_Bloc>()
-                          .add(P06PROGRESSGETDATA_GET());
+                          .read<P05TABLEREPORTOVERDUEGETDATA_Bloc>()
+                          .add(P05TABLEREPORTOVERDUEGETDATA_GET());
                     },
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
@@ -415,9 +431,9 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P06PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownYear.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownMonth.isNotEmpty)
+                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -440,10 +456,10 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P06PROGRESSVAR.DropDownGroup = d;
+                            P05TABLEREPORTOVERDUEVAR.DropDownGroup = d;
                           });
                         },
-                        value: P06PROGRESSVAR.DropDownGroup,
+                        value: P05TABLEREPORTOVERDUEVAR.DropDownGroup,
                         height: 30,
                         width: 100,
                       ),
@@ -454,9 +470,9 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P06PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownYear.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownMonth.isNotEmpty)
+                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -492,10 +508,10 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P06PROGRESSVAR.DropDownYear = d;
+                            P05TABLEREPORTOVERDUEVAR.DropDownYear = d;
                           });
                         },
-                        value: P06PROGRESSVAR.DropDownYear,
+                        value: P05TABLEREPORTOVERDUEVAR.DropDownYear,
                         height: 30,
                         width: 100,
                       ),
@@ -506,9 +522,9 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P06PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownYear.isNotEmpty ||
-                          P06PROGRESSVAR.DropDownMonth.isNotEmpty)
+                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -539,10 +555,10 @@ class _P06PROGRESSMAINState extends State<P06PROGRESSMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P06PROGRESSVAR.DropDownMonth = d;
+                            P05TABLEREPORTOVERDUEVAR.DropDownMonth = d;
                           });
                         },
-                        value: P06PROGRESSVAR.DropDownMonth,
+                        value: P05TABLEREPORTOVERDUEVAR.DropDownMonth,
                         height: 30,
                         width: 100,
                       ),

@@ -1,48 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/dummydata2.dart';
-import '../../page/P1PROGRESS/P01PROGRESSMAIN.dart';
+import '../../page/P1CUSSERVICE/P01CUSSERVICEMAIN.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
 
-abstract class P01PROGRESSGETDATA_Event {}
+abstract class P01CUSSERVICEGETDATA_Event {}
 
-class P01PROGRESSGETDATA_GET extends P01PROGRESSGETDATA_Event {}
+class P01CUSSERVICEGETDATA_GET extends P01CUSSERVICEGETDATA_Event {}
 
-class P01PROGRESSGETDATA_GET2 extends P01PROGRESSGETDATA_Event {}
+class P01CUSSERVICEGETDATA_GET2 extends P01CUSSERVICEGETDATA_Event {}
 
-class P01PROGRESSGETDATA_GET3 extends P01PROGRESSGETDATA_Event {}
+class P01CUSSERVICEGETDATA_GET3 extends P01CUSSERVICEGETDATA_Event {}
 
-class P01PROGRESSGETDATA_FLUSH extends P01PROGRESSGETDATA_Event {}
+class P01CUSSERVICEGETDATA_FLUSH extends P01CUSSERVICEGETDATA_Event {}
 
-class P01PROGRESSGETDATA_Bloc
-    extends Bloc<P01PROGRESSGETDATA_Event, List<P01PROGRESSGETDATAclass>> {
-  P01PROGRESSGETDATA_Bloc() : super([]) {
-    on<P01PROGRESSGETDATA_GET>((event, emit) {
-      return _P01PROGRESSGETDATA_GET([], emit);
+class P01CUSSERVICEGETDATA_Bloc
+    extends Bloc<P01CUSSERVICEGETDATA_Event, List<P01CUSSERVICEGETDATAclass>> {
+  P01CUSSERVICEGETDATA_Bloc() : super([]) {
+    on<P01CUSSERVICEGETDATA_GET>((event, emit) {
+      return _P01CUSSERVICEGETDATA_GET([], emit);
     });
 
-    on<P01PROGRESSGETDATA_GET2>((event, emit) {
-      return _P01PROGRESSGETDATA_GET2([], emit);
+    on<P01CUSSERVICEGETDATA_GET2>((event, emit) {
+      return _P01CUSSERVICEGETDATA_GET2([], emit);
     });
-    on<P01PROGRESSGETDATA_GET3>((event, emit) {
-      return _P01PROGRESSGETDATA_GET3([], emit);
+    on<P01CUSSERVICEGETDATA_GET3>((event, emit) {
+      return _P01CUSSERVICEGETDATA_GET3([], emit);
     });
-    on<P01PROGRESSGETDATA_FLUSH>((event, emit) {
-      return _P01PROGRESSGETDATA_FLUSH([], emit);
+    on<P01CUSSERVICEGETDATA_FLUSH>((event, emit) {
+      return _P01CUSSERVICEGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P01PROGRESSGETDATA_GET(List<P01PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P01PROGRESSGETDATAclass>> emit) async {
-    FreeLoadingTan(P01PROGRESSMAINcontext);
-    List<P01PROGRESSGETDATAclass> output = [];
+  Future<void> _P01CUSSERVICEGETDATA_GET(List<P01CUSSERVICEGETDATAclass> toAdd,
+      Emitter<List<P01CUSSERVICEGETDATAclass>> emit) async {
+    FreeLoadingTan(P01CUSSERVICEMAINcontext);
+    List<P01CUSSERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     var input = dummydatainput6;
 
-    List<P01PROGRESSGETDATAclass> outputdata = input.map((data) {
-      return P01PROGRESSGETDATAclass(
+    List<P01CUSSERVICEGETDATAclass> outputdata = input.map((data) {
+      return P01CUSSERVICEGETDATAclass(
         TYPE: savenull(data['type']),
         MKTGROUP: savenull(data['mktgroup']),
         GROUP: savenull(data['group']),
@@ -157,24 +157,24 @@ class P01PROGRESSGETDATA_Bloc
       );
     }).toList();
     // print(outputdata);
-    Navigator.pop(P01PROGRESSMAINcontext);
+    Navigator.pop(P01CUSSERVICEMAINcontext);
     output = outputdata;
     emit(output);
   }
 
-  Future<void> _P01PROGRESSGETDATA_GET2(List<P01PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P01PROGRESSGETDATAclass>> emit) async {
-    // List<P01PROGRESSGETDATAclass> output = [];
+  Future<void> _P01CUSSERVICEGETDATA_GET2(List<P01CUSSERVICEGETDATAclass> toAdd,
+      Emitter<List<P01CUSSERVICEGETDATAclass>> emit) async {
+    // List<P01CUSSERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
 
-    // List<P01PROGRESSGETDATAclass> outputdata = input
+    // List<P01CUSSERVICEGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&
     //         data['plant'] == 'YES' &&
     //         data['step01'] == 'YES')
     //     .map((data) {
-    //   return P01PROGRESSGETDATAclass(
+    //   return P01CUSSERVICEGETDATAclass(
     //     PLANT: savenull(data['plant']),
     //     ORDER: savenull(data['order']),
     //     MAT: savenull(data['mat']),
@@ -199,30 +199,30 @@ class P01PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P01PROGRESSGETDATA_GET3(List<P01PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P01PROGRESSGETDATAclass>> emit) async {
-    // List<P01PROGRESSGETDATAclass> output = [];
+  Future<void> _P01CUSSERVICEGETDATA_GET3(List<P01CUSSERVICEGETDATAclass> toAdd,
+      Emitter<List<P01CUSSERVICEGETDATAclass>> emit) async {
+    // List<P01CUSSERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    // List<P01PROGRESSGETDATAclass> datadummy = [
-    //   P01PROGRESSGETDATAclass(
+    // List<P01CUSSERVICEGETDATAclass> datadummy = [
+    //   P01CUSSERVICEGETDATAclass(
     //     PLANT: "PH PO:1234",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //   ),
-    //   P01PROGRESSGETDATAclass(
+    //   P01CUSSERVICEGETDATAclass(
     //     PLANT: "PH PO:5555",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //     STEP04: "YES",
     //   ),
-    //   P01PROGRESSGETDATAclass(
+    //   P01CUSSERVICEGETDATAclass(
     //     PLANT: "PH PO:5556",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //   ),
-    //   P01PROGRESSGETDATAclass(
+    //   P01CUSSERVICEGETDATAclass(
     //     PLANT: "PH PO:9999",
     //   ),
     // ];
@@ -232,15 +232,16 @@ class P01PROGRESSGETDATA_Bloc
     // emit(output);
   }
 
-  Future<void> _P01PROGRESSGETDATA_FLUSH(List<P01PROGRESSGETDATAclass> toAdd,
-      Emitter<List<P01PROGRESSGETDATAclass>> emit) async {
-    List<P01PROGRESSGETDATAclass> output = [];
+  Future<void> _P01CUSSERVICEGETDATA_FLUSH(
+      List<P01CUSSERVICEGETDATAclass> toAdd,
+      Emitter<List<P01CUSSERVICEGETDATAclass>> emit) async {
+    List<P01CUSSERVICEGETDATAclass> output = [];
     emit(output);
   }
 }
 
-class P01PROGRESSGETDATAclass {
-  P01PROGRESSGETDATAclass({
+class P01CUSSERVICEGETDATAclass {
+  P01CUSSERVICEGETDATAclass({
     this.TYPE = '',
     this.MKTGROUP = '',
     this.GROUP = '',

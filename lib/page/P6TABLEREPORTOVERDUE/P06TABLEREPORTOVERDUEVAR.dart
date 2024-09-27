@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class P05PROGRESSVAR {
+class P05TABLEREPORTOVERDUEVAR {
   static bool iscontrol = false;
   static String SEARCH = '';
   static bool isHoveredClear = false;

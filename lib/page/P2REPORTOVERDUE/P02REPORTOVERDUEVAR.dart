@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class P02PROGRESSVAR {
+class P02REPORTOVERDUEVAR {
   static List<int> sumList = [];
   static Map<String, double> AvgAllBreakdown = {};
   static List<double> avgAllBreakdown = [];

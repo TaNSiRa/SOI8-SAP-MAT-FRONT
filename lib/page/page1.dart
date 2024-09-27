@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/BlocEvent/01-01-P01PROGRESSGETDATA.dart';
-import 'P1PROGRESS/P01PROGRESSMAIN.dart';
+import '../bloc/BlocEvent/01-01-P01CUSSERVICEGETDATA.dart';
+import 'P1CUSSERVICE/P01CUSSERVICEMAIN.dart';
 
 //---------------------------------------------------------
 
@@ -22,9 +22,9 @@ class Page1blockget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => P01PROGRESSGETDATA_Bloc(),
-        child:
-            BlocBuilder<P01PROGRESSGETDATA_Bloc, List<P01PROGRESSGETDATAclass>>(
+        create: (_) => P01CUSSERVICEGETDATA_Bloc(),
+        child: BlocBuilder<P01CUSSERVICEGETDATA_Bloc,
+            List<P01CUSSERVICEGETDATAclass>>(
           builder: (context, data) {
             return Page1Body(
               data: data,
@@ -39,10 +39,10 @@ class Page1Body extends StatelessWidget {
     super.key,
     this.data,
   });
-  List<P01PROGRESSGETDATAclass>? data;
+  List<P01CUSSERVICEGETDATAclass>? data;
   @override
   Widget build(BuildContext context) {
-    return P01PROGRESSMAIN(
+    return P01CUSSERVICEMAIN(
       data: data,
     );
   }

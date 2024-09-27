@@ -1,65 +1,67 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/05-01-P05PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/05-01-P05TABLESERVICEGETDATA.dart';
 import 'dart:math';
 import '../../widget/common/Advancedropdown.dart';
 import '../../widget/common/ComInputTextTan.dart';
-import 'P05PROGRESSVAR.dart';
+import 'P05TABLESERVICEVAR.dart';
 
-late BuildContext P05PROGRESSMAINcontext;
+late BuildContext P05TABLESERVICEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P05PROGRESSMAIN extends StatefulWidget {
-  P05PROGRESSMAIN({
+class P05TABLESERVICEMAIN extends StatefulWidget {
+  P05TABLESERVICEMAIN({
     super.key,
     this.data,
   });
-  List<P05PROGRESSGETDATAclass>? data;
+  List<P05TABLESERVICEGETDATAclass>? data;
 
   @override
-  State<P05PROGRESSMAIN> createState() => _P05PROGRESSMAINState();
+  State<P05TABLESERVICEMAIN> createState() => _P05TABLESERVICEMAINState();
 }
 
-class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
+class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P05PROGRESSGETDATA_Bloc>().add(P05PROGRESSGETDATA_GET());
+    context
+        .read<P05TABLESERVICEGETDATA_Bloc>()
+        .add(P05TABLESERVICEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P05PROGRESSMAINcontext = context;
-    List<P05PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P05TABLESERVICEMAINcontext = context;
+    List<P05TABLESERVICEGETDATAclass> _datain = widget.data ?? [];
 
 // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedGroup = (P05PROGRESSVAR.DropDownGroup.isNotEmpty)
-        ? P05PROGRESSVAR.DropDownGroup
+    final selectedGroup = (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty)
+        ? P05TABLESERVICEVAR.DropDownGroup
         : '1';
-    final selectedYear = (P05PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P05PROGRESSVAR.DropDownYear
-        : P05PROGRESSVAR.currentYear;
-    final selectedMonth = (P05PROGRESSVAR.DropDownMonth.isNotEmpty)
-        ? P05PROGRESSVAR.DropDownMonth
-        : P05PROGRESSVAR.currentMonth;
+    final selectedYear = (P05TABLESERVICEVAR.DropDownYear.isNotEmpty)
+        ? P05TABLESERVICEVAR.DropDownYear
+        : P05TABLESERVICEVAR.currentYear;
+    final selectedMonth = (P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
+        ? P05TABLESERVICEVAR.DropDownMonth
+        : P05TABLESERVICEVAR.currentMonth;
 
 // กรองข้อมูลด้วยปีและเดือน
-    List<P05PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P05TABLESERVICEGETDATAclass> filteredData = _datain.where((data) {
       return data.MKTGROUP == selectedGroup &&
           data.YEAR == selectedYear &&
           data.MONTH == selectedMonth;
     }).toList();
 
 // กรองข้อมูลในตารางด้วยการค้นหา
-    List<P05PROGRESSGETDATAclass> _datasearch = [];
+    List<P05TABLESERVICEGETDATAclass> _datasearch = [];
     _datasearch.addAll(
       filteredData.where(
         (data) =>
-            data.TYPE.toLowerCase().contains(P05PROGRESSVAR.SEARCH) ||
-            data.GROUP.toLowerCase().contains(P05PROGRESSVAR.SEARCH) ||
-            data.CUSTOMER.toLowerCase().contains(P05PROGRESSVAR.SEARCH) ||
-            data.INCHARGE.toLowerCase().contains(P05PROGRESSVAR.SEARCH),
+            data.TYPE.toLowerCase().contains(P05TABLESERVICEVAR.SEARCH) ||
+            data.GROUP.toLowerCase().contains(P05TABLESERVICEVAR.SEARCH) ||
+            data.CUSTOMER.toLowerCase().contains(P05TABLESERVICEVAR.SEARCH) ||
+            data.INCHARGE.toLowerCase().contains(P05TABLESERVICEVAR.SEARCH),
       ),
     );
 
@@ -78,8 +80,9 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
       return a.CUSTOMER.compareTo(b.CUSTOMER);
     });
 
-//แปลงข้อมูลจาก List<P05PROGRESSGETDATAclass> เป็น List<Map<String, dynamic>>
-    List<Map<String, dynamic>> convertData(List<P05PROGRESSGETDATAclass> data) {
+//แปลงข้อมูลจาก List<P05TABLESERVICEGETDATAclass> เป็น List<Map<String, dynamic>>
+    List<Map<String, dynamic>> convertData(
+        List<P05TABLESERVICEGETDATAclass> data) {
       return data.map((item) {
         return {
           'type': item.TYPE,
@@ -399,26 +402,26 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                         isSideIcon: false,
                         height: 30,
                         width: 400,
-                        isContr: P05PROGRESSVAR.iscontrol,
+                        isContr: P05TABLESERVICEVAR.iscontrol,
                         fnContr: (input) {
-                          P05PROGRESSVAR.iscontrol = input;
+                          P05TABLESERVICEVAR.iscontrol = input;
                         },
-                        sValue: P05PROGRESSVAR.SEARCH,
+                        sValue: P05TABLESERVICEVAR.SEARCH,
                         returnfunc: (String s) {
                           setState(() {
-                            P05PROGRESSVAR.SEARCH = s;
+                            P05TABLESERVICEVAR.SEARCH = s;
                           });
                         },
                       ),
                       MouseRegion(
                         onEnter: (_) {
                           setState(() {
-                            P05PROGRESSVAR.isHoveredClear = true;
+                            P05TABLESERVICEVAR.isHoveredClear = true;
                           });
                         },
                         onExit: (_) {
                           setState(() {
-                            P05PROGRESSVAR.isHoveredClear = false;
+                            P05TABLESERVICEVAR.isHoveredClear = false;
                           });
                         },
                         child: InkWell(
@@ -426,16 +429,16 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                               WidgetStateProperty.all(Colors.transparent),
                           onTap: () {
                             setState(() {
-                              P05PROGRESSVAR.isHoveredClear = false;
-                              P05PROGRESSVAR.iscontrol = true;
-                              P05PROGRESSVAR.SEARCH = '';
+                              P05TABLESERVICEVAR.isHoveredClear = false;
+                              P05TABLESERVICEVAR.iscontrol = true;
+                              P05TABLESERVICEVAR.SEARCH = '';
                             });
                           },
                           child: AnimatedContainer(
                             duration: Duration(milliseconds: 200),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: P05PROGRESSVAR.isHoveredClear
+                                color: P05TABLESERVICEVAR.isHoveredClear
                                     ? Colors.yellowAccent.shade700
                                     : Colors.redAccent.shade700,
                                 width: 3.0,
@@ -457,19 +460,22 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                                   ).createShader(bounds),
                                   child: TweenAnimationBuilder<double>(
                                     tween: Tween<double>(
-                                      begin:
-                                          P05PROGRESSVAR.isHoveredClear ? 8 : 8,
-                                      end:
-                                          P05PROGRESSVAR.isHoveredClear ? 8 : 8,
+                                      begin: P05TABLESERVICEVAR.isHoveredClear
+                                          ? 8
+                                          : 8,
+                                      end: P05TABLESERVICEVAR.isHoveredClear
+                                          ? 8
+                                          : 8,
                                     ),
                                     duration: Duration(milliseconds: 200),
                                     builder: (context, size, child) {
                                       return TweenAnimationBuilder<Color?>(
                                         tween: ColorTween(
-                                          begin: P05PROGRESSVAR.isHoveredClear
+                                          begin: P05TABLESERVICEVAR
+                                                  .isHoveredClear
                                               ? Colors.redAccent.shade700
                                               : Colors.yellowAccent.shade700,
-                                          end: P05PROGRESSVAR.isHoveredClear
+                                          end: P05TABLESERVICEVAR.isHoveredClear
                                               ? Colors.yellowAccent.shade700
                                               : Colors.redAccent.shade700,
                                         ),
@@ -496,8 +502,8 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                       ElevatedButton(
                         onPressed: () {
                           context
-                              .read<P05PROGRESSGETDATA_Bloc>()
-                              .add(P05PROGRESSGETDATA_GET());
+                              .read<P05TABLESERVICEGETDATA_Bloc>()
+                              .add(P05TABLESERVICEGETDATA_GET());
                         },
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
@@ -511,9 +517,9 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                       ),
                       Column(
                         children: [
-                          if (P05PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownYear.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownMonth.isNotEmpty)
+                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
                             SizedBox(
                               width: 100,
                               child: Text(
@@ -536,10 +542,10 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                             ],
                             onChangeinside: (d, k) {
                               setState(() {
-                                P05PROGRESSVAR.DropDownGroup = d;
+                                P05TABLESERVICEVAR.DropDownGroup = d;
                               });
                             },
-                            value: P05PROGRESSVAR.DropDownGroup,
+                            value: P05TABLESERVICEVAR.DropDownGroup,
                             height: 30,
                             width: 100,
                           ),
@@ -550,9 +556,9 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                       ),
                       Column(
                         children: [
-                          if (P05PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownYear.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownMonth.isNotEmpty)
+                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
                             SizedBox(
                               width: 100,
                               child: Text(
@@ -588,10 +594,10 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                             ],
                             onChangeinside: (d, k) {
                               setState(() {
-                                P05PROGRESSVAR.DropDownYear = d;
+                                P05TABLESERVICEVAR.DropDownYear = d;
                               });
                             },
-                            value: P05PROGRESSVAR.DropDownYear,
+                            value: P05TABLESERVICEVAR.DropDownYear,
                             height: 30,
                             width: 100,
                           ),
@@ -602,9 +608,9 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                       ),
                       Column(
                         children: [
-                          if (P05PROGRESSVAR.DropDownGroup.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownYear.isNotEmpty ||
-                              P05PROGRESSVAR.DropDownMonth.isNotEmpty)
+                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
                             SizedBox(
                               width: 100,
                               child: Text(
@@ -635,10 +641,10 @@ class _P05PROGRESSMAINState extends State<P05PROGRESSMAIN> {
                             ],
                             onChangeinside: (d, k) {
                               setState(() {
-                                P05PROGRESSVAR.DropDownMonth = d;
+                                P05TABLESERVICEVAR.DropDownMonth = d;
                               });
                             },
-                            value: P05PROGRESSVAR.DropDownMonth,
+                            value: P05TABLESERVICEVAR.DropDownMonth,
                             height: 30,
                             width: 100,
                           ),

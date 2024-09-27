@@ -1,48 +1,49 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/01-01-P01PROGRESSGETDATA.dart';
+import '../../bloc/BlocEvent/01-01-P01CUSSERVICEGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
-import 'P01PROGRESSVAR.dart';
+import 'P01CUSSERVICEVAR.dart';
 
-late BuildContext P01PROGRESSMAINcontext;
+late BuildContext P01CUSSERVICEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P01PROGRESSMAIN extends StatefulWidget {
-  P01PROGRESSMAIN({
+class P01CUSSERVICEMAIN extends StatefulWidget {
+  P01CUSSERVICEMAIN({
     super.key,
     this.data,
   });
-  List<P01PROGRESSGETDATAclass>? data;
+  List<P01CUSSERVICEGETDATAclass>? data;
 
   @override
-  State<P01PROGRESSMAIN> createState() => _P01PROGRESSMAINState();
+  State<P01CUSSERVICEMAIN> createState() => _P01CUSSERVICEMAINState();
 }
 
-class _P01PROGRESSMAINState extends State<P01PROGRESSMAIN> {
+class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P01PROGRESSGETDATA_Bloc>().add(P01PROGRESSGETDATA_GET());
+    context.read<P01CUSSERVICEGETDATA_Bloc>().add(P01CUSSERVICEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P01PROGRESSMAINcontext = context;
-    List<P01PROGRESSGETDATAclass> _datain = widget.data ?? [];
+    P01CUSSERVICEMAINcontext = context;
+    List<P01CUSSERVICEGETDATAclass> _datain = widget.data ?? [];
 
     // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedYear = (P01PROGRESSVAR.DropDownYear.isNotEmpty)
-        ? P01PROGRESSVAR.DropDownYear
-        : P01PROGRESSVAR.currentYear;
+    final selectedYear = (P01CUSSERVICEVAR.DropDownYear.isNotEmpty)
+        ? P01CUSSERVICEVAR.DropDownYear
+        : P01CUSSERVICEVAR.currentYear;
 
     // กรองข้อมูลด้วยปีและเดือน
-    List<P01PROGRESSGETDATAclass> filteredData = _datain.where((data) {
+    List<P01CUSSERVICEGETDATAclass> filteredData = _datain.where((data) {
       return data.YEAR == selectedYear;
     }).toList();
 
-    //แปลงข้อมูลจาก List<P01PROGRESSGETDATAclass> เป็น List<Map<String, dynamic>>
-    List<Map<String, dynamic>> convertData(List<P01PROGRESSGETDATAclass> data) {
+    //แปลงข้อมูลจาก List<P01CUSSERVICEGETDATAclass> เป็น List<Map<String, dynamic>>
+    List<Map<String, dynamic>> convertData(
+        List<P01CUSSERVICEGETDATAclass> data) {
       return data.map((item) {
         return {
           'type': item.TYPE,
@@ -370,7 +371,7 @@ class _P01PROGRESSMAINState extends State<P01PROGRESSMAIN> {
                         right: 0,
                         child: Column(
                           children: [
-                            if (P01PROGRESSVAR.DropDownYear.isNotEmpty) ...[
+                            if (P01CUSSERVICEVAR.DropDownYear.isNotEmpty) ...[
                               SizedBox(
                                 width: 100,
                                 child: Text(
@@ -408,10 +409,10 @@ class _P01PROGRESSMAINState extends State<P01PROGRESSMAIN> {
                               ],
                               onChangeinside: (d, k) {
                                 setState(() {
-                                  P01PROGRESSVAR.DropDownYear = d;
+                                  P01CUSSERVICEVAR.DropDownYear = d;
                                 });
                               },
-                              value: P01PROGRESSVAR.DropDownYear,
+                              value: P01CUSSERVICEVAR.DropDownYear,
                               height: 30,
                               width: 100,
                             ),
@@ -528,9 +529,9 @@ class BarChartPainter extends CustomPainter {
   final List<double> kacVisitPercents;
   final List<double> mediumVisitPercents;
   final double maxY;
-  final selectedYear = (P01PROGRESSVAR.DropDownYear.isNotEmpty)
-      ? P01PROGRESSVAR.DropDownYear
-      : P01PROGRESSVAR.currentYear;
+  final selectedYear = (P01CUSSERVICEVAR.DropDownYear.isNotEmpty)
+      ? P01CUSSERVICEVAR.DropDownYear
+      : P01CUSSERVICEVAR.currentYear;
 
   BarChartPainter({
     required this.kacVisitPercents,
@@ -714,11 +715,11 @@ class BarChartPainter extends CustomPainter {
       if (i == 0) {
         // ถ้าเป็นเดือนแรกให้ใช้ "Avg" และลบปีไป 1
         monthText =
-            '${P01PROGRESSVAR.months[i]} ${(int.parse(selectedYear) - 1).toString().substring(2)}';
+            '${P01CUSSERVICEVAR.months[i]} ${(int.parse(selectedYear) - 1).toString().substring(2)}';
       } else {
         // เดือนอื่นๆ ใช้ชื่อเดือนตามปกติ
         monthText =
-            '${P01PROGRESSVAR.months[i]} ${selectedYear.toString().substring(2)}';
+            '${P01CUSSERVICEVAR.months[i]} ${selectedYear.toString().substring(2)}';
       }
 
       textPainter.text = TextSpan(

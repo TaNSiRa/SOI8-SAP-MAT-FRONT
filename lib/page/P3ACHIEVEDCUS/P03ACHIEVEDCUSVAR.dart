@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
-class P01PROGRESSVAR {
+class P03ACHIEVEDCUSVAR {
+  static String DropDownType = '';
   static String DropDownYear = '';
   static final currentYear = DateFormat('yyyy').format(DateTime.now());
   static const List<String> months = [

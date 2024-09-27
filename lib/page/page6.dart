@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/BlocEvent/06-01-P06PROGRESSGETDATA.dart';
-import 'P6PROGRESS/P06PROGRESSMAIN.dart';
+import '../bloc/BlocEvent/06-01-P06TABLEREPORTOVERDUEGETDATA.dart';
+import 'P6TABLEREPORTOVERDUE/P06TABLEREPORTOVERDUEMAIN.dart';
 
 //---------------------------------------------------------
 
@@ -22,9 +22,9 @@ class Page6blockget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => P06PROGRESSGETDATA_Bloc(),
-        child:
-            BlocBuilder<P06PROGRESSGETDATA_Bloc, List<P06PROGRESSGETDATAclass>>(
+        create: (_) => P05TABLEREPORTOVERDUEGETDATA_Bloc(),
+        child: BlocBuilder<P05TABLEREPORTOVERDUEGETDATA_Bloc,
+            List<P05TABLEREPORTOVERDUEGETDATAclass>>(
           builder: (context, data) {
             return Page6Body(
               data: data,
@@ -39,10 +39,10 @@ class Page6Body extends StatelessWidget {
     super.key,
     this.data,
   });
-  List<P06PROGRESSGETDATAclass>? data;
+  List<P05TABLEREPORTOVERDUEGETDATAclass>? data;
   @override
   Widget build(BuildContext context) {
-    return P06PROGRESSMAIN(
+    return P05TABLEREPORTOVERDUEMAIN(
       data: data,
     );
   }
