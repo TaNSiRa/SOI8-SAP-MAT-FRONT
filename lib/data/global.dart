@@ -10,6 +10,8 @@ class USERDATA {
   static int UserLV = 0;
   static String NAME = '';
   static String ID = '';
+  static String Section = '';
+  static String Branch = '';
 }
 
 class logindata {
@@ -17,3 +19,5 @@ class logindata {
   static String userID = '';
   static String userPASS = '';
 }
+
+String serverG = 'http://172.23.10.51:15152/';

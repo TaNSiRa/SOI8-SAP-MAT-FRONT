@@ -44,6 +44,7 @@ class P05PROGRESSGETDATA_Bloc
     List<P05PROGRESSGETDATAclass> outputdata = input.map((data) {
       return P05PROGRESSGETDATAclass(
         TYPE: savenull(data['type']),
+        MKTGROUP: savenull(data['mktgroup']),
         GROUP: savenull(data['group']),
         CUSTOMER: savenull(data['customer']),
         FREQUENCY: savenull(data['frequency']),
@@ -165,6 +166,7 @@ class P05PROGRESSGETDATA_Bloc
 class P05PROGRESSGETDATAclass {
   P05PROGRESSGETDATAclass({
     this.TYPE = '',
+    this.MKTGROUP = '',
     this.GROUP = '',
     this.CUSTOMER = '',
     this.FREQUENCY = '',
@@ -201,6 +203,7 @@ class P05PROGRESSGETDATAclass {
   });
 
   String TYPE;
+  String MKTGROUP;
   String GROUP;
   String CUSTOMER;
   String FREQUENCY;

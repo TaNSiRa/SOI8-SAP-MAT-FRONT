@@ -85,12 +85,12 @@ class Data_Menu_mainmenu extends StatelessWidget {
                 ))),
         SizedBox(height: 10),
         menu_normal(
-          name: "Report over due",
+          name: "Service report",
           page: Page5(),
           Lv: 1,
         ),
         menu_normal(
-          name: "Service report",
+          name: "Report over due",
           page: Page6(),
           Lv: 1,
         ),
