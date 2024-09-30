@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../../data/dummydata2.dart';
 import '../../page/P5TABLESERVICE/P05TABLESERVICEMAIN.dart';
 import '../../widget/common/Loading.dart';
@@ -56,28 +57,28 @@ class P05TABLESERVICEGETDATA_Bloc extends Bloc<P05TABLESERVICEGETDATA_Event,
         MONTH: savenull(data['month']),
         YEAR: savenull(data['year']),
         FREQ1: savenull(data['freq1']),
-        PLANSAM1: savenull(data['plan sam1']),
-        ACTSAM1: savenull(data['act sam1']),
-        REPDUE1: savenull(data['rep due1']),
-        SENTREP1: savenull(data['sent rep1']),
+        PLANSAM1: formatDate(savenull(data['plan sam1'])),
+        ACTSAM1: formatDate(savenull(data['act sam1'])),
+        REPDUE1: formatDate(savenull(data['rep due1'])),
+        SENTREP1: formatDate(savenull(data['sent rep1'])),
         REPDAYS1: savenull(data['rep days1']),
         FREQ2: savenull(data['freq2']),
-        PLANSAM2: savenull(data['plan sam2']),
-        ACTSAM2: savenull(data['act sam2']),
-        REPDUE2: savenull(data['rep due2']),
-        SENTREP2: savenull(data['sent rep2']),
+        PLANSAM2: formatDate(savenull(data['plan sam2'])),
+        ACTSAM2: formatDate(savenull(data['act sam2'])),
+        REPDUE2: formatDate(savenull(data['rep due2'])),
+        SENTREP2: formatDate(savenull(data['sent rep2'])),
         REPDAYS2: savenull(data['rep days2']),
         FREQ3: savenull(data['freq3']),
-        PLANSAM3: savenull(data['plan sam3']),
-        ACTSAM3: savenull(data['act sam3']),
-        REPDUE3: savenull(data['rep due3']),
-        SENTREP3: savenull(data['sent rep3']),
+        PLANSAM3: formatDate(savenull(data['plan sam3'])),
+        ACTSAM3: formatDate(savenull(data['act sam3'])),
+        REPDUE3: formatDate(savenull(data['rep due3'])),
+        SENTREP3: formatDate(savenull(data['sent rep3'])),
         REPDAYS3: savenull(data['rep days3']),
         FREQ4: savenull(data['freq4']),
-        PLANSAM4: savenull(data['plan sam4']),
-        ACTSAM4: savenull(data['act sam4']),
-        REPDUE4: savenull(data['rep due4']),
-        SENTREP4: savenull(data['sent rep4']),
+        PLANSAM4: formatDate(savenull(data['plan sam4'])),
+        ACTSAM4: formatDate(savenull(data['act sam4'])),
+        REPDUE4: formatDate(savenull(data['rep due4'])),
+        SENTREP4: formatDate(savenull(data['sent rep4'])),
         REPDAYS4: savenull(data['rep days4']),
       );
     }).toList();
@@ -249,4 +250,14 @@ String savenull(input) {
     output = input.toString();
   }
   return output;
+}
+
+String formatDate(String? date) {
+  if (date == null || date.isEmpty) return '';
+  try {
+    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+    return DateFormat('dd-MMM').format(parsedDate);
+  } catch (e) {
+    return '';
+  }
 }
