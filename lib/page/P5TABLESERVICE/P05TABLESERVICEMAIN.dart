@@ -381,7 +381,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                           end: Alignment.bottomRight,
                         ).createShader(bounds),
                         child: Text(
-                          'SAR : Service Report Group $selectedGroup ($selectedMonth $selectedYear)',
+                          'SAR : Technical Service Report of Group $selectedGroup ($selectedMonth $selectedYear)',
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
@@ -3891,7 +3891,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    'Visit 90%',
+                                    'Visit 95%',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 10,

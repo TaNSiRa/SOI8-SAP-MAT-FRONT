@@ -469,7 +469,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
                                   child: Center(
                                     child: Text(
                                       'Medium customer \n'
-                                      'KPI: more than 90% Service',
+                                      'KPI: more than 95% Service',
                                       style: TextStyle(
                                         fontSize: 8.0,
                                         fontWeight: FontWeight.bold,
@@ -567,15 +567,15 @@ class BarChartPainter extends CustomPainter {
 
     // ตำแหน่งความสูงของเส้นประทั้ง 2 เส้น
     double ySetpoint100 = size.height - (100 / maxY) * size.height;
-    double ySetpoint90 = size.height - (90 / maxY) * size.height;
+    double ySetpoint95 = size.height - (95 / maxY) * size.height;
 
     // วาดเส้นประ 1
     drawDashedLine(canvas, paintDashed1, Offset(0, ySetpoint100),
         Offset(size.width + 30, ySetpoint100));
 
     // วาดเส้นประ 2
-    drawDashedLine(canvas, paintDashed2, Offset(0, ySetpoint90),
-        Offset(size.width + 30, ySetpoint90));
+    drawDashedLine(canvas, paintDashed2, Offset(0, ySetpoint95),
+        Offset(size.width + 30, ySetpoint95));
 
     final barWidth =
         (size.width / (kacVisitPercents.length * 2)) * 0.5; // ความกว้างของแท่ง

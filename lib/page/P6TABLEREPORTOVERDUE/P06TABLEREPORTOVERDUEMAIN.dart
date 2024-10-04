@@ -8,48 +8,48 @@ import '../../widget/common/Advancedropdown.dart';
 import '../../widget/common/ComInputTextTan.dart';
 import 'P06TABLEREPORTOVERDUEVAR.dart';
 
-late BuildContext P05TABLEREPORTOVERDUEMAINcontext;
+late BuildContext P06TABLEREPORTOVERDUEMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P05TABLEREPORTOVERDUEMAIN extends StatefulWidget {
-  P05TABLEREPORTOVERDUEMAIN({
+class P06TABLEREPORTOVERDUEMAIN extends StatefulWidget {
+  P06TABLEREPORTOVERDUEMAIN({
     super.key,
     this.data,
   });
-  List<P05TABLEREPORTOVERDUEGETDATAclass>? data;
+  List<P06TABLEREPORTOVERDUEGETDATAclass>? data;
 
   @override
-  State<P05TABLEREPORTOVERDUEMAIN> createState() =>
-      _P05TABLEREPORTOVERDUEMAINState();
+  State<P06TABLEREPORTOVERDUEMAIN> createState() =>
+      _P06TABLEREPORTOVERDUEMAINState();
 }
 
-class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
+class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
   @override
   void initState() {
     super.initState();
     context
-        .read<P05TABLEREPORTOVERDUEGETDATA_Bloc>()
-        .add(P05TABLEREPORTOVERDUEGETDATA_GET());
+        .read<P06TABLEREPORTOVERDUEGETDATA_Bloc>()
+        .add(P06TABLEREPORTOVERDUEGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P05TABLEREPORTOVERDUEMAINcontext = context;
-    List<P05TABLEREPORTOVERDUEGETDATAclass> _datain = widget.data ?? [];
+    P06TABLEREPORTOVERDUEMAINcontext = context;
+    List<P06TABLEREPORTOVERDUEGETDATAclass> _datain = widget.data ?? [];
 
 // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedGroup = (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty)
-        ? P05TABLEREPORTOVERDUEVAR.DropDownGroup
+    final selectedGroup = (P06TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty)
+        ? P06TABLEREPORTOVERDUEVAR.DropDownGroup
         : '1';
-    final selectedYear = (P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty)
-        ? P05TABLEREPORTOVERDUEVAR.DropDownYear
-        : P05TABLEREPORTOVERDUEVAR.currentYear;
-    final selectedMonth = (P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
-        ? P05TABLEREPORTOVERDUEVAR.DropDownMonth
-        : P05TABLEREPORTOVERDUEVAR.currentMonth;
+    final selectedYear = (P06TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty)
+        ? P06TABLEREPORTOVERDUEVAR.DropDownYear
+        : P06TABLEREPORTOVERDUEVAR.currentYear;
+    final selectedMonth = (P06TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+        ? P06TABLEREPORTOVERDUEVAR.DropDownMonth
+        : P06TABLEREPORTOVERDUEVAR.currentMonth;
 
 // กรองข้อมูลด้วยปีและเดือน
-    List<P05TABLEREPORTOVERDUEGETDATAclass> filteredData =
+    List<P06TABLEREPORTOVERDUEGETDATAclass> filteredData =
         _datain.where((data) {
       return data.MKTGROUP == selectedGroup &&
           data.YEAR == selectedYear &&
@@ -57,20 +57,20 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
     }).toList();
 
 // กรองข้อมูลในตารางด้วยการค้นหา
-    List<P05TABLEREPORTOVERDUEGETDATAclass> _datasearch = [];
+    List<P06TABLEREPORTOVERDUEGETDATAclass> _datasearch = [];
     _datasearch.addAll(
       filteredData.where(
         (data) =>
-            data.TYPE.toLowerCase().contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+            data.TYPE.toLowerCase().contains(P06TABLEREPORTOVERDUEVAR.SEARCH) ||
             data.GROUP
                 .toLowerCase()
-                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+                .contains(P06TABLEREPORTOVERDUEVAR.SEARCH) ||
             data.CUSTOMER
                 .toLowerCase()
-                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH) ||
+                .contains(P06TABLEREPORTOVERDUEVAR.SEARCH) ||
             data.INCHARGE
                 .toLowerCase()
-                .contains(P05TABLEREPORTOVERDUEVAR.SEARCH),
+                .contains(P06TABLEREPORTOVERDUEVAR.SEARCH),
       ),
     );
 
@@ -116,22 +116,49 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
           'request': data.REQUEST1,
           'ttcresult': data.TTCRESULT1,
           'issuedate': data.ISSUEDATE1,
-          'revise': data.REVISE1,
           'sublead': data.SUBLEAD1,
           'gl': data.GL1,
           'mgr': data.MGR1,
           'jp': data.JP1,
+          'revise1': data.REVISE1_1,
+          'sublead1': data.SUBLEAD1_1,
+          'gl1': data.GL1_1,
+          'mgr1': data.MGR1_1,
+          'jp1': data.JP1_1,
+          'revise2': data.REVISE1_2,
+          'sublead2': data.SUBLEAD1_1,
+          'gl2': data.GL1_2,
+          'mgr2': data.MGR1_2,
+          'jp2': data.JP1_2,
+          'revise3': data.REVISE1_3,
+          'sublead3': data.SUBLEAD1_3,
+          'gl3': data.GL1_3,
+          'mgr3': data.MGR1_3,
+          'jp3': data.JP1_3,
           'bdprepare': data.BDPREPARE1,
           'bdttc': data.BDTTC1,
           'bdissue': data.BDISSUE1,
-          'bdrevise': data.BDREVISE1,
           'bdsublead': data.BDSUBLEAD1,
           'bdgl': data.BDGL1,
           'bdmgr': data.BDMGR1,
           'bdjp': data.BDJP1,
+          'bdrevise1': data.BDREVISE1_1,
+          'bdsublead1': data.BDSUBLEAD1_1,
+          'bdgl1': data.BDGL1_1,
+          'bdmgr1': data.BDMGR1_1,
+          'bdjp1': data.BDJP1_1,
+          'bdrevise2': data.BDREVISE1_2,
+          'bdsublead2': data.BDSUBLEAD1_2,
+          'bdgl2': data.BDGL1_2,
+          'bdmgr2': data.BDMGR1_2,
+          'bdjp2': data.BDJP1_2,
+          'bdrevise3': data.BDREVISE1_3,
+          'bdsublead3': data.BDSUBLEAD1_3,
+          'bdgl3': data.BDGL1_3,
+          'bdmgr3': data.BDMGR1_3,
+          'bdjp3': data.BDJP1_3,
           'bdsent': data.BDSENT1,
           'reason': data.REASON1,
-          'action': data.ACTION1,
         };
         newData.add(transformedData1);
       }
@@ -159,22 +186,49 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
           'request': data.REQUEST2,
           'ttcresult': data.TTCRESULT2,
           'issuedate': data.ISSUEDATE2,
-          'revise': data.REVISE2,
           'sublead': data.SUBLEAD2,
           'gl': data.GL2,
           'mgr': data.MGR2,
           'jp': data.JP2,
+          'revise1': data.REVISE2_1,
+          'sublead1': data.SUBLEAD2_1,
+          'gl1': data.GL2_1,
+          'mgr1': data.MGR2_1,
+          'jp1': data.JP2_1,
+          'revise2': data.REVISE2_2,
+          'sublead2': data.SUBLEAD2_1,
+          'gl2': data.GL2_2,
+          'mgr2': data.MGR2_2,
+          'jp2': data.JP2_2,
+          'revise3': data.REVISE2_3,
+          'sublead3': data.SUBLEAD2_3,
+          'gl3': data.GL2_3,
+          'mgr3': data.MGR2_3,
+          'jp3': data.JP2_3,
           'bdprepare': data.BDPREPARE2,
           'bdttc': data.BDTTC2,
           'bdissue': data.BDISSUE2,
-          'bdrevise': data.BDREVISE2,
           'bdsublead': data.BDSUBLEAD2,
           'bdgl': data.BDGL2,
           'bdmgr': data.BDMGR2,
           'bdjp': data.BDJP2,
+          'bdrevise1': data.BDREVISE2_1,
+          'bdsublead1': data.BDSUBLEAD2_1,
+          'bdgl1': data.BDGL2_1,
+          'bdmgr1': data.BDMGR2_1,
+          'bdjp1': data.BDJP2_1,
+          'bdrevise2': data.BDREVISE2_2,
+          'bdsublead2': data.BDSUBLEAD2_2,
+          'bdgl2': data.BDGL2_2,
+          'bdmgr2': data.BDMGR2_2,
+          'bdjp2': data.BDJP2_2,
+          'bdrevise3': data.BDREVISE2_3,
+          'bdsublead3': data.BDSUBLEAD2_3,
+          'bdgl3': data.BDGL2_3,
+          'bdmgr3': data.BDMGR2_3,
+          'bdjp3': data.BDJP2_3,
           'bdsent': data.BDSENT2,
           'reason': data.REASON2,
-          'action': data.ACTION2,
         };
         newData.add(transformedData1);
       }
@@ -202,22 +256,49 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
           'request': data.REQUEST3,
           'ttcresult': data.TTCRESULT3,
           'issuedate': data.ISSUEDATE3,
-          'revise': data.REVISE3,
           'sublead': data.SUBLEAD3,
           'gl': data.GL3,
           'mgr': data.MGR3,
           'jp': data.JP3,
+          'revise1': data.REVISE3_1,
+          'sublead1': data.SUBLEAD3_1,
+          'gl1': data.GL3_1,
+          'mgr1': data.MGR3_1,
+          'jp1': data.JP3_1,
+          'revise2': data.REVISE3_2,
+          'sublead2': data.SUBLEAD3_1,
+          'gl2': data.GL3_2,
+          'mgr2': data.MGR3_2,
+          'jp2': data.JP3_2,
+          'revise3': data.REVISE3_3,
+          'sublead3': data.SUBLEAD3_3,
+          'gl3': data.GL3_3,
+          'mgr3': data.MGR3_3,
+          'jp3': data.JP3_3,
           'bdprepare': data.BDPREPARE3,
           'bdttc': data.BDTTC3,
           'bdissue': data.BDISSUE3,
-          'bdrevise': data.BDREVISE3,
           'bdsublead': data.BDSUBLEAD3,
           'bdgl': data.BDGL3,
           'bdmgr': data.BDMGR3,
           'bdjp': data.BDJP3,
+          'bdrevise1': data.BDREVISE3_1,
+          'bdsublead1': data.BDSUBLEAD3_1,
+          'bdgl1': data.BDGL3_1,
+          'bdmgr1': data.BDMGR3_1,
+          'bdjp1': data.BDJP3_1,
+          'bdrevise2': data.BDREVISE3_2,
+          'bdsublead2': data.BDSUBLEAD3_2,
+          'bdgl2': data.BDGL3_2,
+          'bdmgr2': data.BDMGR3_2,
+          'bdjp2': data.BDJP3_2,
+          'bdrevise3': data.BDREVISE3_3,
+          'bdsublead3': data.BDSUBLEAD3_3,
+          'bdgl3': data.BDGL3_3,
+          'bdmgr3': data.BDMGR3_3,
+          'bdjp3': data.BDJP3_3,
           'bdsent': data.BDSENT3,
           'reason': data.REASON3,
-          'action': data.ACTION3,
         };
         newData.add(transformedData1);
       }
@@ -245,22 +326,49 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
           'request': data.REQUEST4,
           'ttcresult': data.TTCRESULT4,
           'issuedate': data.ISSUEDATE4,
-          'revise': data.REVISE4,
           'sublead': data.SUBLEAD4,
           'gl': data.GL4,
           'mgr': data.MGR4,
           'jp': data.JP4,
+          'revise1': data.REVISE4_1,
+          'sublead1': data.SUBLEAD4_1,
+          'gl1': data.GL4_1,
+          'mgr1': data.MGR4_1,
+          'jp1': data.JP4_1,
+          'revise2': data.REVISE4_2,
+          'sublead2': data.SUBLEAD4_1,
+          'gl2': data.GL4_2,
+          'mgr2': data.MGR4_2,
+          'jp2': data.JP4_2,
+          'revise3': data.REVISE4_3,
+          'sublead3': data.SUBLEAD4_3,
+          'gl3': data.GL4_3,
+          'mgr3': data.MGR4_3,
+          'jp3': data.JP4_3,
           'bdprepare': data.BDPREPARE4,
           'bdttc': data.BDTTC4,
           'bdissue': data.BDISSUE4,
-          'bdrevise': data.BDREVISE4,
           'bdsublead': data.BDSUBLEAD4,
           'bdgl': data.BDGL4,
           'bdmgr': data.BDMGR4,
           'bdjp': data.BDJP4,
+          'bdrevise1': data.BDREVISE4_1,
+          'bdsublead1': data.BDSUBLEAD4_1,
+          'bdgl1': data.BDGL4_1,
+          'bdmgr1': data.BDMGR4_1,
+          'bdjp1': data.BDJP4_1,
+          'bdrevise2': data.BDREVISE4_2,
+          'bdsublead2': data.BDSUBLEAD4_2,
+          'bdgl2': data.BDGL4_2,
+          'bdmgr2': data.BDMGR4_2,
+          'bdjp2': data.BDJP4_2,
+          'bdrevise3': data.BDREVISE4_3,
+          'bdsublead3': data.BDSUBLEAD4_3,
+          'bdgl3': data.BDGL4_3,
+          'bdmgr3': data.BDMGR4_3,
+          'bdjp3': data.BDJP4_3,
           'bdsent': data.BDSENT4,
           'reason': data.REASON4,
-          'action': data.ACTION4,
         };
         newData.add(transformedData1);
       }
@@ -316,42 +424,42 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                     isSideIcon: false,
                     height: 30,
                     width: 400,
-                    isContr: P05TABLEREPORTOVERDUEVAR.iscontrol,
+                    isContr: P06TABLEREPORTOVERDUEVAR.iscontrol,
                     fnContr: (input) {
-                      P05TABLEREPORTOVERDUEVAR.iscontrol = input;
+                      P06TABLEREPORTOVERDUEVAR.iscontrol = input;
                     },
-                    sValue: P05TABLEREPORTOVERDUEVAR.SEARCH,
+                    sValue: P06TABLEREPORTOVERDUEVAR.SEARCH,
                     returnfunc: (String s) {
                       setState(() {
-                        P05TABLEREPORTOVERDUEVAR.SEARCH = s;
+                        P06TABLEREPORTOVERDUEVAR.SEARCH = s;
                       });
                     },
                   ),
                   MouseRegion(
                     onEnter: (_) {
                       setState(() {
-                        P05TABLEREPORTOVERDUEVAR.isHoveredClear = true;
+                        P06TABLEREPORTOVERDUEVAR.isHoveredClear = true;
                       });
                     },
                     onExit: (_) {
                       setState(() {
-                        P05TABLEREPORTOVERDUEVAR.isHoveredClear = false;
+                        P06TABLEREPORTOVERDUEVAR.isHoveredClear = false;
                       });
                     },
                     child: InkWell(
                       overlayColor: WidgetStateProperty.all(Colors.transparent),
                       onTap: () {
                         setState(() {
-                          P05TABLEREPORTOVERDUEVAR.isHoveredClear = false;
-                          P05TABLEREPORTOVERDUEVAR.iscontrol = true;
-                          P05TABLEREPORTOVERDUEVAR.SEARCH = '';
+                          P06TABLEREPORTOVERDUEVAR.isHoveredClear = false;
+                          P06TABLEREPORTOVERDUEVAR.iscontrol = true;
+                          P06TABLEREPORTOVERDUEVAR.SEARCH = '';
                         });
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: P05TABLEREPORTOVERDUEVAR.isHoveredClear
+                            color: P06TABLEREPORTOVERDUEVAR.isHoveredClear
                                 ? Colors.yellowAccent.shade700
                                 : Colors.redAccent.shade700,
                             width: 3.0,
@@ -373,10 +481,10 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                               ).createShader(bounds),
                               child: TweenAnimationBuilder<double>(
                                 tween: Tween<double>(
-                                  begin: P05TABLEREPORTOVERDUEVAR.isHoveredClear
+                                  begin: P06TABLEREPORTOVERDUEVAR.isHoveredClear
                                       ? 8
                                       : 8,
-                                  end: P05TABLEREPORTOVERDUEVAR.isHoveredClear
+                                  end: P06TABLEREPORTOVERDUEVAR.isHoveredClear
                                       ? 8
                                       : 8,
                                 ),
@@ -384,11 +492,11 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                 builder: (context, size, child) {
                                   return TweenAnimationBuilder<Color?>(
                                     tween: ColorTween(
-                                      begin: P05TABLEREPORTOVERDUEVAR
+                                      begin: P06TABLEREPORTOVERDUEVAR
                                               .isHoveredClear
                                           ? Colors.redAccent.shade700
                                           : Colors.yellowAccent.shade700,
-                                      end: P05TABLEREPORTOVERDUEVAR
+                                      end: P06TABLEREPORTOVERDUEVAR
                                               .isHoveredClear
                                           ? Colors.yellowAccent.shade700
                                           : Colors.redAccent.shade700,
@@ -416,8 +524,8 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                   ElevatedButton(
                     onPressed: () {
                       context
-                          .read<P05TABLEREPORTOVERDUEGETDATA_Bloc>()
-                          .add(P05TABLEREPORTOVERDUEGETDATA_GET());
+                          .read<P06TABLEREPORTOVERDUEGETDATA_Bloc>()
+                          .add(P06TABLEREPORTOVERDUEGETDATA_GET());
                     },
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
@@ -431,9 +539,9 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+                      if (P06TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -456,10 +564,10 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P05TABLEREPORTOVERDUEVAR.DropDownGroup = d;
+                            P06TABLEREPORTOVERDUEVAR.DropDownGroup = d;
                           });
                         },
-                        value: P05TABLEREPORTOVERDUEVAR.DropDownGroup,
+                        value: P06TABLEREPORTOVERDUEVAR.DropDownGroup,
                         height: 30,
                         width: 100,
                       ),
@@ -470,9 +578,9 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+                      if (P06TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -508,10 +616,10 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P05TABLEREPORTOVERDUEVAR.DropDownYear = d;
+                            P06TABLEREPORTOVERDUEVAR.DropDownYear = d;
                           });
                         },
-                        value: P05TABLEREPORTOVERDUEVAR.DropDownYear,
+                        value: P06TABLEREPORTOVERDUEVAR.DropDownYear,
                         height: 30,
                         width: 100,
                       ),
@@ -522,9 +630,9 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                   ),
                   Column(
                     children: [
-                      if (P05TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
-                          P05TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
+                      if (P06TABLEREPORTOVERDUEVAR.DropDownGroup.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownYear.isNotEmpty ||
+                          P06TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
                         SizedBox(
                           width: 100,
                           child: Text(
@@ -555,10 +663,10 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
-                            P05TABLEREPORTOVERDUEVAR.DropDownMonth = d;
+                            P06TABLEREPORTOVERDUEVAR.DropDownMonth = d;
                           });
                         },
-                        value: P05TABLEREPORTOVERDUEVAR.DropDownMonth,
+                        value: P06TABLEREPORTOVERDUEVAR.DropDownMonth,
                         height: 30,
                         width: 100,
                       ),
@@ -966,7 +1074,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                     children: [
                       SizedBox(
                         height: 20,
-                        width: 550,
+                        width: 1250,
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -1030,6 +1138,20 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                               8: FixedColumnWidth(50),
                               9: FixedColumnWidth(50),
                               10: FixedColumnWidth(50),
+                              11: FixedColumnWidth(50),
+                              12: FixedColumnWidth(50),
+                              13: FixedColumnWidth(50),
+                              14: FixedColumnWidth(50),
+                              15: FixedColumnWidth(50),
+                              16: FixedColumnWidth(50),
+                              17: FixedColumnWidth(50),
+                              18: FixedColumnWidth(50),
+                              19: FixedColumnWidth(50),
+                              20: FixedColumnWidth(50),
+                              21: FixedColumnWidth(50),
+                              22: FixedColumnWidth(50),
+                              23: FixedColumnWidth(50),
+                              24: FixedColumnWidth(50),
                             },
                             children: [
                               TableRow(
@@ -1093,7 +1215,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'Due date',
+                                            'Due\ndate',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1111,25 +1233,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'Issue date',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Revise\nreport',
+                                            'Issue\ndate',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1165,7 +1269,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'GL. sign',
+                                            'GL\nsign',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1183,7 +1287,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'Mgr.\nsign',
+                                            'MGR\nsign',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1201,7 +1305,277 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'JP. sign',
+                                            'JP\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'MGR\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'MGR\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'MGR\nsign 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 3',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1293,17 +1667,6 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         height: 20,
                                         child: Center(
                                           child: Text(
-                                            item['revise'] ?? '',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 20,
-                                        child: Center(
-                                          child: Text(
                                             item['sublead'] ?? '',
                                             style: TextStyle(fontSize: 10),
                                           ),
@@ -1347,6 +1710,168 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         height: 20,
                                         child: Center(
                                           child: Text(
+                                            item['revise1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['sublead1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['gl1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['mgr1'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['jp1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['revise2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['sublead2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['gl2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['mgr2'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['jp2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['revise3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['sublead3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['gl3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['mgr3'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['jp3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
                                             item['sent rep'] ?? '',
                                             style: TextStyle(fontSize: 10),
                                           ),
@@ -1366,7 +1891,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                     children: [
                       SizedBox(
                         height: 20,
-                        width: 550,
+                        width: 1250,
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -1430,6 +1955,20 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                               8: FixedColumnWidth(50),
                               9: FixedColumnWidth(50),
                               10: FixedColumnWidth(50),
+                              11: FixedColumnWidth(50),
+                              12: FixedColumnWidth(50),
+                              13: FixedColumnWidth(50),
+                              14: FixedColumnWidth(50),
+                              15: FixedColumnWidth(50),
+                              16: FixedColumnWidth(50),
+                              17: FixedColumnWidth(50),
+                              18: FixedColumnWidth(50),
+                              19: FixedColumnWidth(50),
+                              20: FixedColumnWidth(50),
+                              21: FixedColumnWidth(50),
+                              22: FixedColumnWidth(50),
+                              23: FixedColumnWidth(50),
+                              24: FixedColumnWidth(50),
                             },
                             children: [
                               TableRow(
@@ -1478,24 +2017,6 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         child: Center(
                                           child: Text(
                                             'Issue\nreport\nafter\nTTC\nanalysis',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Revise\nreport',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1567,7 +2088,277 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         color: Colors.white,
                                         child: Center(
                                           child: Text(
-                                            'Jp. sign',
+                                            'JP\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Mgr\nsign1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 1',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Mgr\nsign2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 2',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign 3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Mgr\nsign3',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign 3',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -1644,21 +2435,66 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                 final int bdissue = int.tryParse(
                                         item['bdissue']?.toString() ?? '0') ??
                                     0;
-                                final int bdrevise = int.tryParse(
-                                        item['bdrevise']?.toString() ?? '0') ??
-                                    0;
-                                final int bdsublead = int.tryParse(
+                                final double bdsublead = double.tryParse(
                                         item['bdsublead']?.toString() ?? '0') ??
-                                    0;
-                                final int bdgl = int.tryParse(
+                                    0.0;
+                                final double bdgl = double.tryParse(
                                         item['bdgl']?.toString() ?? '0') ??
-                                    0;
-                                final int bdmgr = int.tryParse(
+                                    0.0;
+                                final double bdmgr = double.tryParse(
                                         item['bdmgr']?.toString() ?? '0') ??
-                                    0;
-                                final int bdjp = int.tryParse(
+                                    0.0;
+                                final double bdjp = double.tryParse(
                                         item['bdjp']?.toString() ?? '0') ??
-                                    0;
+                                    0.0;
+                                final double bdrevise1 = double.tryParse(
+                                        item['bdrevise1']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdsublead1 = double.tryParse(
+                                        item['bdsublead1']?.toString() ??
+                                            '0') ??
+                                    0.0;
+                                final double bdgl1 = double.tryParse(
+                                        item['bdgl1']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdmgr1 = double.tryParse(
+                                        item['bdmgr1']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdjp1 = double.tryParse(
+                                        item['bdjp1']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdrevise2 = double.tryParse(
+                                        item['bdrevise2']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdsublead2 = double.tryParse(
+                                        item['bdsublead2']?.toString() ??
+                                            '0') ??
+                                    0.0;
+                                final double bdgl2 = double.tryParse(
+                                        item['bdgl2']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdmgr2 = double.tryParse(
+                                        item['bdmgr2']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdjp2 = double.tryParse(
+                                        item['bdjp2']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdrevise3 = double.tryParse(
+                                        item['bdrevise3']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdsublead3 = double.tryParse(
+                                        item['bdsublead3']?.toString() ??
+                                            '0') ??
+                                    0.0;
+                                final double bdgl3 = double.tryParse(
+                                        item['bdgl3']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdmgr3 = double.tryParse(
+                                        item['bdmgr3']?.toString() ?? '0') ??
+                                    0.0;
+                                final double bdjp3 = double.tryParse(
+                                        item['bdjp3']?.toString() ?? '0') ??
+                                    0.0;
                                 final int bdsent = int.tryParse(
                                         item['bdsent']?.toString() ?? '0') ??
                                     0;
@@ -1666,15 +2502,30 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         item['kpi period']?.toString() ??
                                             '0') ??
                                     0;
-                                final int SumTotalDay = bdprepare +
+                                final double avgSumbdrevise = calculateAverage(
+                                    bdrevise1, bdrevise2, bdrevise3, '');
+                                final double avgSumbdsublead = calculateAverage(
+                                    bdsublead,
+                                    bdsublead1,
+                                    bdsublead2,
+                                    bdsublead3);
+                                final double avgSumbdgl =
+                                    calculateAverage(bdgl, bdgl1, bdgl2, bdgl3);
+                                final double avgSumbdmgr = calculateAverage(
+                                    bdmgr, bdmgr1, bdmgr2, bdmgr3);
+                                final double avgSumbdjp =
+                                    calculateAverage(bdjp, bdjp1, bdjp2, bdjp3);
+                                final double SumTotalDay = bdprepare +
                                     bdttc +
                                     bdissue +
-                                    bdrevise +
-                                    bdsublead +
-                                    bdgl +
-                                    bdmgr +
-                                    bdjp +
+                                    avgSumbdrevise +
+                                    avgSumbdsublead +
+                                    avgSumbdgl +
+                                    avgSumbdmgr +
+                                    avgSumbdjp +
                                     bdsent;
+                                final double OverDueDay =
+                                    SumTotalDay - kpiperiod;
                                 return TableRow(
                                   children: [
                                     TableCell(
@@ -1704,17 +2555,6 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         child: Center(
                                           child: Text(
                                             item['bdissue'] ?? '',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 20,
-                                        child: Center(
-                                          child: Text(
-                                            item['bdrevise'] ?? '',
                                             style: TextStyle(fontSize: 10),
                                           ),
                                         ),
@@ -1767,6 +2607,168 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                       child: SizedBox(
                                         height: 20,
                                         child: Center(
+                                          child: Text(
+                                            item['bdrevise1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['bdsublead1'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdgl1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdmgr1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdjp1'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdrevise2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['bdsublead2'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdgl2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdmgr2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdjp2'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdrevise3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                            child: Text(
+                                          item['bdsublead3'] ?? '',
+                                          style: TextStyle(fontSize: 10),
+                                        )),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdgl3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdmgr3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: Text(
+                                            item['bdjp3'] ?? '',
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TableCell(
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Center(
                                             child: Text(
                                           item['bdsent'] ?? '',
                                           style: TextStyle(fontSize: 10),
@@ -1778,7 +2780,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         height: 20,
                                         child: Center(
                                           child: Text(
-                                            SumTotalDay.toString(),
+                                            SumTotalDay.toStringAsFixed(2),
                                             style: TextStyle(fontSize: 10),
                                           ),
                                         ),
@@ -1789,7 +2791,7 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                                         height: 20,
                                         child: Center(
                                           child: Text(
-                                            '${SumTotalDay - kpiperiod}',
+                                            OverDueDay.toStringAsFixed(2),
                                             style: TextStyle(fontSize: 10),
                                           ),
                                         ),
@@ -1871,344 +2873,6 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
                       }),
                     ],
                   ),
-                  Table(
-                    border: TableBorder(
-                      horizontalInside: BorderSide(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      verticalInside: BorderSide(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      top: BorderSide(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      right: BorderSide(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                      bottom: BorderSide(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                    ),
-                    columnWidths: const {
-                      0: FixedColumnWidth(250),
-                    },
-                    children: [
-                      TableRow(
-                        children: [
-                          TableCell(
-                            child: SizedBox(
-                              height: 80,
-                              child: Container(
-                                color: Colors.white,
-                                child: Center(
-                                  child: Text(
-                                    'Action',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      ...newData.map((item) {
-                        return TableRow(
-                          children: [
-                            TableCell(
-                              child: SizedBox(
-                                height: 20,
-                                child: Center(
-                                  child: Text(
-                                    item['action'] ?? '',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                        width: 460,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                              top: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              right: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Break down working Day (Day)',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Table(
-                            border: TableBorder(
-                              horizontalInside: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              verticalInside: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              top: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              right: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                              bottom: BorderSide(
-                                color: Colors.black,
-                                width: 1,
-                              ),
-                            ),
-                            columnWidths: const {
-                              0: FixedColumnWidth(50),
-                              1: FixedColumnWidth(50),
-                              2: FixedColumnWidth(50),
-                              3: FixedColumnWidth(70),
-                              4: FixedColumnWidth(50),
-                              5: FixedColumnWidth(50),
-                              6: FixedColumnWidth(90),
-                              7: FixedColumnWidth(50),
-                            },
-                            children: [
-                              TableRow(
-                                children: [
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Follow up\nOther\nProject',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'TTC Result\nLate',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Revise\nReport',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Approved\nfrom Leader\n,JP and MGR',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Re-check\nResult from\nTTC',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Prepare\nSample long\ntime',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Forgot Request Sample,Make Report,Send report',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: SizedBox(
-                                      height: 60,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Center(
-                                          child: Text(
-                                            'Other\n(Covid)',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // ..._datain.map((item) {
-                              //   return TableRow(
-                              //     children: [
-                              //       TableCell(
-                              //         child: SizedBox(
-                              //           height: 20,
-                              //           child: Center(
-                              //               child: Text(
-                              //             item.GROUP,
-                              //             style: TextStyle(fontSize: 10),
-                              //           )),
-                              //         ),
-                              //       ),
-                              //       TableCell(
-                              //         child: SizedBox(
-                              //           height: 20,
-                              //           child: Align(
-                              //             alignment: Alignment.centerLeft,
-                              //             child: Text(
-                              //               ' ${item.CUSTOMER}',
-                              //               style: TextStyle(fontSize: 10),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       TableCell(
-                              //         child: SizedBox(
-                              //           height: 20,
-                              //           child: Center(
-                              //             child: Text(
-                              //               item.FREQUENCY,
-                              //               style: TextStyle(fontSize: 10),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       TableCell(
-                              //         child: SizedBox(
-                              //           height: 20,
-                              //           child: Center(
-                              //             child: Text(
-                              //               item.INCHARGE,
-                              //               style: TextStyle(fontSize: 10),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   );
-                              // }),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -2223,4 +2887,30 @@ class _P05TABLEREPORTOVERDUEMAINState extends State<P05TABLEREPORTOVERDUEMAIN> {
       ),
     );
   }
+}
+
+double calculateAverage(
+    dynamic val1, dynamic val2, dynamic val3, dynamic val4) {
+  int count = 0;
+  double sum = 0.0;
+
+  if (val1 != 0 && val1 != '') {
+    sum += double.tryParse(val1.toString()) ?? 0;
+    count++;
+  }
+  if (val2 != 0 && val2 != '') {
+    sum += double.tryParse(val2.toString()) ?? 0;
+    count++;
+  }
+  if (val3 != 0 && val3 != '') {
+    sum += double.tryParse(val3.toString()) ?? 0;
+    count++;
+  }
+  if (val4 != 0 && val4 != '') {
+    sum += double.tryParse(val4.toString()) ?? 0;
+    count++;
+  }
+
+  // หากจำนวน count เป็น 0 ให้ return ค่า 0 เพื่อป้องกันการหารด้วย 0
+  return count > 0 ? sum / count : 0;
 }

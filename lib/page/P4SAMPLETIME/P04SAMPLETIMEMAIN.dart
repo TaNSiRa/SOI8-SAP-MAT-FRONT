@@ -89,7 +89,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'request': data.REQUEST1,
           'ttcresult': data.TTCRESULT1,
           'issuedate': data.ISSUEDATE1,
-          'revise': data.REVISE1,
           'sublead': data.SUBLEAD1,
           'gl': data.GL1,
           'mgr': data.MGR1,
@@ -97,14 +96,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'bdprepare': data.BDPREPARE1,
           'bdttc': data.BDTTC1,
           'bdissue': data.BDISSUE1,
-          'bdrevise': data.BDREVISE1,
           'bdsublead': data.BDSUBLEAD1,
           'bdgl': data.BDGL1,
           'bdmgr': data.BDMGR1,
           'bdjp': data.BDJP1,
           'bdsent': data.BDSENT1,
           'reason': data.REASON1,
-          'action': data.ACTION1,
         };
         IssueData.add(transformedData);
       }
@@ -132,7 +129,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'request': data.REQUEST2,
           'ttcresult': data.TTCRESULT2,
           'issuedate': data.ISSUEDATE2,
-          'revise': data.REVISE2,
           'sublead': data.SUBLEAD2,
           'gl': data.GL2,
           'mgr': data.MGR2,
@@ -140,14 +136,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'bdprepare': data.BDPREPARE2,
           'bdttc': data.BDTTC2,
           'bdissue': data.BDISSUE2,
-          'bdrevise': data.BDREVISE2,
           'bdsublead': data.BDSUBLEAD2,
           'bdgl': data.BDGL2,
           'bdmgr': data.BDMGR2,
           'bdjp': data.BDJP2,
           'bdsent': data.BDSENT2,
           'reason': data.REASON2,
-          'action': data.ACTION2,
         };
         IssueData.add(transformedData);
       }
@@ -175,7 +169,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'request': data.REQUEST3,
           'ttcresult': data.TTCRESULT3,
           'issuedate': data.ISSUEDATE3,
-          'revise': data.REVISE3,
           'sublead': data.SUBLEAD3,
           'gl': data.GL3,
           'mgr': data.MGR3,
@@ -183,14 +176,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'bdprepare': data.BDPREPARE3,
           'bdttc': data.BDTTC3,
           'bdissue': data.BDISSUE3,
-          'bdrevise': data.BDREVISE3,
           'bdsublead': data.BDSUBLEAD3,
           'bdgl': data.BDGL3,
           'bdmgr': data.BDMGR3,
           'bdjp': data.BDJP3,
           'bdsent': data.BDSENT3,
           'reason': data.REASON3,
-          'action': data.ACTION3,
         };
         IssueData.add(transformedData);
       }
@@ -218,7 +209,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'request': data.REQUEST4,
           'ttcresult': data.TTCRESULT4,
           'issuedate': data.ISSUEDATE4,
-          'revise': data.REVISE4,
           'sublead': data.SUBLEAD4,
           'gl': data.GL4,
           'mgr': data.MGR4,
@@ -226,14 +216,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
           'bdprepare': data.BDPREPARE4,
           'bdttc': data.BDTTC4,
           'bdissue': data.BDISSUE4,
-          'bdrevise': data.BDREVISE4,
           'bdsublead': data.BDSUBLEAD4,
           'bdgl': data.BDGL4,
           'bdmgr': data.BDMGR4,
           'bdjp': data.BDJP4,
           'bdsent': data.BDSENT4,
           'reason': data.REASON4,
-          'action': data.ACTION4,
         };
         IssueData.add(transformedData);
       }
@@ -264,7 +252,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'request': data.REQUEST1,
         'ttcresult': data.TTCRESULT1,
         'issuedate': data.ISSUEDATE1,
-        'revise': data.REVISE1,
         'sublead': data.SUBLEAD1,
         'gl': data.GL1,
         'mgr': data.MGR1,
@@ -272,14 +259,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'bdprepare': data.BDPREPARE1,
         'bdttc': data.BDTTC1,
         'bdissue': data.BDISSUE1,
-        'bdrevise': data.BDREVISE1,
         'bdsublead': data.BDSUBLEAD1,
         'bdgl': data.BDGL1,
         'bdmgr': data.BDMGR1,
         'bdjp': data.BDJP1,
         'bdsent': data.BDSENT1,
         'reason': data.REASON1,
-        'action': data.ACTION1,
       };
       AllData.add(transformedData1);
 
@@ -305,7 +290,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'request': data.REQUEST2,
         'ttcresult': data.TTCRESULT2,
         'issuedate': data.ISSUEDATE2,
-        'revise': data.REVISE2,
         'sublead': data.SUBLEAD2,
         'gl': data.GL2,
         'mgr': data.MGR2,
@@ -313,14 +297,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'bdprepare': data.BDPREPARE2,
         'bdttc': data.BDTTC2,
         'bdissue': data.BDISSUE2,
-        'bdrevise': data.BDREVISE2,
         'bdsublead': data.BDSUBLEAD2,
         'bdgl': data.BDGL2,
         'bdmgr': data.BDMGR2,
         'bdjp': data.BDJP2,
         'bdsent': data.BDSENT2,
         'reason': data.REASON2,
-        'action': data.ACTION2,
       };
       AllData.add(transformedData2);
 
@@ -346,7 +328,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'request': data.REQUEST3,
         'ttcresult': data.TTCRESULT3,
         'issuedate': data.ISSUEDATE3,
-        'revise': data.REVISE3,
         'sublead': data.SUBLEAD3,
         'gl': data.GL3,
         'mgr': data.MGR3,
@@ -354,14 +335,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'bdprepare': data.BDPREPARE3,
         'bdttc': data.BDTTC3,
         'bdissue': data.BDISSUE3,
-        'bdrevise': data.BDREVISE3,
         'bdsublead': data.BDSUBLEAD3,
         'bdgl': data.BDGL3,
         'bdmgr': data.BDMGR3,
         'bdjp': data.BDJP3,
         'bdsent': data.BDSENT3,
         'reason': data.REASON3,
-        'action': data.ACTION3,
       };
       AllData.add(transformedData3);
 
@@ -387,7 +366,6 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'request': data.REQUEST4,
         'ttcresult': data.TTCRESULT4,
         'issuedate': data.ISSUEDATE4,
-        'revise': data.REVISE4,
         'sublead': data.SUBLEAD4,
         'gl': data.GL4,
         'mgr': data.MGR4,
@@ -395,14 +373,12 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         'bdprepare': data.BDPREPARE4,
         'bdttc': data.BDTTC4,
         'bdissue': data.BDISSUE4,
-        'bdrevise': data.BDREVISE4,
         'bdsublead': data.BDSUBLEAD4,
         'bdgl': data.BDGL4,
         'bdmgr': data.BDMGR4,
         'bdjp': data.BDJP4,
         'bdsent': data.BDSENT4,
         'reason': data.REASON4,
-        'action': data.ACTION4,
       };
       AllData.add(transformedData4);
     }

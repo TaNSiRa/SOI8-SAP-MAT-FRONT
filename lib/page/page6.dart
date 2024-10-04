@@ -22,9 +22,9 @@ class Page6blockget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => P05TABLEREPORTOVERDUEGETDATA_Bloc(),
-        child: BlocBuilder<P05TABLEREPORTOVERDUEGETDATA_Bloc,
-            List<P05TABLEREPORTOVERDUEGETDATAclass>>(
+        create: (_) => P06TABLEREPORTOVERDUEGETDATA_Bloc(),
+        child: BlocBuilder<P06TABLEREPORTOVERDUEGETDATA_Bloc,
+            List<P06TABLEREPORTOVERDUEGETDATAclass>>(
           builder: (context, data) {
             return Page6Body(
               data: data,
@@ -39,10 +39,10 @@ class Page6Body extends StatelessWidget {
     super.key,
     this.data,
   });
-  List<P05TABLEREPORTOVERDUEGETDATAclass>? data;
+  List<P06TABLEREPORTOVERDUEGETDATAclass>? data;
   @override
   Widget build(BuildContext context) {
-    return P05TABLEREPORTOVERDUEMAIN(
+    return P06TABLEREPORTOVERDUEMAIN(
       data: data,
     );
   }

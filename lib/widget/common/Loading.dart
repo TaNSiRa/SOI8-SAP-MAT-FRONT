@@ -133,7 +133,7 @@ void FreeLoadingTan(BuildContext contextin) {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
-              height: 80,
+              height: 100,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
