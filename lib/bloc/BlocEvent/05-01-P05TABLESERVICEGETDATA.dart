@@ -1,8 +1,9 @@
+// ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_print, use_build_context_synchronously, file_names
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../data/dummydata2.dart';
 import '../../page/P5TABLESERVICE/P05TABLESERVICEMAIN.dart';
 import '../../widget/common/Loading.dart';
 
