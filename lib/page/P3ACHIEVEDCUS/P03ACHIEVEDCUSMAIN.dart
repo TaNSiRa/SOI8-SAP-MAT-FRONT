@@ -807,7 +807,13 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
       int AllReport = AllData.where((item) =>
           item['type'] == selectedType &&
           item['month'] == month &&
-          item['year'] == selectedYear).length;
+          item['year'] == selectedYear &&
+          item['freq'] != '' &&
+          item['plan sam'] != '' &&
+          item['act sam'] != '' &&
+          item['rep due'] != '' &&
+          item['sent rep'] != '' &&
+          item['rep days'] != '').length;
       AllReportMonths[month] = AllReport;
     }
 

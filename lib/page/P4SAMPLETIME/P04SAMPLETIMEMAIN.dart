@@ -392,7 +392,13 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
     double AllReport = AllData.where((item) =>
         item['type'] == selectedType &&
         item['month'] == selectedMonth &&
-        item['year'] == selectedYear).length.toDouble();
+        item['year'] == selectedYear &&
+        item['freq'] != '' &&
+        item['plan sam'] != '' &&
+        item['act sam'] != '' &&
+        item['rep due'] != '' &&
+        item['sent rep'] != '' &&
+        item['rep days'] != '').length.toDouble();
     AllReport = double.parse(AllReport.toStringAsFixed(1));
 
     double SuccessReport = AllReport - IssueReport;
