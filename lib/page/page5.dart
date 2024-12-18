@@ -34,16 +34,41 @@ class Page5blockget extends StatelessWidget {
   }
 }
 
+// class Page5blockget1 extends StatelessWidget {
+//   Page5blockget1({
+//     super.key,
+//     this.data,
+//   });
+//   List<P05TABLESERVICEGETDATAclass>? data;
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//         create: (_) => P05TABLESERVICEGETDATA1_Bloc(),
+//         child: BlocBuilder<P05TABLESERVICEGETDATA1_Bloc,
+//             List<P05TABLESERVICEGETDATA1class>>(
+//           builder: (context, data1) {
+//             return Page5Body(
+//               data: data,
+//               // data1: data1,
+//             );
+//           },
+//         ));
+//   }
+// }
+
 class Page5Body extends StatelessWidget {
   Page5Body({
     super.key,
     this.data,
+    // this.data1,
   });
   List<P05TABLESERVICEGETDATAclass>? data;
+  // List<P05TABLESERVICEGETDATA1class>? data1;
   @override
   Widget build(BuildContext context) {
     return P05TABLESERVICEMAIN(
       data: data,
+      // data1: data1,
     );
   }
 }

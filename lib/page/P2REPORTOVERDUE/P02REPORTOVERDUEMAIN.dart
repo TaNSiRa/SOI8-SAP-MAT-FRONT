@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, avoid_print, file_names, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, avoid_print, file_names, no_leading_underscores_for_local_identifiers, unnecessary_null_comparison
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/BlocEvent/02-01-P02REPORTOVERDUEGETDATA.dart';
@@ -40,9 +40,9 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
     final selectedYear = (P02REPORTOVERDUEVAR.DropDownYear.isNotEmpty)
         ? P02REPORTOVERDUEVAR.DropDownYear
         : P02REPORTOVERDUEVAR.currentYear;
-    final selectedMonth = (P02REPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
-        ? P02REPORTOVERDUEVAR.DropDownMonth
-        : P02REPORTOVERDUEVAR.currentMonth;
+    // แปลง MM เป็น MMM
+    final selectedMonthMMM = P02REPORTOVERDUEVAR
+        .convertMonthToMMM(P02REPORTOVERDUEVAR.DropDownMonth);
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
@@ -65,18 +65,24 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
         P02REPORTOVERDUEVAR.GroupAsampleTime;
 
     // กำหนด Period ตาม selectedType
-    final typeValue = (selectedType == 'Group A')
+    final typeValue = (selectedType == 'A')
         ? 12
-        : (selectedType == 'Group B')
+        : (selectedType == 'B')
             ? 10
             : 0;
 
     // กรองข้อมูลด้วย Type ,YEAR ,MONTH
     List<P02REPORTOVERDUEGETDATAclass> filteredData = _datain.where((data) {
-      return data.TYPE == selectedType &&
+      return data.TYPE == 'Group ${selectedType}' &&
           data.YEAR == selectedYear &&
-          data.MONTH == selectedMonth;
+          data.MONTH == P02REPORTOVERDUEVAR.DropDownMonth;
     }).toList();
+    // List<P02REPORTOVERDUEGETDATAclass> filteredData = _datain.where((data) {
+    //   return data.TYPE == 'Group A' &&
+    //       data.YEAR == '2024' &&
+    //       data.MONTH == '09';
+    // }).toList();
+    print(filteredData.length);
 
     //แยกข้อมูล week 1-4
     List<Map<String, String>> newData = [];
@@ -84,164 +90,385 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
+        List<double> bdReviseValues1 = [
+          data.BDREVISE1_1,
+          data.BDREVISE1_2,
+          data.BDREVISE1_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdSubLeadValues1 = [
+          data.BDSUBLEAD1,
+          data.BDSUBLEAD1_1,
+          data.BDSUBLEAD1_2,
+          data.BDSUBLEAD1_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdGLValues1 = [
+          data.BDGL1,
+          data.BDGL1_1,
+          data.BDGL1_2,
+          data.BDGL1_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdMGRValues1 = [
+          data.BDMGR1,
+          data.BDMGR1_1,
+          data.BDMGR1_2,
+          data.BDMGR1_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdJPValues1 = [
+          data.BDJP1,
+          data.BDJP1_1,
+          data.BDJP1_2,
+          data.BDJP1_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        double bdrevise1 = bdReviseValues1.isNotEmpty
+            ? bdReviseValues1.reduce((a, b) => a + b) / bdReviseValues1.length
+            : 0;
+        double bdsublead1 = bdSubLeadValues1.isNotEmpty
+            ? bdSubLeadValues1.reduce((a, b) => a + b) / bdSubLeadValues1.length
+            : 0;
+        double bdgl1 = bdGLValues1.isNotEmpty
+            ? bdGLValues1.reduce((a, b) => a + b) / bdGLValues1.length
+            : 0;
+        double bdmgr1 = bdMGRValues1.isNotEmpty
+            ? bdMGRValues1.reduce((a, b) => a + b) / bdMGRValues1.length
+            : 0;
+        double bdjp1 = bdJPValues1.isNotEmpty
+            ? bdJPValues1.reduce((a, b) => a + b) / bdJPValues1.length
+            : 0;
+
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
-          'mktgroup': data.MKTGROUP,
-          'group': data.GROUP,
-          'customer': data.CUSTOMER,
-          'frequency': data.FREQUENCY,
-          'incharge': data.INCHARGE,
-          'kpi serv': data.KPISERV,
-          'kpi period': data.KPIPERIOD,
-          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
-          'freq': data.FREQ1,
-          'plan sam': data.PLANSAM1,
-          'act sam': data.ACTSAM1,
-          'rep due': data.REPDUE1,
-          'sent rep': data.SENTREP1,
-          'rep days': data.REPDAYS1,
-          'request': data.REQUEST1,
-          'ttcresult': data.TTCRESULT1,
-          'issuedate': data.ISSUEDATE1,
-          'sublead': data.SUBLEAD1,
-          'gl': data.GL1,
-          'mgr': data.MGR1,
-          'jp': data.JP1,
           'bdprepare': data.BDPREPARE1,
           'bdttc': data.BDTTC1,
           'bdissue': data.BDISSUE1,
-          'bdsublead': data.BDSUBLEAD1,
-          'bdgl': data.BDGL1,
-          'bdmgr': data.BDMGR1,
-          'bdjp': data.BDJP1,
+          'bdrevise': bdrevise1.toString(),
+          'bdsublead': bdsublead1.toString(),
+          'bdgl': bdgl1.toString(),
+          'bdmgr': bdmgr1.toString(),
+          'bdjp': bdjp1.toString(),
           'bdsent': data.BDSENT1,
-          'reason': data.REASON1,
         };
         newData.add(transformedData1);
       }
+
       if (data.REPDAYS2.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
           int.tryParse(data.REPDAYS2)! > int.tryParse(data.KPIPERIOD)!) {
+        List<double> bdReviseValues2 = [
+          data.BDREVISE2_1,
+          data.BDREVISE2_2,
+          data.BDREVISE2_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdSubLeadValues2 = [
+          data.BDSUBLEAD2,
+          data.BDSUBLEAD2_1,
+          data.BDSUBLEAD2_2,
+          data.BDSUBLEAD2_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdGLValues2 = [
+          data.BDGL2,
+          data.BDGL2_1,
+          data.BDGL2_2,
+          data.BDGL2_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdMGRValues2 = [
+          data.BDMGR2,
+          data.BDMGR2_1,
+          data.BDMGR2_2,
+          data.BDMGR2_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdJPValues2 = [
+          data.BDJP2,
+          data.BDJP2_1,
+          data.BDJP2_2,
+          data.BDJP2_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        double bdrevise2 = bdReviseValues2.isNotEmpty
+            ? bdReviseValues2.reduce((a, b) => a + b) / bdReviseValues2.length
+            : 0;
+        double bdsublead2 = bdSubLeadValues2.isNotEmpty
+            ? bdSubLeadValues2.reduce((a, b) => a + b) / bdSubLeadValues2.length
+            : 0;
+        double bdgl2 = bdGLValues2.isNotEmpty
+            ? bdGLValues2.reduce((a, b) => a + b) / bdGLValues2.length
+            : 0;
+        double bdmgr2 = bdMGRValues2.isNotEmpty
+            ? bdMGRValues2.reduce((a, b) => a + b) / bdMGRValues2.length
+            : 0;
+        double bdjp2 = bdJPValues2.isNotEmpty
+            ? bdJPValues2.reduce((a, b) => a + b) / bdJPValues2.length
+            : 0;
+
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
-          'mktgroup': data.MKTGROUP,
-          'group': data.GROUP,
-          'customer': data.CUSTOMER,
-          'frequency': data.FREQUENCY,
-          'incharge': data.INCHARGE,
-          'kpi serv': data.KPISERV,
-          'kpi period': data.KPIPERIOD,
-          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
-          'freq': data.FREQ2,
-          'plan sam': data.PLANSAM2,
-          'act sam': data.ACTSAM2,
-          'rep due': data.REPDUE2,
-          'sent rep': data.SENTREP2,
-          'rep days': data.REPDAYS2,
-          'request': data.REQUEST2,
-          'ttcresult': data.TTCRESULT2,
-          'issuedate': data.ISSUEDATE2,
-          'sublead': data.SUBLEAD2,
-          'gl': data.GL2,
-          'mgr': data.MGR2,
-          'jp': data.JP2,
           'bdprepare': data.BDPREPARE2,
           'bdttc': data.BDTTC2,
           'bdissue': data.BDISSUE2,
-          'bdsublead': data.BDSUBLEAD2,
-          'bdgl': data.BDGL2,
-          'bdmgr': data.BDMGR2,
-          'bdjp': data.BDJP2,
+          'bdrevise': bdrevise2.toString(),
+          'bdsublead': bdsublead2.toString(),
+          'bdgl': bdgl2.toString(),
+          'bdmgr': bdmgr2.toString(),
+          'bdjp': bdjp2.toString(),
           'bdsent': data.BDSENT2,
-          'reason': data.REASON2,
         };
         newData.add(transformedData1);
       }
+
       if (data.REPDAYS3.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
           int.tryParse(data.REPDAYS3)! > int.tryParse(data.KPIPERIOD)!) {
+        List<double> bdReviseValues3 = [
+          data.BDREVISE3_1,
+          data.BDREVISE3_2,
+          data.BDREVISE3_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdSubLeadValues3 = [
+          data.BDSUBLEAD3,
+          data.BDSUBLEAD3_1,
+          data.BDSUBLEAD3_2,
+          data.BDSUBLEAD3_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdGLValues3 = [
+          data.BDGL3,
+          data.BDGL3_1,
+          data.BDGL3_2,
+          data.BDGL3_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdMGRValues3 = [
+          data.BDMGR3,
+          data.BDMGR3_1,
+          data.BDMGR3_2,
+          data.BDMGR3_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdJPValues3 = [
+          data.BDJP3,
+          data.BDJP3_1,
+          data.BDJP3_2,
+          data.BDJP3_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        double bdrevise3 = bdReviseValues3.isNotEmpty
+            ? bdReviseValues3.reduce((a, b) => a + b) / bdReviseValues3.length
+            : 0;
+        double bdsublead3 = bdSubLeadValues3.isNotEmpty
+            ? bdSubLeadValues3.reduce((a, b) => a + b) / bdSubLeadValues3.length
+            : 0;
+        double bdgl3 = bdGLValues3.isNotEmpty
+            ? bdGLValues3.reduce((a, b) => a + b) / bdGLValues3.length
+            : 0;
+        double bdmgr3 = bdMGRValues3.isNotEmpty
+            ? bdMGRValues3.reduce((a, b) => a + b) / bdMGRValues3.length
+            : 0;
+        double bdjp3 = bdJPValues3.isNotEmpty
+            ? bdJPValues3.reduce((a, b) => a + b) / bdJPValues3.length
+            : 0;
+
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
-          'mktgroup': data.MKTGROUP,
-          'group': data.GROUP,
-          'customer': data.CUSTOMER,
-          'frequency': data.FREQUENCY,
-          'incharge': data.INCHARGE,
-          'kpi serv': data.KPISERV,
-          'kpi period': data.KPIPERIOD,
-          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
-          'freq': data.FREQ3,
-          'plan sam': data.PLANSAM3,
-          'act sam': data.ACTSAM3,
-          'rep due': data.REPDUE3,
-          'sent rep': data.SENTREP3,
-          'rep days': data.REPDAYS3,
-          'request': data.REQUEST3,
-          'ttcresult': data.TTCRESULT3,
-          'issuedate': data.ISSUEDATE3,
-          'sublead': data.SUBLEAD3,
-          'gl': data.GL3,
-          'mgr': data.MGR3,
-          'jp': data.JP3,
           'bdprepare': data.BDPREPARE3,
           'bdttc': data.BDTTC3,
           'bdissue': data.BDISSUE3,
-          'bdsublead': data.BDSUBLEAD3,
-          'bdgl': data.BDGL3,
-          'bdmgr': data.BDMGR3,
-          'bdjp': data.BDJP3,
+          'bdrevise': bdrevise3.toString(),
+          'bdsublead': bdsublead3.toString(),
+          'bdgl': bdgl3.toString(),
+          'bdmgr': bdmgr3.toString(),
+          'bdjp': bdjp3.toString(),
           'bdsent': data.BDSENT3,
-          'reason': data.REASON3,
         };
         newData.add(transformedData1);
       }
+
       if (data.REPDAYS4.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
           int.tryParse(data.REPDAYS4)! > int.tryParse(data.KPIPERIOD)!) {
+        // ตรวจสอบค่าที่ไม่ใช่ null หรือ empty สำหรับ bdrevise
+        List<double> bdReviseValues4 = [
+          data.BDREVISE4_1,
+          data.BDREVISE4_2,
+          data.BDREVISE4_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!) // ใช้ map เพื่อให้แน่ใจว่าทุกค่าคือ double
+            .toList();
+
+        List<double> bdSubLeadValues4 = [
+          data.BDSUBLEAD4,
+          data.BDSUBLEAD4_1,
+          data.BDSUBLEAD4_2,
+          data.BDSUBLEAD4_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdGLValues4 = [
+          data.BDGL4,
+          data.BDGL4_1,
+          data.BDGL4_2,
+          data.BDGL4_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdMGRValues4 = [
+          data.BDMGR4,
+          data.BDMGR4_1,
+          data.BDMGR4_2,
+          data.BDMGR4_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        List<double> bdJPValues4 = [
+          data.BDJP4,
+          data.BDJP4_1,
+          data.BDJP4_2,
+          data.BDJP4_3
+        ]
+            .map((value) =>
+                value != null ? double.tryParse(value.toString()) : null)
+            .where((value) => value != null)
+            .map((value) => value!)
+            .toList();
+
+        double bdrevise4 = bdReviseValues4.isNotEmpty
+            ? bdReviseValues4.reduce((a, b) => a + b) / bdReviseValues4.length
+            : 0;
+        double bdsublead4 = bdSubLeadValues4.isNotEmpty
+            ? bdSubLeadValues4.reduce((a, b) => a + b) / bdSubLeadValues4.length
+            : 0;
+        double bdgl4 = bdGLValues4.isNotEmpty
+            ? bdGLValues4.reduce((a, b) => a + b) / bdGLValues4.length
+            : 0;
+        double bdmgr4 = bdMGRValues4.isNotEmpty
+            ? bdMGRValues4.reduce((a, b) => a + b) / bdMGRValues4.length
+            : 0;
+        double bdjp4 = bdJPValues4.isNotEmpty
+            ? bdJPValues4.reduce((a, b) => a + b) / bdJPValues4.length
+            : 0;
+
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
-          'mktgroup': data.MKTGROUP,
-          'group': data.GROUP,
-          'customer': data.CUSTOMER,
-          'frequency': data.FREQUENCY,
-          'incharge': data.INCHARGE,
-          'kpi serv': data.KPISERV,
-          'kpi period': data.KPIPERIOD,
-          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
-          'freq': data.FREQ4,
-          'plan sam': data.PLANSAM4,
-          'act sam': data.ACTSAM4,
-          'rep due': data.REPDUE4,
-          'sent rep': data.SENTREP4,
-          'rep days': data.REPDAYS4,
-          'request': data.REQUEST4,
-          'ttcresult': data.TTCRESULT4,
-          'issuedate': data.ISSUEDATE4,
-          'sublead': data.SUBLEAD4,
-          'gl': data.GL4,
-          'mgr': data.MGR4,
-          'jp': data.JP4,
           'bdprepare': data.BDPREPARE4,
           'bdttc': data.BDTTC4,
           'bdissue': data.BDISSUE4,
-          'bdsublead': data.BDSUBLEAD4,
-          'bdgl': data.BDGL4,
-          'bdmgr': data.BDMGR4,
-          'bdjp': data.BDJP4,
+          'bdrevise': bdrevise4.toString(),
+          'bdsublead': bdsublead4.toString(),
+          'bdgl': bdgl4.toString(),
+          'bdmgr': bdmgr4.toString(),
+          'bdjp': bdjp4.toString(),
           'bdsent': data.BDSENT4,
-          'reason': data.REASON4,
         };
         newData.add(transformedData1);
       }
     }
+    print("newData: $newData");
 
     // Sum ข้อมูลแต่ะชุด
     List<double> avgAllBreakdown = [];
@@ -274,11 +501,11 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
             bdsent;
         return sumTotalDay;
       }).toList();
-
+      print("sumList: $sumList");
       // หา Avg ของ sumList
       if (sumList.isNotEmpty) {
         double avgTotal = sumList.reduce((a, b) => a + b) / sumList.length;
-        avgTotal = double.parse(avgTotal.toStringAsFixed(1));
+        avgTotal = double.parse(avgTotal.toStringAsFixed(2));
 
         // ใส่ avgTotal เป็นตัวแรกใน avgAllBreakdown
         avgAllBreakdown.insert(0, avgTotal);
@@ -296,19 +523,20 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
           'bdprepare',
         ]) {
           var filteredItems = newData
-              .where((item) =>
-                  item['type'] == selectedType &&
-                  item['month'] == selectedMonth &&
-                  item['year'] == selectedYear)
+              // .where((item) =>
+              //     item['type'] == selectedType &&
+              //     item['month'] == P02REPORTOVERDUEVAR.DropDownMonth &&
+              //     item['year'] == selectedYear)
               .toList();
 
           if (filteredItems.isNotEmpty) {
             double AvgBreakdown = filteredItems
-                    .map((item) => (int.tryParse(item[breakdown] ?? '0') ?? 0))
-                    .fold(0, (sum, freq) => sum + freq) /
+                    .map((item) =>
+                        (double.tryParse(item[breakdown] ?? '0.0') ?? 0.0))
+                    .fold(0.0, (sum, freq) => sum + freq) /
                 filteredItems.length;
 
-            AvgBreakdown = double.parse(AvgBreakdown.toStringAsFixed(1));
+            AvgBreakdown = double.parse(AvgBreakdown.toStringAsFixed(2));
             avgAllBreakdown.add(AvgBreakdown);
           }
         }
@@ -316,7 +544,7 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
         print("sumList is empty.");
       }
     } else {}
-
+    print("avgAllBreakdown: $avgAllBreakdown");
     return Scrollbar(
       controller: _controllerIN01,
       thumbVisibility: true,
@@ -356,7 +584,7 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                 ),
                 Center(
                   child: Text(
-                    'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonth $selectedYear)',
+                    'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonthMMM $selectedYear)',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -438,13 +666,16 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                 AdvanceDropDown(
                                   hint: "TYPE",
                                   listdropdown: const [
-                                    MapEntry("TYPE", ""),
-                                    MapEntry("Group A", "Group A"),
-                                    MapEntry("Group B", "Group B"),
+                                    // MapEntry("TYPE", ""),
+                                    MapEntry("Group A", "A"),
+                                    MapEntry("Group B", "B"),
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P02REPORTOVERDUEVAR.DropDownType = d;
+                                      // context
+                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
                                     });
                                   },
                                   value: P02REPORTOVERDUEVAR.DropDownType,
@@ -477,7 +708,8 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                 AdvanceDropDown(
                                   hint: "YEAR",
                                   listdropdown: const [
-                                    MapEntry("YEAR", ""),
+                                    // MapEntry("YEAR", ""),
+                                    MapEntry("2023", "2023"),
                                     MapEntry("2024", "2024"),
                                     MapEntry("2025", "2025"),
                                     MapEntry("2026", "2026"),
@@ -499,6 +731,9 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P02REPORTOVERDUEVAR.DropDownYear = d;
+                                      // context
+                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
                                     });
                                   },
                                   value: P02REPORTOVERDUEVAR.DropDownYear,
@@ -531,23 +766,26 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                 AdvanceDropDown(
                                   hint: "MONTH",
                                   listdropdown: const [
-                                    MapEntry("MONTH", ""),
-                                    MapEntry("Jan", "Jan"),
-                                    MapEntry("Feb", "Feb"),
-                                    MapEntry("Mar", "Mar"),
-                                    MapEntry("Apr", "Apr"),
-                                    MapEntry("May", "May"),
-                                    MapEntry("Jun", "Jun"),
-                                    MapEntry("Jul", "Jul"),
-                                    MapEntry("Aug", "Aug"),
-                                    MapEntry("Sep", "Sep"),
-                                    MapEntry("Oct", "Oct"),
-                                    MapEntry("Nov", "Nov"),
-                                    MapEntry("Dec", "Dec"),
+                                    // MapEntry("MONTH", ""),
+                                    MapEntry("Jan", "01"),
+                                    MapEntry("Feb", "02"),
+                                    MapEntry("Mar", "03"),
+                                    MapEntry("Apr", "04"),
+                                    MapEntry("May", "05"),
+                                    MapEntry("Jun", "06"),
+                                    MapEntry("Jul", "07"),
+                                    MapEntry("Aug", "08"),
+                                    MapEntry("Sep", "09"),
+                                    MapEntry("Oct", "10"),
+                                    MapEntry("Nov", "11"),
+                                    MapEntry("Dec", "12"),
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P02REPORTOVERDUEVAR.DropDownMonth = d;
+                                      // context
+                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
                                     });
                                   },
                                   value: P02REPORTOVERDUEVAR.DropDownMonth,
@@ -681,7 +919,7 @@ class BarChartPainter extends CustomPainter {
       String TargetText = '';
 
       if (GroupTargetDays[i] != 0) {
-        TargetText = GroupTargetDays[i].toStringAsFixed(1);
+        TargetText = GroupTargetDays[i].toStringAsFixed(2);
 
         // ตรวจสอบว่าหมายเลขเป็นจำนวนเต็มหรือไม่
         if (GroupTargetDays[i] % 1 == 0) {
@@ -727,7 +965,7 @@ class BarChartPainter extends CustomPainter {
       String ActualText = '';
 
       if (avgAllBreakdown[i] != 0) {
-        ActualText = avgAllBreakdown[i].toStringAsFixed(1);
+        ActualText = avgAllBreakdown[i].toStringAsFixed(2);
 
         // ตรวจสอบว่าหมายเลขเป็นจำนวนเต็มหรือไม่
         if (avgAllBreakdown[i] % 1 == 0) {

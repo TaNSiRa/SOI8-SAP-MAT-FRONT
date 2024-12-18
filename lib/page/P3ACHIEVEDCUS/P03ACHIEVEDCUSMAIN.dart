@@ -30,20 +30,29 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
   Widget build(BuildContext context) {
     P03ACHIEVEDCUSMAINcontext = context;
     List<P03ACHIEVEDCUSGETDATAclass> _datain = widget.data ?? [];
-
+    print("datain: ${_datain.length}");
+    // _datain = [];
     // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedType = (P03ACHIEVEDCUSVAR.DropDownType.isNotEmpty)
         ? P03ACHIEVEDCUSVAR.DropDownType
-        : 'Group A';
+        : 'A';
     final selectedYear = (P03ACHIEVEDCUSVAR.DropDownYear.isNotEmpty)
         ? P03ACHIEVEDCUSVAR.DropDownYear
         : P03ACHIEVEDCUSVAR.currentYear;
 
     // กรองข้อมูลด้วยปีและเดือน
     List<P03ACHIEVEDCUSGETDATAclass> filteredData = _datain.where((data) {
-      return data.TYPE == selectedType && data.YEAR == selectedYear;
+      int dataYear = int.parse(data.YEAR);
+      int selectedYearInt = int.parse(selectedYear);
+      return data.TYPE == selectedType &&
+          (dataYear == selectedYearInt || dataYear == selectedYearInt - 1) &&
+          data.REPDAYS1 != 'CLOSE LINE' &&
+          data.REPDAYS2 != 'CLOSE LINE' &&
+          data.REPDAYS3 != 'CLOSE LINE' &&
+          data.REPDAYS4 != 'CLOSE LINE';
     }).toList();
 
+    print('filteredData: ' + filteredData.length.toString());
     //แยกข้อมูล week 1-4
     List<Map<String, String>> IssueData = [];
     for (var data in filteredData) {
@@ -208,7 +217,7 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
         IssueData.add(transformedData);
       }
     }
-
+    print('IssueData: ' + IssueData.length.toString());
 // ข้อมูลทั้งหมด
     List<Map<String, String>> AllData = [];
     for (var data in filteredData) {
@@ -364,10 +373,10 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
       };
       AllData.add(transformedData4);
     }
-
+    print('AllData: ' + AllData.length.toString());
 //แยกข้อมูล week 1-4
     List<Map<String, String>> IssueDataPreviousYear = [];
-    for (var data in _datain) {
+    for (var data in filteredData) {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
@@ -532,7 +541,7 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
 
 // ข้อมูลทั้งหมด
     List<Map<String, String>> AllDataPreviousYear = [];
-    for (var data in _datain) {
+    for (var data in filteredData) {
       // เก็บข้อมูลแรก
       Map<String, String> transformedData1 = {
         'type': data.TYPE,
@@ -688,64 +697,88 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
 
     Map<String, int> IssueReportPreviousYear = {};
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       // นับจำนวณ Report over due ของทุกเดือน
       int IssueReport = IssueDataPreviousYear.where((item) =>
           item['type'] == selectedType &&
           item['month'] == month &&
-          item['year'] == '${int.parse(selectedYear) - 1}').length;
+          item['year'] == '${int.parse(selectedYear) - 1}' &&
+          item['freq'] != '' &&
+          item['freq'] != 'CLOSE LINE' &&
+          item['plan sam'] != '' &&
+          item['plan sam'] != 'CLOSE LINE' &&
+          item['act sam'] != '' &&
+          item['act sam'] != 'CLOSE LINE' &&
+          item['rep due'] != '' &&
+          item['rep due'] != 'CLOSE LINE' &&
+          item['sent rep'] != '' &&
+          item['sent rep'] != 'CLOSE LINE' &&
+          item['rep days'] != '' &&
+          item['rep days'] != 'CLOSE LINE').length;
       IssueReportPreviousYear[month] = IssueReport;
     }
-
+    print('IssueReportPreviousYear: ' + IssueReportPreviousYear.toString());
     Map<String, int> AllReportPreviousYear = {};
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       // นับจำนวณ Report ทั้งหมดของทุกเดือน
       int AllReport = AllDataPreviousYear.where((item) =>
           item['type'] == selectedType &&
           item['month'] == month &&
-          item['year'] == '${int.parse(selectedYear) - 1}').length;
+          item['year'] == '${int.parse(selectedYear) - 1}' &&
+          item['freq'] != '' &&
+          item['freq'] != 'CLOSE LINE' &&
+          item['plan sam'] != '' &&
+          item['plan sam'] != 'CLOSE LINE' &&
+          item['act sam'] != '' &&
+          item['act sam'] != 'CLOSE LINE' &&
+          item['rep due'] != '' &&
+          item['rep due'] != 'CLOSE LINE' &&
+          item['sent rep'] != '' &&
+          item['sent rep'] != 'CLOSE LINE' &&
+          item['rep days'] != '' &&
+          item['rep days'] != 'CLOSE LINE').length;
       AllReportPreviousYear[month] = AllReport;
     }
 
     List<double> SuccessReportPreviousYear = [];
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       int totalReports = AllReportPreviousYear[month] ?? 0;
       int issueReports = IssueReportPreviousYear[month] ?? 0;
@@ -758,50 +791,69 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
           double.parse(successReportPercent.toStringAsFixed(1));
       SuccessReportPreviousYear.add(successReportPercent);
     }
-
+    print('SuccessReportPreviousYear ' + SuccessReportPreviousYear.toString());
     double AvgPreviousYear = 0;
     if (SuccessReportPreviousYear.isNotEmpty) {
-      double sum = SuccessReportPreviousYear.reduce((a, b) => a + b);
-      AvgPreviousYear = sum / SuccessReportPreviousYear.length;
+      // กรองค่า 0 ออกจาก SuccessReportPreviousYear
+      List<double> nonZeroReports =
+          SuccessReportPreviousYear.where((percent) => percent > 0).toList();
+
+      if (nonZeroReports.isNotEmpty) {
+        double sum = nonZeroReports.reduce((a, b) => a + b);
+        AvgPreviousYear = sum / nonZeroReports.length;
+        print(nonZeroReports.length); // แสดงจำนวนเดือนที่มีค่า
+      }
     }
 
     Map<String, int> IssueReportMonths = {};
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       // นับจำนวณ Report over due ของทุกเดือน
       int IssueReport = IssueData.where((item) =>
           item['type'] == selectedType &&
           item['month'] == month &&
-          item['year'] == selectedYear).length;
+          item['year'] == selectedYear &&
+          item['freq'] != '' &&
+          item['freq'] != 'CLOSE LINE' &&
+          item['plan sam'] != '' &&
+          item['plan sam'] != 'CLOSE LINE' &&
+          item['act sam'] != '' &&
+          item['act sam'] != 'CLOSE LINE' &&
+          item['rep due'] != '' &&
+          item['rep due'] != 'CLOSE LINE' &&
+          item['sent rep'] != '' &&
+          item['sent rep'] != 'CLOSE LINE' &&
+          item['rep days'] != '' &&
+          item['rep days'] != 'CLOSE LINE').length;
       IssueReportMonths[month] = IssueReport;
     }
 
     Map<String, int> AllReportMonths = {};
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       // นับจำนวณ Report ทั้งหมดของทุกเดือน
       int AllReport = AllData.where((item) =>
@@ -809,33 +861,40 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
           item['month'] == month &&
           item['year'] == selectedYear &&
           item['freq'] != '' &&
+          item['freq'] != 'CLOSE LINE' &&
           item['plan sam'] != '' &&
+          item['plan sam'] != 'CLOSE LINE' &&
           item['act sam'] != '' &&
+          item['act sam'] != 'CLOSE LINE' &&
           item['rep due'] != '' &&
+          item['rep due'] != 'CLOSE LINE' &&
           item['sent rep'] != '' &&
-          item['rep days'] != '').length;
+          item['sent rep'] != 'CLOSE LINE' &&
+          item['rep days'] != '' &&
+          item['rep days'] != 'CLOSE LINE').length;
       AllReportMonths[month] = AllReport;
     }
 
     List<double> SuccessReportMonths = [];
     SuccessReportMonths.add(AvgPreviousYear);
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
       int totalReports = AllReportMonths[month] ?? 0;
       int issueReports = IssueReportMonths[month] ?? 0;
-
+      print('totalReports($month): $totalReports');
+      print('issueReports($month): $issueReports');
       // ตรวจสอบว่า totalReports ไม่เป็น 0 เพื่อหลีกเลี่ยงการหารด้วยศูนย์
       double successReportPercent = totalReports > 0
           ? ((totalReports - issueReports) / totalReports) * 100
@@ -844,6 +903,8 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
           double.parse(successReportPercent.toStringAsFixed(1));
       SuccessReportMonths.add(successReportPercent);
     }
+
+    print('SuccessReportMonths: $SuccessReportMonths');
 
     return Scrollbar(
       controller: _controllerIN01,
@@ -884,7 +945,7 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
                 ),
                 Center(
                   child: Text(
-                    '% Achieved Customer $selectedType (Yr.$selectedYear)',
+                    '% Achieved Customer Group $selectedType (Yr.$selectedYear)',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -946,7 +1007,7 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              '% Achieved Customer $selectedType',
+                              '% Achieved Customer Group $selectedType',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
@@ -978,13 +1039,16 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
                                 AdvanceDropDown(
                                   hint: "TYPE",
                                   listdropdown: const [
-                                    MapEntry("TYPE", ""),
-                                    MapEntry("Group A", "Group A"),
-                                    MapEntry("Group B", "Group B"),
+                                    // MapEntry("TYPE", ""),
+                                    MapEntry("Group A", "A"),
+                                    MapEntry("Group B", "B"),
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P03ACHIEVEDCUSVAR.DropDownType = d;
+                                      // context
+                                      //     .read<P03ACHIEVEDCUSGETDATA_Bloc>()
+                                      //     .add(P03ACHIEVEDCUSGETDATA_GET());
                                     });
                                   },
                                   value: P03ACHIEVEDCUSVAR.DropDownType,
@@ -1017,7 +1081,8 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
                                 AdvanceDropDown(
                                   hint: "YEAR",
                                   listdropdown: const [
-                                    MapEntry("YEAR", ""),
+                                    // MapEntry("YEAR", ""),
+                                    MapEntry("2023", "2023"),
                                     MapEntry("2024", "2024"),
                                     MapEntry("2025", "2025"),
                                     MapEntry("2026", "2026"),
@@ -1039,6 +1104,9 @@ class _P03ACHIEVEDCUSMAINState extends State<P03ACHIEVEDCUSMAIN> {
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P03ACHIEVEDCUSVAR.DropDownYear = d;
+                                      // context
+                                      //     .read<P03ACHIEVEDCUSGETDATA_Bloc>()
+                                      //     .add(P03ACHIEVEDCUSGETDATA_GET());
                                     });
                                   },
                                   value: P03ACHIEVEDCUSVAR.DropDownYear,

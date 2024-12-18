@@ -33,17 +33,20 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
   Widget build(BuildContext context) {
     P04SAMPLETIMEMAINcontext = context;
     List<P04SAMPLETIMEGETDATAclass> _datain = widget.data ?? [];
-
+    print(_datain.length);
 // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedType = (P04SAMPLETIMEVAR.DropDownType.isNotEmpty)
         ? P04SAMPLETIMEVAR.DropDownType
-        : 'Group A';
+        : 'A';
     final selectedYear = (P04SAMPLETIMEVAR.DropDownYear.isNotEmpty)
         ? P04SAMPLETIMEVAR.DropDownYear
         : P04SAMPLETIMEVAR.currentYear;
     final selectedMonth = (P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
         ? P04SAMPLETIMEVAR.DropDownMonth
-        : P04SAMPLETIMEVAR.currentMonth;
+        : P04SAMPLETIMEVAR.currentMonth2;
+    // แปลง MM เป็น MMM
+    final selectedMonthMMM =
+        P04SAMPLETIMEVAR.convertMonthToMMM(P04SAMPLETIMEVAR.DropDownMonth);
 
 // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
@@ -59,7 +62,11 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
     List<P04SAMPLETIMEGETDATAclass> filteredData = _datain.where((data) {
       return data.TYPE == selectedType &&
           data.YEAR == selectedYear &&
-          data.MONTH == selectedMonth;
+          data.MONTH == selectedMonth &&
+          data.REPDAYS1 != 'CLOSE LINE' &&
+          data.REPDAYS2 != 'CLOSE LINE' &&
+          data.REPDAYS3 != 'CLOSE LINE' &&
+          data.REPDAYS4 != 'CLOSE LINE';
     }).toList();
 
 //แยกข้อมูล week 1-4
@@ -484,8 +491,8 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                   ),
                 ),
                 Text(
-                  '$selectedType\n'
-                  '$GroupTargetDays ($selectedMonth $selectedYear)',
+                  'Group $selectedType\n'
+                  '$GroupTargetDays ($selectedMonthMMM $selectedYear)',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18.0,
@@ -523,13 +530,16 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                 AdvanceDropDown(
                                   hint: "TYPE",
                                   listdropdown: const [
-                                    MapEntry("TYPE", ""),
-                                    MapEntry("Group A", "Group A"),
-                                    MapEntry("Group B", "Group B"),
+                                    // MapEntry("TYPE", ""),
+                                    MapEntry("Group A", "A"),
+                                    MapEntry("Group B", "B"),
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P04SAMPLETIMEVAR.DropDownType = d;
+                                      // context
+                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                      //     .add(P04SAMPLETIMEGETDATA_GET());
                                     });
                                   },
                                   value: P04SAMPLETIMEVAR.DropDownType,
@@ -560,7 +570,8 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                 AdvanceDropDown(
                                   hint: "YEAR",
                                   listdropdown: const [
-                                    MapEntry("YEAR", ""),
+                                    // MapEntry("YEAR", ""),
+                                    MapEntry("2023", "2023"),
                                     MapEntry("2024", "2024"),
                                     MapEntry("2025", "2025"),
                                     MapEntry("2026", "2026"),
@@ -582,6 +593,9 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P04SAMPLETIMEVAR.DropDownYear = d;
+                                      // context
+                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                      //     .add(P04SAMPLETIMEGETDATA_GET());
                                     });
                                   },
                                   value: P04SAMPLETIMEVAR.DropDownYear,
@@ -612,23 +626,26 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                 AdvanceDropDown(
                                   hint: "MONTH",
                                   listdropdown: const [
-                                    MapEntry("MONTH", ""),
-                                    MapEntry("Jan", "Jan"),
-                                    MapEntry("Feb", "Feb"),
-                                    MapEntry("Mar", "Mar"),
-                                    MapEntry("Apr", "Apr"),
-                                    MapEntry("May", "May"),
-                                    MapEntry("Jun", "Jun"),
-                                    MapEntry("Jul", "Jul"),
-                                    MapEntry("Aug", "Aug"),
-                                    MapEntry("Sep", "Sep"),
-                                    MapEntry("Oct", "Oct"),
-                                    MapEntry("Nov", "Nov"),
-                                    MapEntry("Dec", "Dec"),
+                                    // MapEntry("MONTH", ""),
+                                    MapEntry("Jan", "01"),
+                                    MapEntry("Feb", "02"),
+                                    MapEntry("Mar", "03"),
+                                    MapEntry("Apr", "04"),
+                                    MapEntry("May", "05"),
+                                    MapEntry("Jun", "06"),
+                                    MapEntry("Jul", "07"),
+                                    MapEntry("Aug", "08"),
+                                    MapEntry("Sep", "09"),
+                                    MapEntry("Oct", "10"),
+                                    MapEntry("Nov", "11"),
+                                    MapEntry("Dec", "12"),
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
                                       P04SAMPLETIMEVAR.DropDownMonth = d;
+                                      // context
+                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                      //     .add(P04SAMPLETIMEGETDATA_GET());
                                     });
                                   },
                                   value: P04SAMPLETIMEVAR.DropDownMonth,

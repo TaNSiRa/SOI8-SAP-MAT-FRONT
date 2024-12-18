@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../data/dummyOverKPI.dart';
 import '../../page/P2REPORTOVERDUE/P02REPORTOVERDUEMAIN.dart';
+import '../../page/P2REPORTOVERDUE/P02REPORTOVERDUEVAR.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
@@ -44,8 +46,12 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
     List<P02REPORTOVERDUEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://127.0.0.1:14000/02SARKPI/KPISumary",
-      data: {},
+      "http://172.23.10.51:14000/02SARKPI/ReportOverKPISelect",
+      data: {
+        // 'TYPE': P02REPORTOVERDUEVAR.DropDownType.toString(),
+        // 'MONTH': P02REPORTOVERDUEVAR.DropDownMonth.toString(),
+        // 'YEAR': P02REPORTOVERDUEVAR.DropDownYear.toString(),
+      },
     );
     var input = [];
     if (response.statusCode == 200) {
@@ -54,12 +60,15 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
       var databuff = response.data;
       input = databuff;
 
+      // var input = dummyOverKPI;
+
       List<P02REPORTOVERDUEGETDATAclass> outputdata = input.map((data) {
         return P02REPORTOVERDUEGETDATAclass(
           TYPE: 'Group ${savenull(data['Type'])}',
           MKTGROUP: savenull(data['MKTGroup']),
           GROUP: savenull(data['Group']),
           CUSTOMER: savenull(data['Customer']),
+          CUSTSHORT: savenull(data['CustShort']),
           FREQUENCY: savenull(data['Frequency']),
           INCHARGE: savenull(data['Incharge']),
           KPISERV: savenull(data['KPIServ']),
@@ -67,6 +76,7 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
           REPITEM: savenull(data['RepItems']),
           MONTH: savenull(data['Month']),
           YEAR: savenull(data['Year']),
+          REQNO1: savenull(data['ReqNo1']),
           FREQ1: savenull(data['Freq1']),
           PLANSAM1: formatDate(savenull(data['PlanSam1'])),
           ACTSAM1: formatDate(savenull(data['ActSam1'])),
@@ -119,6 +129,7 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
           BDJP1_3: savenull(data['BDJP1_3']),
           BDSENT1: savenull(data['BDSent1']),
           REASON1: savenull(data['Reason1']),
+          REQNO2: savenull(data['ReqNo2']),
           FREQ2: savenull(data['Freq2']),
           PLANSAM2: formatDate(savenull(data['PlanSam2'])),
           ACTSAM2: formatDate(savenull(data['ActSam2'])),
@@ -171,6 +182,7 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
           BDJP2_3: savenull(data['BDJP2_3']),
           BDSENT2: savenull(data['BDSent2']),
           REASON2: savenull(data['Reason2']),
+          REQNO3: savenull(data['ReqNo3']),
           FREQ3: savenull(data['Freq3']),
           PLANSAM3: formatDate(savenull(data['PlanSam3'])),
           ACTSAM3: formatDate(savenull(data['ActSam3'])),
@@ -223,6 +235,7 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
           BDJP3_3: savenull(data['BDJP3_3']),
           BDSENT3: savenull(data['BDSent3']),
           REASON3: savenull(data['Reason3']),
+          REQNO4: savenull(data['ReqNo4']),
           FREQ4: savenull(data['Freq4']),
           PLANSAM4: formatDate(savenull(data['PlanSam4'])),
           ACTSAM4: formatDate(savenull(data['ActSam4'])),
@@ -374,6 +387,7 @@ class P02REPORTOVERDUEGETDATAclass {
     this.MKTGROUP = '',
     this.GROUP = '',
     this.CUSTOMER = '',
+    this.CUSTSHORT = '',
     this.FREQUENCY = '',
     this.INCHARGE = '',
     this.KPISERV = '',
@@ -381,6 +395,7 @@ class P02REPORTOVERDUEGETDATAclass {
     this.REPITEM = '',
     this.MONTH = '',
     this.YEAR = '',
+    this.REQNO1 = '',
     this.FREQ1 = '',
     this.PLANSAM1 = '',
     this.ACTSAM1 = '',
@@ -433,6 +448,7 @@ class P02REPORTOVERDUEGETDATAclass {
     this.BDJP1_3 = '',
     this.BDSENT1 = '',
     this.REASON1 = '',
+    this.REQNO2 = '',
     this.FREQ2 = '',
     this.PLANSAM2 = '',
     this.ACTSAM2 = '',
@@ -485,6 +501,7 @@ class P02REPORTOVERDUEGETDATAclass {
     this.BDJP2_3 = '',
     this.BDSENT2 = '',
     this.REASON2 = '',
+    this.REQNO3 = '',
     this.FREQ3 = '',
     this.PLANSAM3 = '',
     this.ACTSAM3 = '',
@@ -537,6 +554,7 @@ class P02REPORTOVERDUEGETDATAclass {
     this.BDJP3_3 = '',
     this.BDSENT3 = '',
     this.REASON3 = '',
+    this.REQNO4 = '',
     this.FREQ4 = '',
     this.PLANSAM4 = '',
     this.ACTSAM4 = '',
@@ -595,6 +613,7 @@ class P02REPORTOVERDUEGETDATAclass {
   String MKTGROUP;
   String GROUP;
   String CUSTOMER;
+  String CUSTSHORT;
   String FREQUENCY;
   String INCHARGE;
   String KPISERV;
@@ -602,6 +621,7 @@ class P02REPORTOVERDUEGETDATAclass {
   String REPITEM;
   String MONTH;
   String YEAR;
+  String REQNO1;
   String FREQ1;
   String PLANSAM1;
   String ACTSAM1;
@@ -654,6 +674,7 @@ class P02REPORTOVERDUEGETDATAclass {
   String BDJP1_3;
   String BDSENT1;
   String REASON1;
+  String REQNO2;
   String FREQ2;
   String PLANSAM2;
   String ACTSAM2;
@@ -706,6 +727,7 @@ class P02REPORTOVERDUEGETDATAclass {
   String BDJP2_3;
   String BDSENT2;
   String REASON2;
+  String REQNO3;
   String FREQ3;
   String PLANSAM3;
   String ACTSAM3;
@@ -758,6 +780,7 @@ class P02REPORTOVERDUEGETDATAclass {
   String BDJP3_3;
   String BDSENT3;
   String REASON3;
+  String REQNO4;
   String FREQ4;
   String PLANSAM4;
   String ACTSAM4;
@@ -822,6 +845,7 @@ String savenull(input) {
 
 String formatDate(String? date) {
   if (date == null || date.isEmpty) return '';
+  if (date == 'CLOSE LINE') return 'CLOSE LINE';
   try {
     DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
     return DateFormat('dd-MMM').format(parsedDate);

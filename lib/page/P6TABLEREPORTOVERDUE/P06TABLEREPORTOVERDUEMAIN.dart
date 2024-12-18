@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../../bloc/BlocEvent/06-01-P06TABLEREPORTOVERDUEGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
 import '../../widget/common/ComInputTextTan.dart';
@@ -46,7 +47,10 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
         : P06TABLEREPORTOVERDUEVAR.currentYear;
     final selectedMonth = (P06TABLEREPORTOVERDUEVAR.DropDownMonth.isNotEmpty)
         ? P06TABLEREPORTOVERDUEVAR.DropDownMonth
-        : P06TABLEREPORTOVERDUEVAR.currentMonth;
+        : P06TABLEREPORTOVERDUEVAR.currentMonth2;
+// แปลง MM เป็น MMM
+    final selectedMonthMMM =
+        convertMonthToMMM(P06TABLEREPORTOVERDUEVAR.DropDownMonth);
 
 // กรองข้อมูลด้วยปีและเดือน
     List<P06TABLEREPORTOVERDUEGETDATAclass> filteredData =
@@ -55,7 +59,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           data.YEAR == selectedYear &&
           data.MONTH == selectedMonth;
     }).toList();
-
+    // print(filteredData);
 // กรองข้อมูลในตารางด้วยการค้นหา
     List<P06TABLEREPORTOVERDUEGETDATAclass> _datasearch = [];
     _datasearch.addAll(
@@ -65,7 +69,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
             data.GROUP
                 .toLowerCase()
                 .contains(P06TABLEREPORTOVERDUEVAR.SEARCH) ||
-            data.CUSTOMER
+            data.CUSTSHORT
                 .toLowerCase()
                 .contains(P06TABLEREPORTOVERDUEVAR.SEARCH) ||
             data.INCHARGE
@@ -86,7 +90,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
         return groupComparison;
       }
 
-      return a.CUSTOMER.compareTo(b.CUSTOMER);
+      return a.CUSTSHORT.compareTo(b.CUSTSHORT);
     });
 
 //แยกข้อมูล week 1-4
@@ -100,6 +104,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'mktgroup': data.MKTGROUP,
           'group': data.GROUP,
           'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
           'frequency': data.FREQUENCY,
           'incharge': data.INCHARGE,
           'kpi serv': data.KPISERV,
@@ -107,6 +112,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO1,
           'freq': data.FREQ1,
           'plan sam': data.PLANSAM1,
           'act sam': data.ACTSAM1,
@@ -158,6 +164,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'bdmgr3': data.BDMGR1_3,
           'bdjp3': data.BDJP1_3,
           'bdsent': data.BDSENT1,
+          'stage': data.STAGE1,
           'reason': data.REASON1,
         };
         newData.add(transformedData1);
@@ -170,6 +177,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'mktgroup': data.MKTGROUP,
           'group': data.GROUP,
           'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
           'frequency': data.FREQUENCY,
           'incharge': data.INCHARGE,
           'kpi serv': data.KPISERV,
@@ -177,6 +185,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO2,
           'freq': data.FREQ2,
           'plan sam': data.PLANSAM2,
           'act sam': data.ACTSAM2,
@@ -228,6 +237,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'bdmgr3': data.BDMGR2_3,
           'bdjp3': data.BDJP2_3,
           'bdsent': data.BDSENT2,
+          'stage': data.STAGE2,
           'reason': data.REASON2,
         };
         newData.add(transformedData1);
@@ -240,6 +250,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'mktgroup': data.MKTGROUP,
           'group': data.GROUP,
           'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
           'frequency': data.FREQUENCY,
           'incharge': data.INCHARGE,
           'kpi serv': data.KPISERV,
@@ -247,6 +258,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO3,
           'freq': data.FREQ3,
           'plan sam': data.PLANSAM3,
           'act sam': data.ACTSAM3,
@@ -298,6 +310,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'bdmgr3': data.BDMGR3_3,
           'bdjp3': data.BDJP3_3,
           'bdsent': data.BDSENT3,
+          'stage': data.STAGE3,
           'reason': data.REASON3,
         };
         newData.add(transformedData1);
@@ -310,6 +323,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'mktgroup': data.MKTGROUP,
           'group': data.GROUP,
           'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
           'frequency': data.FREQUENCY,
           'incharge': data.INCHARGE,
           'kpi serv': data.KPISERV,
@@ -317,6 +331,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO4,
           'freq': data.FREQ4,
           'plan sam': data.PLANSAM4,
           'act sam': data.ACTSAM4,
@@ -368,12 +383,13 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'bdmgr3': data.BDMGR4_3,
           'bdjp3': data.BDJP4_3,
           'bdsent': data.BDSENT4,
+          'stage': data.STAGE4,
           'reason': data.REASON4,
         };
         newData.add(transformedData1);
       }
     }
-
+    // print(newData);
 // นับจำนวนข้อมูล
     int groupADataCount =
         newData.where((item) => item['type'] == 'Group A').length;
@@ -404,7 +420,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       end: Alignment.bottomRight,
                     ).createShader(bounds),
                     child: Text(
-                      'SAR : Report over due Group $selectedGroup ($selectedMonth $selectedYear)',
+                      'SAR : Report over due Group $selectedGroup ($selectedMonthMMM $selectedYear)',
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -556,7 +572,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       AdvanceDropDown(
                         hint: "GROUP",
                         listdropdown: const [
-                          MapEntry("GROUP", ""),
+                          // MapEntry("GROUP", ""),
                           MapEntry("1", "1"),
                           MapEntry("2", "2"),
                           MapEntry("5", "5"),
@@ -565,6 +581,9 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                         onChangeinside: (d, k) {
                           setState(() {
                             P06TABLEREPORTOVERDUEVAR.DropDownGroup = d;
+                            // context
+                            //     .read<P06TABLEREPORTOVERDUEGETDATA_Bloc>()
+                            //     .add(P06TABLEREPORTOVERDUEGETDATA_GET());
                           });
                         },
                         value: P06TABLEREPORTOVERDUEVAR.DropDownGroup,
@@ -595,7 +614,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       AdvanceDropDown(
                         hint: "YEAR",
                         listdropdown: const [
-                          MapEntry("YEAR", ""),
+                          // MapEntry("YEAR", ""),
                           MapEntry("2024", "2024"),
                           MapEntry("2025", "2025"),
                           MapEntry("2026", "2026"),
@@ -617,6 +636,9 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                         onChangeinside: (d, k) {
                           setState(() {
                             P06TABLEREPORTOVERDUEVAR.DropDownYear = d;
+                            // context
+                            //     .read<P06TABLEREPORTOVERDUEGETDATA_Bloc>()
+                            //     .add(P06TABLEREPORTOVERDUEGETDATA_GET());
                           });
                         },
                         value: P06TABLEREPORTOVERDUEVAR.DropDownYear,
@@ -647,23 +669,26 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       AdvanceDropDown(
                         hint: "MONTH",
                         listdropdown: const [
-                          MapEntry("MONTH", ""),
-                          MapEntry("Jan", "Jan"),
-                          MapEntry("Feb", "Feb"),
-                          MapEntry("Mar", "Mar"),
-                          MapEntry("Apr", "Apr"),
-                          MapEntry("May", "May"),
-                          MapEntry("Jun", "Jun"),
-                          MapEntry("Jul", "Jul"),
-                          MapEntry("Aug", "Aug"),
-                          MapEntry("Sep", "Sep"),
-                          MapEntry("Oct", "Oct"),
-                          MapEntry("Nov", "Nov"),
-                          MapEntry("Dec", "Dec"),
+                          // MapEntry("MONTH", ""),
+                          MapEntry("Jan", "01"),
+                          MapEntry("Feb", "02"),
+                          MapEntry("Mar", "03"),
+                          MapEntry("Apr", "04"),
+                          MapEntry("May", "05"),
+                          MapEntry("Jun", "06"),
+                          MapEntry("Jul", "07"),
+                          MapEntry("Aug", "08"),
+                          MapEntry("Sep", "09"),
+                          MapEntry("Oct", "10"),
+                          MapEntry("Nov", "11"),
+                          MapEntry("Dec", "12"),
                         ],
                         onChangeinside: (d, k) {
                           setState(() {
                             P06TABLEREPORTOVERDUEVAR.DropDownMonth = d;
+                            // context
+                            //     .read<P06TABLEREPORTOVERDUEGETDATA_Bloc>()
+                            //     .add(P06TABLEREPORTOVERDUEGETDATA_GET());
                           });
                         },
                         value: P06TABLEREPORTOVERDUEVAR.DropDownMonth,
@@ -889,7 +914,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    ' ${item['customer'] ?? ''}',
+                                    ' ${item['custshort'] ?? ''}',
                                     style: TextStyle(fontSize: 10),
                                   ),
                                 ),
@@ -2524,8 +2549,10 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                                     avgSumbdmgr +
                                     avgSumbdjp +
                                     bdsent;
-                                final double OverDueDay =
-                                    SumTotalDay - kpiperiod;
+                                double OverDueDay = SumTotalDay - kpiperiod;
+                                if (OverDueDay < 0) {
+                                  OverDueDay = 0;
+                                }
                                 return TableRow(
                                   children: [
                                     TableCell(
@@ -2860,11 +2887,11 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                             TableCell(
                               child: SizedBox(
                                 height: 20,
-                                child: Center(
-                                  child: Text(
-                                    item['reason'] ?? '',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
+                                child: Text(
+                                  item['stage'] != '' && item['reason'] != ''
+                                      ? ' ${item['stage']} (${item['reason']})'
+                                      : '',
+                                  style: TextStyle(fontSize: 10),
                                 ),
                               ),
                             ),
@@ -2913,4 +2940,11 @@ double calculateAverage(
 
   // หากจำนวน count เป็น 0 ให้ return ค่า 0 เพื่อป้องกันการหารด้วย 0
   return count > 0 ? sum / count : 0;
+}
+
+String convertMonthToMMM(String monthNumber) {
+  int month = int.parse(monthNumber);
+  DateTime dateTime = DateTime(2024, month, 1);
+  String monthMMM = DateFormat('MMM').format(dateTime);
+  return monthMMM;
 }

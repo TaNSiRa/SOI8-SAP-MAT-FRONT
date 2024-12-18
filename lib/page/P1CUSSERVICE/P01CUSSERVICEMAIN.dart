@@ -30,66 +30,45 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
   Widget build(BuildContext context) {
     P01CUSSERVICEMAINcontext = context;
     List<P01CUSSERVICEGETDATAclass> _datain = widget.data ?? [];
-
+    print("datain: ${_datain.length}");
     // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedYear = (P01CUSSERVICEVAR.DropDownYear.isNotEmpty)
         ? P01CUSSERVICEVAR.DropDownYear
         : P01CUSSERVICEVAR.currentYear;
 
     // กรองข้อมูลด้วยปีและเดือน
-    List<P01CUSSERVICEGETDATAclass> filteredData = _datain.where((data) {
-      return data.YEAR == selectedYear;
-    }).toList();
+    List<P01CUSSERVICEGETDATAclass> filteredData = _datain
+        // .where((data) {
+        //   return data.YEAR == selectedYear;
+        // })
+        .toList();
 
     //แปลงข้อมูลจาก List<P01CUSSERVICEGETDATAclass> เป็น List<Map<String, dynamic>>
     List<Map<String, dynamic>> convertData(
         List<P01CUSSERVICEGETDATAclass> data) {
       return data.map((item) {
         return {
-          'type': item.TYPE,
-          'mktgroup': item.MKTGROUP,
           'group': item.GROUP,
-          'customer': item.CUSTOMER,
-          'frequency': item.FREQUENCY,
-          'incharge': item.INCHARGE,
-          'kpi serv': item.KPISERV,
-          'kpi period': item.KPIPERIOD,
-          'repitems': item.REPITEM,
           'month': item.MONTH,
           'year': item.YEAR,
+          'frequency': item.FREQUENCY,
           'freq1': item.FREQ1,
-          'plan sam1': item.PLANSAM1,
           'act sam1': item.ACTSAM1,
-          'rep due1': item.REPDUE1,
-          'sent rep1': item.SENTREP1,
-          'rep days1': item.REPDAYS1,
           'freq2': item.FREQ2,
-          'plan sam2': item.PLANSAM2,
           'act sam2': item.ACTSAM2,
-          'rep due2': item.REPDUE2,
-          'sent rep2': item.SENTREP2,
-          'rep days2': item.REPDAYS2,
           'freq3': item.FREQ3,
-          'plan sam3': item.PLANSAM3,
           'act sam3': item.ACTSAM3,
-          'rep due3': item.REPDUE3,
-          'sent rep3': item.SENTREP3,
-          'rep days3': item.REPDAYS3,
           'freq4': item.FREQ4,
-          'plan sam4': item.PLANSAM4,
           'act sam4': item.ACTSAM4,
-          'rep due4': item.REPDUE4,
-          'sent rep4': item.SENTREP4,
-          'rep days4': item.REPDAYS4,
         };
       }).toList();
     }
 
     List<Map<String, dynamic>> transformedData = convertData(filteredData);
-    List<Map<String, dynamic>> UseforPreviousYear = convertData(_datain);
+    List<Map<String, dynamic>> UseforPreviousYear = convertData(filteredData);
 
-    // KAC Sum visit plan monthly previous year
-    int KACVisitPlanSumYear = UseforPreviousYear.where((item) =>
+    // KAC Total Frequency
+    int KACSumVisitFrequencyYear = UseforPreviousYear.where((item) =>
             item['group'] == 'KAC' &&
             item['year'] == '${int.parse(selectedYear) - 1}')
         .map((item) =>
@@ -98,25 +77,80 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
             (int.tryParse(item['freq3'] ?? '0') ?? 0) +
             (int.tryParse(item['freq4'] ?? '0') ?? 0))
         .fold(0, (sum, freq) => sum + freq);
+    print('KACSumVisitFrequencyYear: $KACSumVisitFrequencyYear');
+    // KAC Sum Close Line previous year
+    // int KACcloseLineCountYear = UseforPreviousYear.where((item) =>
+    //     item['group'] == 'KAC' &&
+    //     item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
+    //   int count = 0;
+    //   if (item['act sam1'] == 'CLOSE LINE' &&
+    //       (item['act sam1']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam2'] == 'CLOSE LINE' &&
+    //       (item['act sam2']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam3'] == 'CLOSE LINE' &&
+    //       (item['act sam3']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam4'] == 'CLOSE LINE' &&
+    //       (item['act sam4']?.isNotEmpty ?? false)) count++;
+    //   return count;
+    // }).fold(0, (sum, count) => sum + count);
+
+    // KAC Sum visit plan monthly previous year
+    // int KACVisitPlanSumYear = UseforPreviousYear.where((item) =>
+    //         item['group'] == 'KAC' &&
+    //         item['year'] == '${int.parse(selectedYear) - 1}')
+    //     .map((item) =>
+    //         (int.tryParse(item['freq1'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq2'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq3'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq4'] ?? '0') ?? 0))
+    //     .fold(0, (sum, freq) => sum + freq);
 
     // KAC Sum visit actual monthly previous year
     int KACVisitActualCountYear = UseforPreviousYear.where((item) =>
         item['group'] == 'KAC' &&
         item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
       int count = 0;
-      if (item['act sam1']?.isNotEmpty ?? false) count++;
-      if (item['act sam2']?.isNotEmpty ?? false) count++;
-      if (item['act sam3']?.isNotEmpty ?? false) count++;
-      if (item['act sam4']?.isNotEmpty ?? false) count++;
+      if (item['act sam1'] != 'CLOSE LINE' &&
+          (item['act sam1']?.isNotEmpty ?? false)) count++;
+      if (item['act sam2'] != 'CLOSE LINE' &&
+          (item['act sam2']?.isNotEmpty ?? false)) count++;
+      if (item['act sam3'] != 'CLOSE LINE' &&
+          (item['act sam3']?.isNotEmpty ?? false)) count++;
+      if (item['act sam4'] != 'CLOSE LINE' &&
+          (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
+    print('KACVisitActualCountYear: $KACVisitActualCountYear');
+
+// KAC Sum close line monthly previous year
+    int KACCloseLineCountYear = UseforPreviousYear.where((item) =>
+        item['group'] == 'KAC' &&
+        item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
+      int count = 0;
+      if (item['act sam1'] == 'CLOSE LINE' &&
+          (item['act sam1']?.isNotEmpty ?? false)) count++;
+      if (item['act sam2'] == 'CLOSE LINE' &&
+          (item['act sam2']?.isNotEmpty ?? false)) count++;
+      if (item['act sam3'] == 'CLOSE LINE' &&
+          (item['act sam3']?.isNotEmpty ?? false)) count++;
+      if (item['act sam4'] == 'CLOSE LINE' &&
+          (item['act sam4']?.isNotEmpty ?? false)) count++;
+      return count;
+    }).fold(0, (sum, count) => sum + count);
+    print('KACCloseLineCountYear: $KACCloseLineCountYear');
+
+    // KAC Sum visit plan previous year + close line
+    // int KACVisitPlanSumWithCloseLineYear =
+    //     KACVisitPlanSumYear + KACcloseLineCountYear;
 
     // %Visit KAC previous year
     double KACavgVisitPercent =
-        (KACVisitActualCountYear / KACVisitPlanSumYear) * 100;
+        ((KACVisitActualCountYear - KACCloseLineCountYear) /
+                KACSumVisitFrequencyYear) *
+            100;
 
-    // MEDIUM Sum visit plan monthly previous year
-    int MEDIUMVisitPlanSumYear = UseforPreviousYear.where((item) =>
+    // MEDIUM Total Frequency
+    int MEDIUMSumVisitFrequencyYear = UseforPreviousYear.where((item) =>
             item['group'] == 'MEDIUM' &&
             item['year'] == '${int.parse(selectedYear) - 1}')
         .map((item) =>
@@ -125,26 +159,83 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
             (int.tryParse(item['freq3'] ?? '0') ?? 0) +
             (int.tryParse(item['freq4'] ?? '0') ?? 0))
         .fold(0, (sum, freq) => sum + freq);
+    print('MEDIUMSumVisitFrequencyYear: $MEDIUMSumVisitFrequencyYear');
+    // MEDIUM Sum Close Line monthly previous year
+    // int MEDIUMCloseLineCountYear = UseforPreviousYear.where((item) =>
+    //     item['group'] == 'MEDIUM' &&
+    //     item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
+    //   int count = 0;
+    //   if (item['act sam1'] == 'CLOSE LINE' &&
+    //       (item['act sam1']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam2'] == 'CLOSE LINE' &&
+    //       (item['act sam2']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam3'] == 'CLOSE LINE' &&
+    //       (item['act sam3']?.isNotEmpty ?? false)) count++;
+    //   if (item['act sam4'] == 'CLOSE LINE' &&
+    //       (item['act sam4']?.isNotEmpty ?? false)) count++;
+    //   return count;
+    // }).fold(0, (sum, count) => sum + count);
+
+    // // MEDIUM Sum visit plan monthly previous year
+    // int MEDIUMVisitPlanSumYear = UseforPreviousYear.where((item) =>
+    //         item['group'] == 'MEDIUM' &&
+    //         item['year'] == '${int.parse(selectedYear) - 1}')
+    //     .map((item) =>
+    //         (int.tryParse(item['freq1'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq2'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq3'] ?? '0') ?? 0) +
+    //         (int.tryParse(item['freq4'] ?? '0') ?? 0))
+    //     .fold(0, (sum, freq) => sum + freq);
 
     // MEDIUM Sum visit actual monthly previous year
     int MEDIUMVisitActualCountYear = UseforPreviousYear.where((item) =>
         item['group'] == 'MEDIUM' &&
         item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
       int count = 0;
-      if (item['act sam1']?.isNotEmpty ?? false) count++;
-      if (item['act sam2']?.isNotEmpty ?? false) count++;
-      if (item['act sam3']?.isNotEmpty ?? false) count++;
-      if (item['act sam4']?.isNotEmpty ?? false) count++;
+      if (item['act sam1'] != 'CLOSE LINE' &&
+          (item['act sam1']?.isNotEmpty ?? false)) count++;
+      if (item['act sam2'] != 'CLOSE LINE' &&
+          (item['act sam2']?.isNotEmpty ?? false)) count++;
+      if (item['act sam3'] != 'CLOSE LINE' &&
+          (item['act sam3']?.isNotEmpty ?? false)) count++;
+      if (item['act sam4'] != 'CLOSE LINE' &&
+          (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
+    print('MEDIUMVisitActualCountYear: $MEDIUMVisitActualCountYear');
+
+// MEDIUM Sum close line monthly previous year
+    int MEDIUMCloseLineCountYear = UseforPreviousYear.where((item) =>
+        item['group'] == 'MEDIUM' &&
+        item['year'] == '${int.parse(selectedYear) - 1}').map((item) {
+      int count = 0;
+      if (item['act sam1'] == 'CLOSE LINE' &&
+          (item['act sam1']?.isNotEmpty ?? false)) count++;
+      if (item['act sam2'] == 'CLOSE LINE' &&
+          (item['act sam2']?.isNotEmpty ?? false)) count++;
+      if (item['act sam3'] == 'CLOSE LINE' &&
+          (item['act sam3']?.isNotEmpty ?? false)) count++;
+      if (item['act sam4'] == 'CLOSE LINE' &&
+          (item['act sam4']?.isNotEmpty ?? false)) count++;
+      return count;
+    }).fold(0, (sum, count) => sum + count);
+    print('MEDIUMCloseLineCountYear: $MEDIUMCloseLineCountYear');
+
+    // MEDIUM Sum visit plan previous year + close line
+    // int MEDIUMVisitPlanSumWithCloseLineYear =
+    //     MEDIUMVisitPlanSumYear + MEDIUMCloseLineCountYear;
 
     // %Visit MEDIUM previous year
     double MEDIUMavgVisitPercent =
-        (MEDIUMVisitActualCountYear / MEDIUMVisitPlanSumYear) * 100;
+        ((MEDIUMVisitActualCountYear - MEDIUMCloseLineCountYear) /
+                MEDIUMSumVisitFrequencyYear) *
+            100;
 
     // ตัวแปรสําหรับเก็บข้อมูลแต่ละเดือนของ KAC
     Map<String, int> kacVisitPlanSums = {};
     Map<String, int> kacVisitActualCounts = {};
+    Map<String, int> KACcloseLineCounts = {};
+    Map<String, int> kacSumVisitFrequency = {};
     List<double> kacVisitPercents = [];
 
     // ตรวจสอบว่า KACavgVisitPercent เป็น NaN หรือไม่
@@ -155,21 +246,21 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
     }
 
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
-      // นับจำนวณ KAC Sum visit plan monthly
-      int kacVisitPlanSum = transformedData
+      // KAC Total Frequency
+      int KACSumVisitFrequency = transformedData
           .where((item) =>
               item['group'] == 'KAC' &&
               item['month'] == month &&
@@ -180,8 +271,43 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
               (int.tryParse(item['freq3'] ?? '0') ?? 0) +
               (int.tryParse(item['freq4'] ?? '0') ?? 0))
           .fold(0, (sum, freq) => sum + freq);
+      kacSumVisitFrequency[month] = KACSumVisitFrequency;
 
-      kacVisitPlanSums[month] = kacVisitPlanSum;
+      // KAC Sum Close Line monthly
+      int KACcloseLineCount = transformedData
+          .where((item) =>
+              item['group'] == 'KAC' &&
+              item['month'] == month &&
+              item['year'] == selectedYear)
+          .map((item) {
+        int count = 0;
+        if (item['act sam1'] == 'CLOSE LINE' &&
+            (item['act sam1']?.isNotEmpty ?? false)) count++;
+        if (item['act sam2'] == 'CLOSE LINE' &&
+            (item['act sam2']?.isNotEmpty ?? false)) count++;
+        if (item['act sam3'] == 'CLOSE LINE' &&
+            (item['act sam3']?.isNotEmpty ?? false)) count++;
+        if (item['act sam4'] == 'CLOSE LINE' &&
+            (item['act sam4']?.isNotEmpty ?? false)) count++;
+        return count;
+      }).fold(0, (sum, count) => sum + count);
+
+      KACcloseLineCounts[month] = KACcloseLineCount;
+
+      // // นับจำนวณ KAC Sum visit plan monthly
+      // int kacVisitPlanSum = transformedData
+      //     .where((item) =>
+      //         item['group'] == 'KAC' &&
+      //         item['month'] == month &&
+      //         item['year'] == selectedYear)
+      //     .map((item) =>
+      //         (int.tryParse(item['freq1'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq2'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq3'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq4'] ?? '0') ?? 0))
+      //     .fold(0, (sum, freq) => sum + freq);
+
+      // kacVisitPlanSums[month] = kacVisitPlanSum;
 
       // นับจำนวณ KAC Sum visit actual monthly
       int kacVisitActualCount = transformedData
@@ -191,18 +317,26 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
               item['year'] == selectedYear)
           .map((item) {
         int count = 0;
-        if (item['act sam1']?.isNotEmpty ?? false) count++;
-        if (item['act sam2']?.isNotEmpty ?? false) count++;
-        if (item['act sam3']?.isNotEmpty ?? false) count++;
-        if (item['act sam4']?.isNotEmpty ?? false) count++;
+        if (item['act sam1'] != 'CLOSE LINE' &&
+            (item['act sam1']?.isNotEmpty ?? false)) count++;
+        if (item['act sam2'] != 'CLOSE LINE' &&
+            (item['act sam2']?.isNotEmpty ?? false)) count++;
+        if (item['act sam3'] != 'CLOSE LINE' &&
+            (item['act sam3']?.isNotEmpty ?? false)) count++;
+        if (item['act sam4'] != 'CLOSE LINE' &&
+            (item['act sam4']?.isNotEmpty ?? false)) count++;
         return count;
       }).fold(0, (sum, count) => sum + count);
 
       kacVisitActualCounts[month] = kacVisitActualCount;
 
+      // KAC Sum visit plan monthly + close line
+      // int KACVisitPlanSumWithCloseLine = kacVisitPlanSum + KACcloseLineCount;
+
       // หา %Visit KAC ของแต่ละเดือน
-      double kacVisitPercent = kacVisitPlanSum > 0
-          ? (kacVisitActualCount / kacVisitPlanSum) * 100
+      double kacVisitPercent = KACSumVisitFrequency > 0
+          ? ((kacVisitActualCount - KACcloseLineCount) / KACSumVisitFrequency) *
+              100
           : 0;
       kacVisitPercents.add(kacVisitPercent);
     }
@@ -210,6 +344,8 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
     // ตัวแปรสําหรับเก็บข้อมูลแต่ละเดือนของ MEDIUM
     Map<String, int> mediumVisitPlanSums = {};
     Map<String, int> mediumVisitActualCounts = {};
+    Map<String, int> mediumcloseLineCounts = {};
+    Map<String, int> mediumSumVisitFrequency = {};
     List<double> mediumVisitPercents = [];
 
     // ตรวจสอบว่า MEDIUMavgVisitPercent เป็น NaN หรือไม่
@@ -220,21 +356,21 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
     }
 
     for (String month in [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
     ]) {
-      // นับจำนวณ MEDIUM Sum visit plan monthly
-      int mediumVisitPlanSum = transformedData
+      // MEDIUM Total Frequency
+      int MEDIUMSumVisitFrequency = transformedData
           .where((item) =>
               item['group'] == 'MEDIUM' &&
               item['month'] == month &&
@@ -245,8 +381,43 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
               (int.tryParse(item['freq3'] ?? '0') ?? 0) +
               (int.tryParse(item['freq4'] ?? '0') ?? 0))
           .fold(0, (sum, freq) => sum + freq);
+      mediumSumVisitFrequency[month] = MEDIUMSumVisitFrequency;
 
-      mediumVisitPlanSums[month] = mediumVisitPlanSum;
+      // MEDIUM Sum Close Line monthly
+      int MEDIUMcloseLineCount = transformedData
+          .where((item) =>
+              item['group'] == 'MEDIUM' &&
+              item['month'] == month &&
+              item['year'] == selectedYear)
+          .map((item) {
+        int count = 0;
+        if (item['act sam1'] == 'CLOSE LINE' &&
+            (item['act sam1']?.isNotEmpty ?? false)) count++;
+        if (item['act sam2'] == 'CLOSE LINE' &&
+            (item['act sam2']?.isNotEmpty ?? false)) count++;
+        if (item['act sam3'] == 'CLOSE LINE' &&
+            (item['act sam3']?.isNotEmpty ?? false)) count++;
+        if (item['act sam4'] == 'CLOSE LINE' &&
+            (item['act sam4']?.isNotEmpty ?? false)) count++;
+        return count;
+      }).fold(0, (sum, count) => sum + count);
+
+      mediumcloseLineCounts[month] = MEDIUMcloseLineCount;
+
+      // // นับจำนวณ MEDIUM Sum visit plan monthly
+      // int mediumVisitPlanSum = transformedData
+      //     .where((item) =>
+      //         item['group'] == 'MEDIUM' &&
+      //         item['month'] == month &&
+      //         item['year'] == selectedYear)
+      //     .map((item) =>
+      //         (int.tryParse(item['freq1'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq2'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq3'] ?? '0') ?? 0) +
+      //         (int.tryParse(item['freq4'] ?? '0') ?? 0))
+      //     .fold(0, (sum, freq) => sum + freq);
+
+      // mediumVisitPlanSums[month] = mediumVisitPlanSum;
 
       // นับจำนวณ MEDIUM Sum visit actual monthly
       int mediumVisitActualCount = transformedData
@@ -256,21 +427,37 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
               item['year'] == selectedYear)
           .map((item) {
         int count = 0;
-        if (item['act sam1']?.isNotEmpty ?? false) count++;
-        if (item['act sam2']?.isNotEmpty ?? false) count++;
-        if (item['act sam3']?.isNotEmpty ?? false) count++;
-        if (item['act sam4']?.isNotEmpty ?? false) count++;
+        if (item['act sam1'] != 'CLOSE LINE' &&
+            (item['act sam1']?.isNotEmpty ?? false)) count++;
+        if (item['act sam2'] != 'CLOSE LINE' &&
+            (item['act sam2']?.isNotEmpty ?? false)) count++;
+        if (item['act sam3'] != 'CLOSE LINE' &&
+            (item['act sam3']?.isNotEmpty ?? false)) count++;
+        if (item['act sam4'] != 'CLOSE LINE' &&
+            (item['act sam4']?.isNotEmpty ?? false)) count++;
         return count;
       }).fold(0, (sum, count) => sum + count);
 
       mediumVisitActualCounts[month] = mediumVisitActualCount;
 
+      // MEDIUM Sum visit plan monthly + close line
+      // int MEDIUMVisitPlanSumWithCloseLine =
+      //     mediumVisitPlanSum + MEDIUMcloseLineCount;
+
       // หา %Visit MEDIUM ของแต่ละเดือน
-      double mediumVisitPercent = mediumVisitPlanSum > 0
-          ? (mediumVisitActualCount / mediumVisitPlanSum) * 100
+      double mediumVisitPercent = MEDIUMSumVisitFrequency > 0
+          ? ((mediumVisitActualCount - MEDIUMcloseLineCount) /
+                  MEDIUMSumVisitFrequency) *
+              100
           : 0;
       mediumVisitPercents.add(mediumVisitPercent);
     }
+    print('kacSumVisitFrequency: $kacSumVisitFrequency');
+    print('KACcloseLineCounts: $KACcloseLineCounts');
+    print('kacVisitPercents: $kacVisitPercents');
+    print('kacSumVisitFrequency: $mediumSumVisitFrequency');
+    print('mediumcloseLineCounts: $mediumcloseLineCounts');
+    print('mediumVisitPercents: $mediumVisitPercents');
 
     return Scrollbar(
       controller: _controllerIN01,
@@ -389,6 +576,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
                               hint: "YEAR",
                               listdropdown: const [
                                 MapEntry("YEAR", ""),
+                                MapEntry("2023", "2023"),
                                 MapEntry("2024", "2024"),
                                 MapEntry("2025", "2025"),
                                 MapEntry("2026", "2026"),
@@ -410,6 +598,9 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
                               onChangeinside: (d, k) {
                                 setState(() {
                                   P01CUSSERVICEVAR.DropDownYear = d;
+                                  // context
+                                  //     .read<P01CUSSERVICEGETDATA_Bloc>()
+                                  //     .add(P01CUSSERVICEGETDATA_GET());
                                 });
                               },
                               value: P01CUSSERVICEVAR.DropDownYear,

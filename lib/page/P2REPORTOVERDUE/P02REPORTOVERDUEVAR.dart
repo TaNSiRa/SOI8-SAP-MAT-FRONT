@@ -4,11 +4,11 @@ class P02REPORTOVERDUEVAR {
   static List<int> sumList = [];
   static Map<String, double> AvgAllBreakdown = {};
   static List<double> avgAllBreakdown = [];
-  static String DropDownType = '';
-  static String DropDownYear = '';
-  static String DropDownMonth = '';
   static final currentYear = DateFormat('yyyy').format(DateTime.now());
-  static final currentMonth = DateFormat('MMM').format(DateTime.now());
+  static final currentMonth2 = DateFormat('MM').format(DateTime.now());
+  static String DropDownType = 'A';
+  static String DropDownYear = currentYear;
+  static String DropDownMonth = currentMonth2;
   static const List<String> breakdown = [
     'All day for Make Report',
     'Sent customer',
@@ -47,4 +47,10 @@ class P02REPORTOVERDUEVAR {
     3,
     1,
   ];
+  static String convertMonthToMMM(String monthNumber) {
+    int month = int.parse(monthNumber);
+    DateTime dateTime = DateTime(2024, month, 1);
+    String monthMMM = DateFormat('MMM').format(dateTime);
+    return monthMMM;
+  }
 }

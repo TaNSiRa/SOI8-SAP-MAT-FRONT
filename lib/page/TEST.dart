@@ -24,33 +24,60 @@ class testbutton extends StatefulWidget {
   State<testbutton> createState() => _testbuttonState();
 }
 
+List<MapEntry<String, String>> test = [];
+
 class _testbuttonState extends State<testbutton> {
-  String test01 = '1';
+  String test01 = '';
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        height: 64,
-        width: 100,
-        child: AdvanceDropDown(
-          sLabel: "TEST",
-          imgpath: 'assets/icons/icon-down_4@3x.png',
-          listdropdown: const [
-            MapEntry("", ""),
-            MapEntry("ONE", "1"),
-            MapEntry("TWO", "2"),
-            MapEntry("THREE", "3"),
+      child: Container(
+        height: 200,
+        width: 400,
+        child: Row(
+          children: [
+            SizedBox(
+              height: 64,
+              width: 100,
+              child: AdvanceDropDown(
+                // sLabel: "TEST",
+                imgpath: 'assets/icons/icon-down_4@3x.png',
+                listdropdown: test,
+                onChangeinside: (d, k) {
+                  setState(() {
+                    test01 = d;
+                    print(test01);
+                    print(k);
+                  });
+                },
+                value: test01,
+                height: 40,
+                width: 100,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                test = [
+                  MapEntry("", ""),
+                  MapEntry("TEST01", "TEST01"),
+                ];
+                setState(() {});
+              },
+              onDoubleTap: () {
+                test = [
+                  MapEntry("", ""),
+                  MapEntry("TEST01", "TEST01"),
+                  MapEntry("TEST02", "TEST02"),
+                ];
+                setState(() {});
+              },
+              child: Container(
+                height: 50,
+                width: 60,
+                color: Colors.red,
+              ),
+            ),
           ],
-          onChangeinside: (d, k) {
-            setState(() {
-              test01 = d;
-              print(test01);
-              print(k);
-            });
-          },
-          value: test01,
-          height: 40,
-          width: 100,
         ),
       ),
     );
