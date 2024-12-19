@@ -15,7 +15,6 @@ import 'package:pdf/widgets.dart' as pw;
 import '../../page/P5TABLESERVICE/P05TABLESERVICEVAR.dart';
 
 String server = 'http://172.23.10.40:16700/';
-// String server = 'http://172.23.10.51:16700/';
 
 class FileSaveHelper {
   static Future<void> saveAndLaunchFile(
@@ -50,7 +49,7 @@ Future<String> capture(
 
     pdf.addPage(
       pw.Page(
-        pageFormat: PdfPageFormat.a3.landscape,
+        pageFormat: PdfPageFormat.a3.portrait,
         margin: const pw.EdgeInsets.all(20),
         build: (pw.Context context) => pw.Column(children: [
           pw.SizedBox(height: 5),
@@ -73,8 +72,12 @@ Future<String> capture(
           ]),
           pw.SizedBox(height: 5),
           pw.Align(
-            alignment: pw.Alignment.centerLeft,
-            child: pw.Image(imagePDF),
+            alignment: pw.Alignment.topCenter,
+            child: pw.Image(imagePDF,
+                // fit: pw.BoxFit.contain, height: 650, width: 1300), //for landscape
+                fit: pw.BoxFit.contain,
+                height: 1050,
+                width: 792), //for portrait
           ),
           pw.SizedBox(height: 10),
           pw.Column(children: [
