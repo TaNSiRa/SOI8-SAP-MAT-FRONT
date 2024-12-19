@@ -4,9 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../data/dummyAchievedCust.dart';
 import '../../page/P3ACHIEVEDCUS/P03ACHIEVEDCUSMAIN.dart';
-import '../../page/P3ACHIEVEDCUS/P03ACHIEVEDCUSVAR.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------

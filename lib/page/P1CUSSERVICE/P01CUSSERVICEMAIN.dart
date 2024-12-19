@@ -232,7 +232,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
             100;
 
     // ตัวแปรสําหรับเก็บข้อมูลแต่ละเดือนของ KAC
-    Map<String, int> kacVisitPlanSums = {};
+    // Map<String, int> kacVisitPlanSums = {};
     Map<String, int> kacVisitActualCounts = {};
     Map<String, int> KACcloseLineCounts = {};
     Map<String, int> kacSumVisitFrequency = {};
@@ -342,7 +342,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
     }
 
     // ตัวแปรสําหรับเก็บข้อมูลแต่ละเดือนของ MEDIUM
-    Map<String, int> mediumVisitPlanSums = {};
+    // Map<String, int> mediumVisitPlanSums = {};
     Map<String, int> mediumVisitActualCounts = {};
     Map<String, int> mediumcloseLineCounts = {};
     Map<String, int> mediumSumVisitFrequency = {};

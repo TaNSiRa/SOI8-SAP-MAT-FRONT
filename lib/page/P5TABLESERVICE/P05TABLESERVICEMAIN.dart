@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, unnecessary_to_list_in_spreads, avoid_web_libraries_in_flutter
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -868,6 +868,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                               _globalKey,
                               "ReportPDFCommonvar",
                             ).then((value) {
+                              // ignore: avoid_print
                               print(value);
                               Navigator.pop(P05TABLESERVICEMAINcontext);
                             });
@@ -4762,6 +4763,7 @@ void exportTable(
   final url = html.Url.createObjectUrlFromBlob(blob);
 
   // สร้าง anchor สำหรับดาวน์โหลด PDF
+  // ignore: unused_local_variable
   final anchor = html.AnchorElement(href: url)
     ..setAttribute('download', 'exported_table.pdf')
     ..click();
