@@ -478,8 +478,8 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
 
     double initialAngleInDegree1113 = ((notAchievedPercent1113 * 3.6) / 2);
 
-    if (initialAngleInDegree1315.isNaN) {
-      initialAngleInDegree1315 = 0;
+    if (initialAngleInDegree1113.isNaN) {
+      initialAngleInDegree1113 = 0;
     }
 
     return Scrollbar(
@@ -743,39 +743,43 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                             ),
                           ),
                           PieChart(
-                            dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
-                                ? pieData3
-                                : P04SAMPLETIMEVAR.DropDownType == 'A'
-                                    ? pieData2
-                                    : {},
-                            chartRadius: 200,
-                            colorList: [Colors.yellow.shade200, Colors.red],
-                            chartValuesOptions: ChartValuesOptions(
-                              showChartValueBackground: true,
-                              chartValueBackgroundColor: Colors.white,
-                              showChartValues: true,
-                              chartValueStyle: TextStyle(
+                              dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
+                                  ? pieData3
+                                  : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                      ? pieData2
+                                      : {},
+                              chartRadius: 200,
+                              colorList: [Colors.yellow.shade200, Colors.red],
+                              chartValuesOptions: ChartValuesOptions(
+                                showChartValueBackground: true,
+                                chartValueBackgroundColor: Colors.white,
+                                showChartValues: true,
+                                chartValueStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              legendOptions: LegendOptions(
+                                legendPosition: LegendPosition.bottom,
+                                showLegendsInRow: true,
+                                legendTextStyle: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              chartType: ChartType.disc,
+                              baseChartColor: Colors.grey[300]!,
+                              centerTextStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            legendOptions: LegendOptions(
-                              legendPosition: LegendPosition.bottom,
-                              showLegendsInRow: true,
-                              legendTextStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            chartType: ChartType.disc,
-                            baseChartColor: Colors.grey[300]!,
-                            centerTextStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            initialAngleInDegree: initialAngleInDegree1315,
-                          ),
+                              initialAngleInDegree:
+                                  P04SAMPLETIMEVAR.DropDownType == 'B'
+                                      ? initialAngleInDegree1113
+                                      : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                          ? initialAngleInDegree1315
+                                          : 0.0),
                         ],
                       ),
                       CustomPaint(
