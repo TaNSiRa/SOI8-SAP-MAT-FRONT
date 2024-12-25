@@ -425,6 +425,21 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
         int.parse(item['rep days']!) >= 16).length.toDouble();
     IssueReportMore15 = double.parse(IssueReportMore15.toStringAsFixed(1));
 
+    double IssueReport1113 = IssueData.where((item) =>
+        item['type'] == selectedType &&
+        item['month'] == selectedMonth &&
+        item['year'] == selectedYear &&
+        int.parse(item['rep days']!) > 10 &&
+        int.parse(item['rep days']!) < 14).length.toDouble();
+    IssueReport1315 = double.parse(IssueReport1315.toStringAsFixed(1));
+
+    double IssueReportMore13 = IssueData.where((item) =>
+        item['type'] == selectedType &&
+        item['month'] == selectedMonth &&
+        item['year'] == selectedYear &&
+        int.parse(item['rep days']!) >= 14).length.toDouble();
+    IssueReportMore15 = double.parse(IssueReportMore15.toStringAsFixed(1));
+
     // Map pieData1 กับข้อมูลที่คำนวณมา
     Map<String, double> pieData1 = {};
     pieData1['Achieved KPI (Iss.)'] = SuccessReport;
@@ -448,6 +463,20 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
     double notAchievedPercent1315 = (IssueReportMore15 / IssueReport) * 100;
 
     double initialAngleInDegree1315 = ((notAchievedPercent1315 * 3.6) / 2);
+
+    if (initialAngleInDegree1315.isNaN) {
+      initialAngleInDegree1315 = 0;
+    }
+
+// Map pieData2 กับข้อมูลที่คำนวณมา
+    Map<String, double> pieData3 = {};
+    pieData3['11-13 Working days'] = IssueReport1113;
+    pieData3['More than 13 Working days'] = IssueReportMore13;
+
+    // คำนวณมุมของ 13-15 Working days ที่ต้องแสดงด้านซ้ายของ pieData2
+    double notAchievedPercent1113 = (IssueReportMore13 / IssueReport) * 100;
+
+    double initialAngleInDegree1113 = ((notAchievedPercent1113 * 3.6) / 2);
 
     if (initialAngleInDegree1315.isNaN) {
       initialAngleInDegree1315 = 0;
@@ -714,7 +743,11 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                             ),
                           ),
                           PieChart(
-                            dataMap: pieData2,
+                            dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
+                                ? pieData3
+                                : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                    ? pieData2
+                                    : {},
                             chartRadius: 200,
                             colorList: [Colors.yellow.shade200, Colors.red],
                             chartValuesOptions: ChartValuesOptions(
