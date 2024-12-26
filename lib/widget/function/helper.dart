@@ -226,6 +226,47 @@ Future<String> capture(
   }
 }
 
+Future<String> captureDefault(
+    GlobalKey<State<StatefulWidget>> globalKey, String PO) async {
+  try {
+    // FreeLoading(contextin);
+    RenderRepaintBoundary? boundary =
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+
+    final image = await boundary!.toImage(pixelRatio: 2);
+
+    final ByteData? bytes =
+        await image.toByteData(format: dart_ui.ImageByteFormat.png);
+    Uint8List dataImage =
+        bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+
+    final imagePDF = pw.MemoryImage(
+      dataImage,
+    );
+
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4.landscape,
+        margin: pw.EdgeInsets.all(4),
+        build: (pw.Context context) => pw.Center(
+          child: pw.Column(children: [pw.Image(imagePDF)]),
+        ),
+      ),
+    );
+
+    // print(await pdf.save());
+    final bytesPDF = await pdf.save();
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+
+    // Navigator.pop(contextin);
+    return 'ok';
+  } catch (e) {
+    rethrow;
+  }
+}
+
 Future<String> captureToback(
     GlobalKey<State<StatefulWidget>> globalKey, String PO) async {
   try {
