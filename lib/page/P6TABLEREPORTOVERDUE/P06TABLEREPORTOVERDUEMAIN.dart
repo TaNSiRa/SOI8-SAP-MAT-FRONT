@@ -53,13 +53,21 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
         convertMonthToMMM(P06TABLEREPORTOVERDUEVAR.DropDownMonth);
 
 // กรองข้อมูลด้วยปีและเดือน
-    List<P06TABLEREPORTOVERDUEGETDATAclass> filteredData =
-        _datain.where((data) {
-      return data.MKTGROUP == selectedGroup &&
-          data.YEAR == selectedYear &&
-          data.MONTH == selectedMonth;
-    }).toList();
-    // print(filteredData);
+    // List<P06TABLEREPORTOVERDUEGETDATAclass> filteredData =
+    //     _datain.where((data) {
+    //   return data.MKTGROUP == selectedGroup;
+    // }).toList();
+    List<P06TABLEREPORTOVERDUEGETDATAclass> filteredData;
+    if (selectedGroup == 'All') {
+      filteredData = _datain;
+    } else {
+      filteredData = _datain.where((data) {
+        return data.MKTGROUP == selectedGroup;
+      }).toList();
+    }
+
+    // print(filteredData.length);
+
 // กรองข้อมูลในตารางด้วยการค้นหา
     List<P06TABLEREPORTOVERDUEGETDATAclass> _datasearch = [];
     _datasearch.addAll(
@@ -98,6 +106,8 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
     for (var data in _datasearch) {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          extractYear(data.REPDUE1) == selectedYear &&
+          extractMonth(data.REPDUE1) == selectedMonth &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
@@ -114,33 +124,33 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'year': data.YEAR,
           'reqno': data.REQNO1,
           'freq': data.FREQ1,
-          'plan sam': data.PLANSAM1,
-          'act sam': data.ACTSAM1,
-          'rep due': data.REPDUE1,
-          'sent rep': data.SENTREP1,
-          'rep days': data.REPDAYS1,
-          'request': data.REQUEST1,
-          'ttcresult': data.TTCRESULT1,
-          'issuedate': data.ISSUEDATE1,
-          'sublead': data.SUBLEAD1,
-          'gl': data.GL1,
-          'mgr': data.MGR1,
-          'jp': data.JP1,
-          'revise1': data.REVISE1_1,
-          'sublead1': data.SUBLEAD1_1,
-          'gl1': data.GL1_1,
-          'mgr1': data.MGR1_1,
-          'jp1': data.JP1_1,
-          'revise2': data.REVISE1_2,
-          'sublead2': data.SUBLEAD1_1,
-          'gl2': data.GL1_2,
-          'mgr2': data.MGR1_2,
-          'jp2': data.JP1_2,
-          'revise3': data.REVISE1_3,
-          'sublead3': data.SUBLEAD1_3,
-          'gl3': data.GL1_3,
-          'mgr3': data.MGR1_3,
-          'jp3': data.JP1_3,
+          'plan sam': formatDate(data.PLANSAM1),
+          'act sam': formatDate(data.ACTSAM1),
+          'rep due': formatDate(data.REPDUE1),
+          'sent rep': formatDate(data.SENTREP1),
+          'rep days': formatDate(data.REPDAYS1),
+          'request': formatDate(data.REQUEST1),
+          'ttcresult': formatDate(data.TTCRESULT1),
+          'issuedate': formatDate(data.ISSUEDATE1),
+          'sublead': formatDate(data.SUBLEAD1),
+          'gl': formatDate(data.GL1),
+          'mgr': formatDate(data.MGR1),
+          'jp': formatDate(data.JP1),
+          'revise1': formatDate(data.REVISE1_1),
+          'sublead1': formatDate(data.SUBLEAD1_1),
+          'gl1': formatDate(data.GL1_1),
+          'mgr1': formatDate(data.MGR1_1),
+          'jp1': formatDate(data.JP1_1),
+          'revise2': formatDate(data.REVISE1_2),
+          'sublead2': formatDate(data.SUBLEAD1_1),
+          'gl2': formatDate(data.GL1_2),
+          'mgr2': formatDate(data.MGR1_2),
+          'jp2': formatDate(data.JP1_2),
+          'revise3': formatDate(data.REVISE1_3),
+          'sublead3': formatDate(data.SUBLEAD1_3),
+          'gl3': formatDate(data.GL1_3),
+          'mgr3': formatDate(data.MGR1_3),
+          'jp3': formatDate(data.JP1_3),
           'bdprepare': data.BDPREPARE1,
           'bdttc': data.BDTTC1,
           'bdissue': data.BDISSUE1,
@@ -171,6 +181,8 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
       }
       if (data.REPDAYS2.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          extractYear(data.REPDUE2) == selectedYear &&
+          extractMonth(data.REPDUE2) == selectedMonth &&
           int.tryParse(data.REPDAYS2)! > int.tryParse(data.KPIPERIOD)!) {
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
@@ -187,33 +199,33 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'year': data.YEAR,
           'reqno': data.REQNO2,
           'freq': data.FREQ2,
-          'plan sam': data.PLANSAM2,
-          'act sam': data.ACTSAM2,
-          'rep due': data.REPDUE2,
-          'sent rep': data.SENTREP2,
-          'rep days': data.REPDAYS2,
-          'request': data.REQUEST2,
-          'ttcresult': data.TTCRESULT2,
-          'issuedate': data.ISSUEDATE2,
-          'sublead': data.SUBLEAD2,
-          'gl': data.GL2,
-          'mgr': data.MGR2,
-          'jp': data.JP2,
-          'revise1': data.REVISE2_1,
-          'sublead1': data.SUBLEAD2_1,
-          'gl1': data.GL2_1,
-          'mgr1': data.MGR2_1,
-          'jp1': data.JP2_1,
-          'revise2': data.REVISE2_2,
-          'sublead2': data.SUBLEAD2_1,
-          'gl2': data.GL2_2,
-          'mgr2': data.MGR2_2,
-          'jp2': data.JP2_2,
-          'revise3': data.REVISE2_3,
-          'sublead3': data.SUBLEAD2_3,
-          'gl3': data.GL2_3,
-          'mgr3': data.MGR2_3,
-          'jp3': data.JP2_3,
+          'plan sam': formatDate(data.PLANSAM2),
+          'act sam': formatDate(data.ACTSAM2),
+          'rep due': formatDate(data.REPDUE2),
+          'sent rep': formatDate(data.SENTREP2),
+          'rep days': formatDate(data.REPDAYS2),
+          'request': formatDate(data.REQUEST2),
+          'ttcresult': formatDate(data.TTCRESULT2),
+          'issuedate': formatDate(data.ISSUEDATE2),
+          'sublead': formatDate(data.SUBLEAD2),
+          'gl': formatDate(data.GL2),
+          'mgr': formatDate(data.MGR2),
+          'jp': formatDate(data.JP2),
+          'revise1': formatDate(data.REVISE2_1),
+          'sublead1': formatDate(data.SUBLEAD2_1),
+          'gl1': formatDate(data.GL2_1),
+          'mgr1': formatDate(data.MGR2_1),
+          'jp1': formatDate(data.JP2_1),
+          'revise2': formatDate(data.REVISE2_2),
+          'sublead2': formatDate(data.SUBLEAD2_1),
+          'gl2': formatDate(data.GL2_2),
+          'mgr2': formatDate(data.MGR2_2),
+          'jp2': formatDate(data.JP2_2),
+          'revise3': formatDate(data.REVISE2_3),
+          'sublead3': formatDate(data.SUBLEAD2_3),
+          'gl3': formatDate(data.GL2_3),
+          'mgr3': formatDate(data.MGR2_3),
+          'jp3': formatDate(data.JP2_3),
           'bdprepare': data.BDPREPARE2,
           'bdttc': data.BDTTC2,
           'bdissue': data.BDISSUE2,
@@ -244,6 +256,8 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
       }
       if (data.REPDAYS3.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          extractYear(data.REPDUE3) == selectedYear &&
+          extractMonth(data.REPDUE3) == selectedMonth &&
           int.tryParse(data.REPDAYS3)! > int.tryParse(data.KPIPERIOD)!) {
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
@@ -260,33 +274,33 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'year': data.YEAR,
           'reqno': data.REQNO3,
           'freq': data.FREQ3,
-          'plan sam': data.PLANSAM3,
-          'act sam': data.ACTSAM3,
-          'rep due': data.REPDUE3,
-          'sent rep': data.SENTREP3,
-          'rep days': data.REPDAYS3,
-          'request': data.REQUEST3,
-          'ttcresult': data.TTCRESULT3,
-          'issuedate': data.ISSUEDATE3,
-          'sublead': data.SUBLEAD3,
-          'gl': data.GL3,
-          'mgr': data.MGR3,
-          'jp': data.JP3,
-          'revise1': data.REVISE3_1,
-          'sublead1': data.SUBLEAD3_1,
-          'gl1': data.GL3_1,
-          'mgr1': data.MGR3_1,
-          'jp1': data.JP3_1,
-          'revise2': data.REVISE3_2,
-          'sublead2': data.SUBLEAD3_1,
-          'gl2': data.GL3_2,
-          'mgr2': data.MGR3_2,
-          'jp2': data.JP3_2,
-          'revise3': data.REVISE3_3,
-          'sublead3': data.SUBLEAD3_3,
-          'gl3': data.GL3_3,
-          'mgr3': data.MGR3_3,
-          'jp3': data.JP3_3,
+          'plan sam': formatDate(data.PLANSAM3),
+          'act sam': formatDate(data.ACTSAM3),
+          'rep due': formatDate(data.REPDUE3),
+          'sent rep': formatDate(data.SENTREP3),
+          'rep days': formatDate(data.REPDAYS3),
+          'request': formatDate(data.REQUEST3),
+          'ttcresult': formatDate(data.TTCRESULT3),
+          'issuedate': formatDate(data.ISSUEDATE3),
+          'sublead': formatDate(data.SUBLEAD3),
+          'gl': formatDate(data.GL3),
+          'mgr': formatDate(data.MGR3),
+          'jp': formatDate(data.JP3),
+          'revise1': formatDate(data.REVISE3_1),
+          'sublead1': formatDate(data.SUBLEAD3_1),
+          'gl1': formatDate(data.GL3_1),
+          'mgr1': formatDate(data.MGR3_1),
+          'jp1': formatDate(data.JP3_1),
+          'revise2': formatDate(data.REVISE3_2),
+          'sublead2': formatDate(data.SUBLEAD3_1),
+          'gl2': formatDate(data.GL3_2),
+          'mgr2': formatDate(data.MGR3_2),
+          'jp2': formatDate(data.JP3_2),
+          'revise3': formatDate(data.REVISE3_3),
+          'sublead3': formatDate(data.SUBLEAD3_3),
+          'gl3': formatDate(data.GL3_3),
+          'mgr3': formatDate(data.MGR3_3),
+          'jp3': formatDate(data.JP3_3),
           'bdprepare': data.BDPREPARE3,
           'bdttc': data.BDTTC3,
           'bdissue': data.BDISSUE3,
@@ -317,6 +331,8 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
       }
       if (data.REPDAYS4.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          extractYear(data.REPDUE4) == selectedYear &&
+          extractMonth(data.REPDUE4) == selectedMonth &&
           int.tryParse(data.REPDAYS4)! > int.tryParse(data.KPIPERIOD)!) {
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
@@ -333,33 +349,33 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
           'year': data.YEAR,
           'reqno': data.REQNO4,
           'freq': data.FREQ4,
-          'plan sam': data.PLANSAM4,
-          'act sam': data.ACTSAM4,
-          'rep due': data.REPDUE4,
-          'sent rep': data.SENTREP4,
-          'rep days': data.REPDAYS4,
-          'request': data.REQUEST4,
-          'ttcresult': data.TTCRESULT4,
-          'issuedate': data.ISSUEDATE4,
-          'sublead': data.SUBLEAD4,
-          'gl': data.GL4,
-          'mgr': data.MGR4,
-          'jp': data.JP4,
-          'revise1': data.REVISE4_1,
-          'sublead1': data.SUBLEAD4_1,
-          'gl1': data.GL4_1,
-          'mgr1': data.MGR4_1,
-          'jp1': data.JP4_1,
-          'revise2': data.REVISE4_2,
-          'sublead2': data.SUBLEAD4_1,
-          'gl2': data.GL4_2,
-          'mgr2': data.MGR4_2,
-          'jp2': data.JP4_2,
-          'revise3': data.REVISE4_3,
-          'sublead3': data.SUBLEAD4_3,
-          'gl3': data.GL4_3,
-          'mgr3': data.MGR4_3,
-          'jp3': data.JP4_3,
+          'plan sam': formatDate(data.PLANSAM4),
+          'act sam': formatDate(data.ACTSAM4),
+          'rep due': formatDate(data.REPDUE4),
+          'sent rep': formatDate(data.SENTREP4),
+          'rep days': formatDate(data.REPDAYS4),
+          'request': formatDate(data.REQUEST4),
+          'ttcresult': formatDate(data.TTCRESULT4),
+          'issuedate': formatDate(data.ISSUEDATE4),
+          'sublead': formatDate(data.SUBLEAD4),
+          'gl': formatDate(data.GL4),
+          'mgr': formatDate(data.MGR4),
+          'jp': formatDate(data.JP4),
+          'revise1': formatDate(data.REVISE4_1),
+          'sublead1': formatDate(data.SUBLEAD4_1),
+          'gl1': formatDate(data.GL4_1),
+          'mgr1': formatDate(data.MGR4_1),
+          'jp1': formatDate(data.JP4_1),
+          'revise2': formatDate(data.REVISE4_2),
+          'sublead2': formatDate(data.SUBLEAD4_1),
+          'gl2': formatDate(data.GL4_2),
+          'mgr2': formatDate(data.MGR4_2),
+          'jp2': formatDate(data.JP4_2),
+          'revise3': formatDate(data.REVISE4_3),
+          'sublead3': formatDate(data.SUBLEAD4_3),
+          'gl3': formatDate(data.GL4_3),
+          'mgr3': formatDate(data.MGR4_3),
+          'jp3': formatDate(data.JP4_3),
           'bdprepare': data.BDPREPARE4,
           'bdttc': data.BDTTC4,
           'bdissue': data.BDISSUE4,
@@ -396,6 +412,108 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
     int groupBDataCount =
         newData.where((item) => item['type'] == 'Group B').length;
 
+    List<double> FilterBdprepare = newData
+        .where((item) => item['bdprepare'] != null && item['bdprepare'] != "")
+        .map((item) => double.tryParse(item['bdprepare'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdprepare = FilterBdprepare.isNotEmpty
+        ? FilterBdprepare.reduce((a, b) => a + b) / FilterBdprepare.length
+        : 0.0;
+
+    List<double> FilterBdttc = newData
+        .where((item) => item['bdttc'] != null && item['bdttc'] != "")
+        .map((item) => double.tryParse(item['bdttc'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdttc = FilterBdttc.isNotEmpty
+        ? FilterBdttc.reduce((a, b) => a + b) / FilterBdttc.length
+        : 0.0;
+
+    List<double> FilterBdissue = newData
+        .where((item) => item['bdissue'] != null && item['bdissue'] != "")
+        .map((item) => double.tryParse(item['bdissue'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdissue = FilterBdissue.isNotEmpty
+        ? FilterBdissue.reduce((a, b) => a + b) / FilterBdissue.length
+        : 0.0;
+
+    List<double> allBdreviseValues = newData
+        .expand((item) => [
+              item['bdrevise'],
+              item['bdrevise1'],
+              item['bdrevise2'],
+              item['bdrevise3'],
+            ])
+        .where((value) => value != null && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdrevise = allBdreviseValues.isNotEmpty
+        ? allBdreviseValues.reduce((a, b) => a + b) / allBdreviseValues.length
+        : 0.0;
+
+    List<double> allBdsubleadValues = newData
+        .expand((item) => [
+              item['bdsublead'],
+              item['bdsublead1'],
+              item['bdsublead2'],
+              item['bdsublead3'],
+            ])
+        .where((value) => value != null && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdsublead = allBdsubleadValues.isNotEmpty
+        ? allBdsubleadValues.reduce((a, b) => a + b) / allBdsubleadValues.length
+        : 0.0;
+
+    List<double> allBdglValues = newData
+        .expand((item) => [
+              item['bdgl'],
+              item['bdgl1'],
+              item['bdgl2'],
+              item['bdgl3'],
+            ])
+        .where((value) => value != null && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdgl = allBdglValues.isNotEmpty
+        ? allBdglValues.reduce((a, b) => a + b) / allBdglValues.length
+        : 0.0;
+
+    List<double> allBdmgrValues = newData
+        .expand((item) => [
+              item['bdmgr'],
+              item['bdmgr1'],
+              item['bdmgr2'],
+              item['bdmgr3'],
+            ])
+        .where((value) => value != null && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdmgr = allBdmgrValues.isNotEmpty
+        ? allBdmgrValues.reduce((a, b) => a + b) / allBdmgrValues.length
+        : 0.0;
+
+    List<double> allBdjpValues = newData
+        .expand((item) => [
+              item['bdjp'],
+              item['bdjp1'],
+              item['bdjp2'],
+              item['bdjp3'],
+            ])
+        .where((value) => value != null && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdjp = allBdjpValues.isNotEmpty
+        ? allBdjpValues.reduce((a, b) => a + b) / allBdjpValues.length
+        : 0.0;
+
+    List<double> FilterBdsent = newData
+        .where((item) => item['bdsent'] != null && item['bdsent'] != "")
+        .map((item) => double.tryParse(item['bdsent'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdsent = FilterBdsent.isNotEmpty
+        ? FilterBdsent.reduce((a, b) => a + b) / FilterBdsent.length
+        : 0.0;
+
     return Scrollbar(
       controller: _controllerIN01,
       thumbVisibility: true,
@@ -404,7 +522,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
       radius: Radius.circular(20),
       child: SingleChildScrollView(
         controller: _controllerIN01,
-        scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Column(
@@ -573,6 +691,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                         hint: "GROUP",
                         listdropdown: const [
                           // MapEntry("GROUP", ""),
+                          MapEntry("All", "All"),
                           MapEntry("1", "1"),
                           MapEntry("2", "2"),
                           MapEntry("5", "5"),
@@ -615,6 +734,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                         hint: "YEAR",
                         listdropdown: const [
                           // MapEntry("YEAR", ""),
+                          MapEntry("2023", "2023"),
                           MapEntry("2024", "2024"),
                           MapEntry("2025", "2025"),
                           MapEntry("2026", "2026"),
@@ -2908,6 +3028,416 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
               SizedBox(
                 height: 10,
               ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                    width: 450,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          top: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          right: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          left: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Average stage',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Table(
+                            border: TableBorder.all(),
+                            columnWidths: const {
+                              0: FixedColumnWidth(50),
+                              1: FixedColumnWidth(50),
+                              2: FixedColumnWidth(50),
+                              3: FixedColumnWidth(50),
+                              4: FixedColumnWidth(50),
+                              5: FixedColumnWidth(50),
+                              6: FixedColumnWidth(50),
+                              7: FixedColumnWidth(50),
+                              8: FixedColumnWidth(50),
+                            },
+                            children: [
+                              TableRow(
+                                children: [
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Prepare\n+Request\nsample',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'TTC\nresult',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Issue\nreport\nafter\nTTC\nanalysis',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Revise\nreport',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Sub lead\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'GL\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'MGR\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'JP\nsign',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TableCell(
+                                    child: SizedBox(
+                                      height: 60,
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: Center(
+                                          child: Text(
+                                            'Send to\ncustomer',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                        ],
+                      ),
+                      Table(
+                        border: TableBorder(
+                          horizontalInside: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          verticalInside: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          left: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          right: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: 1,
+                          ),
+                        ),
+                        columnWidths: const {
+                          0: FixedColumnWidth(50),
+                          1: FixedColumnWidth(50),
+                          2: FixedColumnWidth(50),
+                          3: FixedColumnWidth(50),
+                          4: FixedColumnWidth(50),
+                          5: FixedColumnWidth(50),
+                          6: FixedColumnWidth(50),
+                          7: FixedColumnWidth(50),
+                          8: FixedColumnWidth(50),
+                        },
+                        children: [
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgBdprepare.toStringAsFixed(2),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgBdttc.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgBdissue.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgAllBdrevise.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgAllBdsublead.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgAllBdgl.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgAllBdmgr.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgAllBdjp.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      AvgBdsent.toStringAsFixed(2),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),
@@ -2942,9 +3472,68 @@ double calculateAverage(
   return count > 0 ? sum / count : 0;
 }
 
+double calculateAverageForBd(
+    dynamic val1, dynamic val2, dynamic val3, dynamic val4) {
+  int count = 0;
+  double sum = 0.0;
+
+  if (val1 != '') {
+    sum += double.tryParse(val1.toString()) ?? 0;
+    count++;
+  }
+  if (val2 != '') {
+    sum += double.tryParse(val2.toString()) ?? 0;
+    count++;
+  }
+  if (val3 != '') {
+    sum += double.tryParse(val3.toString()) ?? 0;
+    count++;
+  }
+  if (val4 != '') {
+    sum += double.tryParse(val4.toString()) ?? 0;
+    count++;
+  }
+
+  // หากจำนวน count เป็น 0 ให้ return ค่า 0 เพื่อป้องกันการหารด้วย 0
+  return count > 0 ? sum / count : 0;
+}
+
 String convertMonthToMMM(String monthNumber) {
   int month = int.parse(monthNumber);
   DateTime dateTime = DateTime(2024, month, 1);
   String monthMMM = DateFormat('MMM').format(dateTime);
   return monthMMM;
+}
+
+String extractMonth(String? date) {
+  if (date == null || date.isEmpty) return '';
+  try {
+    // print(date);
+    final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+    // print(parsedDate);
+    return DateFormat('MM').format(parsedDate);
+  } catch (e) {
+    return '';
+  }
+}
+
+String extractYear(String? date) {
+  if (date == null || date.isEmpty) return '';
+  try {
+    final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+    return DateFormat('yyyy').format(parsedDate); // Extract the year as 'yyyy'
+  } catch (e) {
+    return ''; // Return empty if parsing fails
+  }
+}
+
+String formatDate(String? date) {
+  if (date == null || date.isEmpty) return '';
+  if (date == 'CLOSE LINE') return 'CLOSE LINE';
+  try {
+    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+    return DateFormat('dd-MMM').format(parsedDate);
+  } catch (e) {
+    return '';
+  }
 }

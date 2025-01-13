@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/BlocEvent/02-01-P02REPORTOVERDUEGETDATA.dart';
-import 'P2REPORTOVERDUE/P02REPORTOVERDUEMAIN.dart';
+import '../bloc/BlocEvent/02-01-P02REPORTOVERKPIGETDATA.dart';
+import 'P2REPORTOVERKPI/P02REPORTOVERKPIMAIN.dart';
 
 //---------------------------------------------------------
 
@@ -22,9 +22,9 @@ class Page2blockget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => P02REPORTOVERDUEGETDATA_Bloc(),
-        child: BlocBuilder<P02REPORTOVERDUEGETDATA_Bloc,
-            List<P02REPORTOVERDUEGETDATAclass>>(
+        create: (_) => P02REPORTOVERKPIGETDATA_Bloc(),
+        child: BlocBuilder<P02REPORTOVERKPIGETDATA_Bloc,
+            List<P02REPORTOVERKPIGETDATAclass>>(
           builder: (context, data) {
             return Page2Body(
               data: data,
@@ -39,10 +39,10 @@ class Page2Body extends StatelessWidget {
     super.key,
     this.data,
   });
-  List<P02REPORTOVERDUEGETDATAclass>? data;
+  List<P02REPORTOVERKPIGETDATAclass>? data;
   @override
   Widget build(BuildContext context) {
-    return P02REPORTOVERDUEMAIN(
+    return P02REPORTOVERKPIMAIN(
       data: data,
     );
   }

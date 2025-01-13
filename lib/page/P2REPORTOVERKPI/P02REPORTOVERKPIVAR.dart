@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class P02REPORTOVERDUEVAR {
+class P02REPORTOVERKPIVAR {
   static List<int> sumList = [];
   static Map<String, double> AvgAllBreakdown = {};
   static List<double> avgAllBreakdown = [];
@@ -52,5 +52,28 @@ class P02REPORTOVERDUEVAR {
     DateTime dateTime = DateTime(2024, month, 1);
     String monthMMM = DateFormat('MMM').format(dateTime);
     return monthMMM;
+  }
+
+  static String extractMonth(String? date) {
+    if (date == null || date.isEmpty) return '';
+    try {
+      // print(date);
+      final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+      // print(parsedDate);
+      return DateFormat('MM').format(parsedDate);
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String extractYear(String? date) {
+    if (date == null || date.isEmpty) return '';
+    try {
+      final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+      return DateFormat('yyyy')
+          .format(parsedDate); // Extract the year as 'yyyy'
+    } catch (e) {
+      return ''; // Return empty if parsing fails
+    }
   }
 }

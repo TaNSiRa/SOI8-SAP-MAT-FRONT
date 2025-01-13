@@ -842,7 +842,7 @@ String formatDate(String? date) {
   if (date == 'CLOSE LINE') return 'CLOSE LINE';
   try {
     DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
-    return DateFormat('dd-MMM').format(parsedDate);
+    return DateFormat('dd/MM/yyyy').format(parsedDate);
   } catch (e) {
     return '';
   }

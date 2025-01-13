@@ -686,100 +686,132 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Stack(
                         children: [
-                          PieChart(
-                            dataMap: pieData1,
-                            chartRadius: 300,
-                            colorList: [
-                              Colors.lightGreen,
-                              Colors.yellow.shade200
-                            ],
-                            chartValuesOptions: ChartValuesOptions(
-                              showChartValueBackground: true,
-                              chartValueBackgroundColor: Colors.white,
-                              showChartValues: true,
-                              chartValueStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                            legendOptions: LegendOptions(
-                              legendPosition: LegendPosition.bottom,
-                              showLegendsInRow: true,
-                              legendTextStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            chartType: ChartType.disc,
-                            baseChartColor: Colors.grey[300]!,
-                            centerTextStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            initialAngleInDegree: initialAngleInDegree,
-                          ),
-                          SizedBox(width: 35),
-                          Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Text(
-                              'Total : $AllReport Iss.',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          PieChart(
-                              dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
-                                  ? pieData3
-                                  : P04SAMPLETIMEVAR.DropDownType == 'A'
-                                      ? pieData2
-                                      : {},
-                              chartRadius: 200,
-                              colorList: [Colors.yellow.shade200, Colors.red],
-                              chartValuesOptions: ChartValuesOptions(
-                                showChartValueBackground: true,
-                                chartValueBackgroundColor: Colors.white,
-                                showChartValues: true,
-                                chartValueStyle: TextStyle(
+                          Positioned(
+                            bottom: 35,
+                            left: 188,
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
                                   color: Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'Total report : $AllReport Iss.',
+                                style: TextStyle(
+                                  fontSize: 12.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              legendOptions: LegendOptions(
-                                legendPosition: LegendPosition.bottom,
-                                showLegendsInRow: true,
-                                legendTextStyle: TextStyle(
-                                  fontSize: 12,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 85,
+                            right: 190,
+                            child: Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Text(
+                                'Total over due : $IssueReport Iss.',
+                                style: TextStyle(
+                                  fontSize: 12.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              chartType: ChartType.disc,
-                              baseChartColor: Colors.grey[300]!,
-                              centerTextStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PieChart(
+                                dataMap: pieData1,
+                                chartRadius: 300,
+                                colorList: [
+                                  Colors.lightGreen,
+                                  Colors.yellow.shade200
+                                ],
+                                chartValuesOptions: ChartValuesOptions(
+                                  showChartValueBackground: true,
+                                  chartValueBackgroundColor: Colors.white,
+                                  showChartValues: true,
+                                  chartValueStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                legendOptions: LegendOptions(
+                                  legendPosition: LegendPosition.bottom,
+                                  showLegendsInRow: true,
+                                  legendTextStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                chartType: ChartType.disc,
+                                baseChartColor: Colors.grey[300]!,
+                                centerTextStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                initialAngleInDegree: initialAngleInDegree,
                               ),
-                              initialAngleInDegree:
-                                  P04SAMPLETIMEVAR.DropDownType == 'B'
-                                      ? initialAngleInDegree1113
+                              SizedBox(width: 160),
+                              PieChart(
+                                  dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
+                                      ? pieData3
                                       : P04SAMPLETIMEVAR.DropDownType == 'A'
-                                          ? initialAngleInDegree1315
-                                          : 0.0),
+                                          ? pieData2
+                                          : {},
+                                  chartRadius: 200,
+                                  colorList: [
+                                    Colors.yellow.shade200,
+                                    Colors.red
+                                  ],
+                                  chartValuesOptions: ChartValuesOptions(
+                                    showChartValueBackground: true,
+                                    chartValueBackgroundColor: Colors.white,
+                                    showChartValues: true,
+                                    chartValueStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  legendOptions: LegendOptions(
+                                    legendPosition: LegendPosition.bottom,
+                                    showLegendsInRow: true,
+                                    legendTextStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  chartType: ChartType.disc,
+                                  baseChartColor: Colors.grey[300]!,
+                                  centerTextStyle: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  initialAngleInDegree:
+                                      P04SAMPLETIMEVAR.DropDownType == 'B'
+                                          ? initialAngleInDegree1113
+                                          : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                              ? initialAngleInDegree1315
+                                              : 0.0),
+                            ],
+                          ),
                         ],
                       ),
                       CustomPaint(

@@ -1,68 +1,72 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, avoid_print, file_names, no_leading_underscores_for_local_identifiers, unnecessary_null_comparison
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/02-01-P02REPORTOVERDUEGETDATA.dart';
+import '../../bloc/BlocEvent/02-01-P02REPORTOVERKPIGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
-import 'P02REPORTOVERDUEVAR.dart';
+import '../P6TABLEREPORTOVERDUE/P06TABLEREPORTOVERDUEMAIN.dart';
+import 'P02REPORTOVERKPIVAR.dart';
 
-late BuildContext P02REPORTOVERDUEMAINcontext;
+late BuildContext P02REPORTOVERKPIMAINcontext;
 ScrollController _controllerIN01 = ScrollController();
 
-class P02REPORTOVERDUEMAIN extends StatefulWidget {
-  P02REPORTOVERDUEMAIN({
+class P02REPORTOVERKPIMAIN extends StatefulWidget {
+  P02REPORTOVERKPIMAIN({
     super.key,
     this.data,
   });
-  List<P02REPORTOVERDUEGETDATAclass>? data;
+  List<P02REPORTOVERKPIGETDATAclass>? data;
 
   @override
-  State<P02REPORTOVERDUEMAIN> createState() => _P02REPORTOVERDUEMAINState();
+  State<P02REPORTOVERKPIMAIN> createState() => _P02REPORTOVERKPIMAINState();
 }
 
-class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
+class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
   @override
   void initState() {
     super.initState();
     context
-        .read<P02REPORTOVERDUEGETDATA_Bloc>()
-        .add(P02REPORTOVERDUEGETDATA_GET());
+        .read<P02REPORTOVERKPIGETDATA_Bloc>()
+        .add(P02REPORTOVERKPIGETDATA_GET());
   }
 
   @override
   Widget build(BuildContext context) {
-    P02REPORTOVERDUEMAINcontext = context;
-    List<P02REPORTOVERDUEGETDATAclass> _datain = widget.data ?? [];
+    P02REPORTOVERKPIMAINcontext = context;
+    List<P02REPORTOVERKPIGETDATAclass> _datain = widget.data ?? [];
 
     // ตัวแปรสําหรับใช้กับ Dropdown
-    final selectedType = (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty)
-        ? P02REPORTOVERDUEVAR.DropDownType
+    final selectedType = (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty)
+        ? P02REPORTOVERKPIVAR.DropDownType
         : 'Group A';
-    final selectedYear = (P02REPORTOVERDUEVAR.DropDownYear.isNotEmpty)
-        ? P02REPORTOVERDUEVAR.DropDownYear
-        : P02REPORTOVERDUEVAR.currentYear;
+    final selectedYear = (P02REPORTOVERKPIVAR.DropDownYear.isNotEmpty)
+        ? P02REPORTOVERKPIVAR.DropDownYear
+        : P02REPORTOVERKPIVAR.currentYear;
+    final selectedMonth = (P02REPORTOVERKPIVAR.DropDownMonth.isNotEmpty)
+        ? P02REPORTOVERKPIVAR.DropDownMonth
+        : P02REPORTOVERKPIVAR.currentMonth2;
     // แปลง MM เป็น MMM
-    final selectedMonthMMM = P02REPORTOVERDUEVAR
-        .convertMonthToMMM(P02REPORTOVERDUEVAR.DropDownMonth);
+    final selectedMonthMMM = P02REPORTOVERKPIVAR
+        .convertMonthToMMM(P02REPORTOVERKPIVAR.DropDownMonth);
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
-      'Group A': P02REPORTOVERDUEVAR.GroupATargetDays,
-      'Group B': P02REPORTOVERDUEVAR.GroupBTargetDays,
+      'Group A': P02REPORTOVERKPIVAR.GroupATargetDays,
+      'Group B': P02REPORTOVERKPIVAR.GroupBTargetDays,
     };
 
     // เลือก Group A,B ตาม selectedType
     final GroupTargetDays = groupTargetDaysMap[selectedType] ??
-        P02REPORTOVERDUEVAR.GroupATargetDays;
+        P02REPORTOVERKPIVAR.GroupATargetDays;
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupSampleTimeMap = {
-      'Group A': P02REPORTOVERDUEVAR.GroupAsampleTime,
-      'Group B': P02REPORTOVERDUEVAR.GroupBsampleTime,
+      'Group A': P02REPORTOVERKPIVAR.GroupAsampleTime,
+      'Group B': P02REPORTOVERKPIVAR.GroupBsampleTime,
     };
 
     // เลือก Group A,B ตาม selectedType
     final groupSampleTime = groupSampleTimeMap[selectedType] ??
-        P02REPORTOVERDUEVAR.GroupAsampleTime;
+        P02REPORTOVERKPIVAR.GroupAsampleTime;
 
     // กำหนด Period ตาม selectedType
     final typeValue = (selectedType == 'A')
@@ -72,16 +76,10 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
             : 0;
 
     // กรองข้อมูลด้วย Type ,YEAR ,MONTH
-    List<P02REPORTOVERDUEGETDATAclass> filteredData = _datain.where((data) {
-      return data.TYPE == 'Group ${selectedType}' &&
-          data.YEAR == selectedYear &&
-          data.MONTH == P02REPORTOVERDUEVAR.DropDownMonth;
+    List<P02REPORTOVERKPIGETDATAclass> filteredData = _datain.where((data) {
+      return data.TYPE == selectedType;
     }).toList();
-    // List<P02REPORTOVERDUEGETDATAclass> filteredData = _datain.where((data) {
-    //   return data.TYPE == 'Group A' &&
-    //       data.YEAR == '2024' &&
-    //       data.MONTH == '09';
-    // }).toList();
+
     print(filteredData.length);
 
     //แยกข้อมูล week 1-4
@@ -89,6 +87,8 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
     for (var data in filteredData) {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P02REPORTOVERKPIVAR.extractYear(data.REPDUE1) == selectedYear &&
+          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE1) == selectedMonth &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues1 = [
           data.BDREVISE1_1,
@@ -184,6 +184,8 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
 
       if (data.REPDAYS2.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P02REPORTOVERKPIVAR.extractYear(data.REPDUE2) == selectedYear &&
+          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE2) == selectedMonth &&
           int.tryParse(data.REPDAYS2)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues2 = [
           data.BDREVISE2_1,
@@ -279,6 +281,8 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
 
       if (data.REPDAYS3.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P02REPORTOVERKPIVAR.extractYear(data.REPDUE3) == selectedYear &&
+          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE3) == selectedMonth &&
           int.tryParse(data.REPDAYS3)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues3 = [
           data.BDREVISE3_1,
@@ -374,6 +378,8 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
 
       if (data.REPDAYS4.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P02REPORTOVERKPIVAR.extractYear(data.REPDUE4) == selectedYear &&
+          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE4) == selectedMonth &&
           int.tryParse(data.REPDAYS4)! > int.tryParse(data.KPIPERIOD)!) {
         // ตรวจสอบค่าที่ไม่ใช่ null หรือ empty สำหรับ bdrevise
         List<double> bdReviseValues4 = [
@@ -525,7 +531,7 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
           var filteredItems = newData
               // .where((item) =>
               //     item['type'] == selectedType &&
-              //     item['month'] == P02REPORTOVERDUEVAR.DropDownMonth &&
+              //     item['month'] == P02REPORTOVERKPIVAR.DropDownMonth &&
               //     item['year'] == selectedYear)
               .toList();
 
@@ -647,10 +653,10 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                           children: [
                             Column(
                               children: [
-                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERKPIVAR
                                         .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                    P02REPORTOVERKPIVAR
                                         .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
@@ -672,13 +678,13 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02REPORTOVERDUEVAR.DropDownType = d;
+                                      P02REPORTOVERKPIVAR.DropDownType = d;
                                       // context
-                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
+                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
                                     });
                                   },
-                                  value: P02REPORTOVERDUEVAR.DropDownType,
+                                  value: P02REPORTOVERKPIVAR.DropDownType,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -689,10 +695,10 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERKPIVAR
                                         .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                    P02REPORTOVERKPIVAR
                                         .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
@@ -730,13 +736,13 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02REPORTOVERDUEVAR.DropDownYear = d;
+                                      P02REPORTOVERKPIVAR.DropDownYear = d;
                                       // context
-                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
+                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
                                     });
                                   },
-                                  value: P02REPORTOVERDUEVAR.DropDownYear,
+                                  value: P02REPORTOVERKPIVAR.DropDownYear,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -747,10 +753,10 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                             ),
                             Column(
                               children: [
-                                if (P02REPORTOVERDUEVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                    P02REPORTOVERKPIVAR
                                         .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERDUEVAR
+                                    P02REPORTOVERKPIVAR
                                         .DropDownMonth.isNotEmpty)
                                   SizedBox(
                                     width: 100,
@@ -782,13 +788,13 @@ class _P02REPORTOVERDUEMAINState extends State<P02REPORTOVERDUEMAIN> {
                                   ],
                                   onChangeinside: (d, k) {
                                     setState(() {
-                                      P02REPORTOVERDUEVAR.DropDownMonth = d;
+                                      P02REPORTOVERKPIVAR.DropDownMonth = d;
                                       // context
-                                      //     .read<P02REPORTOVERDUEGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERDUEGETDATA_GET());
+                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
                                     });
                                   },
-                                  value: P02REPORTOVERDUEVAR.DropDownMonth,
+                                  value: P02REPORTOVERKPIVAR.DropDownMonth,
                                   height: 30,
                                   width: 100,
                                 ),
@@ -844,9 +850,9 @@ class BarChartPainter extends CustomPainter {
   final List<double> GroupTargetDays;
   final List<double> avgAllBreakdown;
   final double maxY;
-  final selectedYear = (P02REPORTOVERDUEVAR.DropDownYear.isNotEmpty)
-      ? P02REPORTOVERDUEVAR.DropDownYear
-      : P02REPORTOVERDUEVAR.currentYear;
+  final selectedYear = (P02REPORTOVERKPIVAR.DropDownYear.isNotEmpty)
+      ? P02REPORTOVERKPIVAR.DropDownYear
+      : P02REPORTOVERKPIVAR.currentYear;
 
   BarChartPainter({
     required this.GroupTargetDays,
@@ -1030,7 +1036,7 @@ class BarChartPainter extends CustomPainter {
     for (int i = 0; i < GroupTargetDays.length; i++) {
       String monthText;
 
-      monthText = P02REPORTOVERDUEVAR.breakdown[i];
+      monthText = P02REPORTOVERKPIVAR.breakdown[i];
 
       textPainter.text = TextSpan(
         text: monthText,

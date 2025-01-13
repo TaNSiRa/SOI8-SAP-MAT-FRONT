@@ -164,12 +164,21 @@ Future<String> capture(
                 width: 100,
                 height: 20,
                 decoration: pw.BoxDecoration(
-                    border: pw.Border.all(
-                  width: 0.7,
-                )),
+                  border: pw.Border.all(
+                    width: 0.7,
+                  ),
+                ),
                 child: pw.Center(
                   child: pw.Text(
-                    'Ms. Pornthip Khowawintaweewat\nSenior Staff',
+                    P05TABLESERVICEVAR.DropDownGroup == '1'
+                        ? 'Ms. Pornthip Khowawintaweewat\nIssue Staff'
+                        : P05TABLESERVICEVAR.DropDownGroup == '2'
+                            ? 'Mr. Nattapon Anasura\nIssue Staff'
+                            : P05TABLESERVICEVAR.DropDownGroup == '5'
+                                ? 'Mr. Natawut Khampan\nIssue Staff'
+                                : P05TABLESERVICEVAR.DropDownGroup == '6'
+                                    ? 'Mr. Chawasorn Intaraprasit\nIssue Staff'
+                                    : 'Unknown Issue Staff',
                     style: pw.TextStyle(
                         fontSize: 6, fontWeight: pw.FontWeight.bold),
                     textAlign: pw.TextAlign.center,
@@ -180,12 +189,21 @@ Future<String> capture(
                 width: 100,
                 height: 20,
                 decoration: pw.BoxDecoration(
-                    border: pw.Border.all(
-                  width: 0.7,
-                )),
+                  border: pw.Border.all(
+                    width: 0.7,
+                  ),
+                ),
                 child: pw.Center(
                   child: pw.Text(
-                    'Mr. Yanyong Chompoo\nSection Manager',
+                    P05TABLESERVICEVAR.DropDownGroup == '1'
+                        ? 'Mr. Worachai Kunadirek\nLeader Manager'
+                        : P05TABLESERVICEVAR.DropDownGroup == '2'
+                            ? 'Mr. Yanyong Chompoo\nLeader Manager'
+                            : P05TABLESERVICEVAR.DropDownGroup == '5'
+                                ? 'Mr. Sutat Teevasuveat\nLeader Manager'
+                                : P05TABLESERVICEVAR.DropDownGroup == '6'
+                                    ? 'Mr. Santiparp Rattanapun\nLeader Manager'
+                                    : 'Unknown Leader Manager',
                     style: pw.TextStyle(
                         fontSize: 6, fontWeight: pw.FontWeight.bold),
                     textAlign: pw.TextAlign.center,
@@ -196,12 +214,21 @@ Future<String> capture(
                 width: 100,
                 height: 20,
                 decoration: pw.BoxDecoration(
-                    border: pw.Border.all(
-                  width: 0.7,
-                )),
+                  border: pw.Border.all(
+                    width: 0.7,
+                  ),
+                ),
                 child: pw.Center(
                   child: pw.Text(
-                    'Mr. Seksan Vivon\nDepartment Manager',
+                    P05TABLESERVICEVAR.DropDownGroup == '1'
+                        ? 'Mr. Seksan Vivon\nDepartment Manager'
+                        : P05TABLESERVICEVAR.DropDownGroup == '2'
+                            ? 'Mr. Seksan Vivon\nDepartment Manager'
+                            : P05TABLESERVICEVAR.DropDownGroup == '5'
+                                ? 'Mr. Sahaphap Samor\nDepartment Manager'
+                                : P05TABLESERVICEVAR.DropDownGroup == '6'
+                                    ? 'Mr. Sahaphap Samor\nDepartment Manager'
+                                    : 'Unknown Department Manager',
                     style: pw.TextStyle(
                         fontSize: 6, fontWeight: pw.FontWeight.bold),
                     textAlign: pw.TextAlign.center,

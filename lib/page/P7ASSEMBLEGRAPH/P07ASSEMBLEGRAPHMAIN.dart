@@ -39,7 +39,7 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
     context
         .read<P07ASSEMBLEGRAPHGETDATA_Bloc>()
         .add(P07ASSEMBLEGRAPHGETDATA_GET());
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 5), () {
       context
           .read<P07ASSEMBLEGRAPHGETDATA1_Bloc>()
           .add(P07ASSEMBLEGRAPHGETDATA1_GET());
@@ -117,9 +117,7 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
 
     // กรองข้อมูลด้วย Type ,YEAR ,MONTH
     List<P07ASSEMBLEGRAPHGETDATA1class> filteredData1 = _datain1.where((data) {
-      return data.TYPE == selectedType &&
-          data.YEAR == selectedYear &&
-          data.MONTH == P07ASSEMBLEGRAPHVAR.DropDownMonth;
+      return data.TYPE == selectedType;
     }).toList();
     print(filteredData1.length);
 
@@ -1071,6 +1069,8 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
     for (var data in filteredData1) {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P07ASSEMBLEGRAPHVAR.extractYear(data.REPDUE1) == selectedYear &&
+          P07ASSEMBLEGRAPHVAR.extractMonth(data.REPDUE1) == selectedMonth &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues1 = [
           data.BDREVISE1_1,
@@ -1166,6 +1166,8 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
 
       if (data.REPDAYS2.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P07ASSEMBLEGRAPHVAR.extractYear(data.REPDUE2) == selectedYear &&
+          P07ASSEMBLEGRAPHVAR.extractMonth(data.REPDUE2) == selectedMonth &&
           int.tryParse(data.REPDAYS2)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues2 = [
           data.BDREVISE2_1,
@@ -1261,6 +1263,8 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
 
       if (data.REPDAYS3.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P07ASSEMBLEGRAPHVAR.extractYear(data.REPDUE3) == selectedYear &&
+          P07ASSEMBLEGRAPHVAR.extractMonth(data.REPDUE3) == selectedMonth &&
           int.tryParse(data.REPDAYS3)! > int.tryParse(data.KPIPERIOD)!) {
         List<double> bdReviseValues3 = [
           data.BDREVISE3_1,
@@ -1356,6 +1360,8 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
 
       if (data.REPDAYS4.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
+          P07ASSEMBLEGRAPHVAR.extractYear(data.REPDUE4) == selectedYear &&
+          P07ASSEMBLEGRAPHVAR.extractMonth(data.REPDUE4) == selectedMonth &&
           int.tryParse(data.REPDAYS4)! > int.tryParse(data.KPIPERIOD)!) {
         // ตรวจสอบค่าที่ไม่ใช่ null หรือ empty สำหรับ bdrevise
         List<double> bdReviseValues4 = [

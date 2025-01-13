@@ -4,51 +4,51 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../page/P2REPORTOVERDUE/P02REPORTOVERDUEMAIN.dart';
+import '../../page/P2REPORTOVERKPI/P02REPORTOVERKPIMAIN.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
 
-abstract class P02REPORTOVERDUEGETDATA_Event {}
+abstract class P02REPORTOVERKPIGETDATA_Event {}
 
-class P02REPORTOVERDUEGETDATA_GET extends P02REPORTOVERDUEGETDATA_Event {}
+class P02REPORTOVERKPIGETDATA_GET extends P02REPORTOVERKPIGETDATA_Event {}
 
-class P02REPORTOVERDUEGETDATA_GET2 extends P02REPORTOVERDUEGETDATA_Event {}
+class P02REPORTOVERKPIGETDATA_GET2 extends P02REPORTOVERKPIGETDATA_Event {}
 
-class P02REPORTOVERDUEGETDATA_GET3 extends P02REPORTOVERDUEGETDATA_Event {}
+class P02REPORTOVERKPIGETDATA_GET3 extends P02REPORTOVERKPIGETDATA_Event {}
 
-class P02REPORTOVERDUEGETDATA_FLUSH extends P02REPORTOVERDUEGETDATA_Event {}
+class P02REPORTOVERKPIGETDATA_FLUSH extends P02REPORTOVERKPIGETDATA_Event {}
 
-class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
-    List<P02REPORTOVERDUEGETDATAclass>> {
-  P02REPORTOVERDUEGETDATA_Bloc() : super([]) {
-    on<P02REPORTOVERDUEGETDATA_GET>((event, emit) {
-      return _P02REPORTOVERDUEGETDATA_GET([], emit);
+class P02REPORTOVERKPIGETDATA_Bloc extends Bloc<P02REPORTOVERKPIGETDATA_Event,
+    List<P02REPORTOVERKPIGETDATAclass>> {
+  P02REPORTOVERKPIGETDATA_Bloc() : super([]) {
+    on<P02REPORTOVERKPIGETDATA_GET>((event, emit) {
+      return _P02REPORTOVERKPIGETDATA_GET([], emit);
     });
 
-    on<P02REPORTOVERDUEGETDATA_GET2>((event, emit) {
-      return _P02REPORTOVERDUEGETDATA_GET2([], emit);
+    on<P02REPORTOVERKPIGETDATA_GET2>((event, emit) {
+      return _P02REPORTOVERKPIGETDATA_GET2([], emit);
     });
-    on<P02REPORTOVERDUEGETDATA_GET3>((event, emit) {
-      return _P02REPORTOVERDUEGETDATA_GET3([], emit);
+    on<P02REPORTOVERKPIGETDATA_GET3>((event, emit) {
+      return _P02REPORTOVERKPIGETDATA_GET3([], emit);
     });
-    on<P02REPORTOVERDUEGETDATA_FLUSH>((event, emit) {
-      return _P02REPORTOVERDUEGETDATA_FLUSH([], emit);
+    on<P02REPORTOVERKPIGETDATA_FLUSH>((event, emit) {
+      return _P02REPORTOVERKPIGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P02REPORTOVERDUEGETDATA_GET(
-      List<P02REPORTOVERDUEGETDATAclass> toAdd,
-      Emitter<List<P02REPORTOVERDUEGETDATAclass>> emit) async {
-    FreeLoadingTan(P02REPORTOVERDUEMAINcontext);
-    List<P02REPORTOVERDUEGETDATAclass> output = [];
+  Future<void> _P02REPORTOVERKPIGETDATA_GET(
+      List<P02REPORTOVERKPIGETDATAclass> toAdd,
+      Emitter<List<P02REPORTOVERKPIGETDATAclass>> emit) async {
+    FreeLoadingTan(P02REPORTOVERKPIMAINcontext);
+    List<P02REPORTOVERKPIGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
       "http://172.23.10.51:14000/02SARKPI/ReportOverKPISelect",
       data: {
-        // 'TYPE': P02REPORTOVERDUEVAR.DropDownType.toString(),
-        // 'MONTH': P02REPORTOVERDUEVAR.DropDownMonth.toString(),
-        // 'YEAR': P02REPORTOVERDUEVAR.DropDownYear.toString(),
+        // 'TYPE': P02REPORTOVERKPIVAR.DropDownType.toString(),
+        // 'MONTH': P02REPORTOVERKPIVAR.DropDownMonth.toString(),
+        // 'YEAR': P02REPORTOVERKPIVAR.DropDownYear.toString(),
       },
     );
     var input = [];
@@ -60,9 +60,9 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
 
       // var input = dummyOverKPI;
 
-      List<P02REPORTOVERDUEGETDATAclass> outputdata = input.map((data) {
-        return P02REPORTOVERDUEGETDATAclass(
-          TYPE: 'Group ${savenull(data['Type'])}',
+      List<P02REPORTOVERKPIGETDATAclass> outputdata = input.map((data) {
+        return P02REPORTOVERKPIGETDATAclass(
+          TYPE: savenull(data['Type']),
           MKTGROUP: savenull(data['MKTGroup']),
           GROUP: savenull(data['Group']),
           CUSTOMER: savenull(data['Customer']),
@@ -288,7 +288,7 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
           REASON4: savenull(data['Reason4']),
         );
       }).toList();
-      Navigator.pop(P02REPORTOVERDUEMAINcontext);
+      Navigator.pop(P02REPORTOVERKPIMAINcontext);
 
       output = outputdata;
       emit(output);
@@ -299,20 +299,20 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
     }
   }
 
-  Future<void> _P02REPORTOVERDUEGETDATA_GET2(
-      List<P02REPORTOVERDUEGETDATAclass> toAdd,
-      Emitter<List<P02REPORTOVERDUEGETDATAclass>> emit) async {
-    // List<P02REPORTOVERDUEGETDATAclass> output = [];
+  Future<void> _P02REPORTOVERKPIGETDATA_GET2(
+      List<P02REPORTOVERKPIGETDATAclass> toAdd,
+      Emitter<List<P02REPORTOVERKPIGETDATAclass>> emit) async {
+    // List<P02REPORTOVERKPIGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
 
-    // List<P02REPORTOVERDUEGETDATAclass> outputdata = input
+    // List<P02REPORTOVERKPIGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&
     //         data['plant'] == 'YES' &&
     //         data['step01'] == 'YES')
     //     .map((data) {
-    //   return P02REPORTOVERDUEGETDATAclass(
+    //   return P02REPORTOVERKPIGETDATAclass(
     //     PLANT: savenull(data['plant']),
     //     ORDER: savenull(data['order']),
     //     MAT: savenull(data['mat']),
@@ -337,31 +337,31 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
     // emit(output);
   }
 
-  Future<void> _P02REPORTOVERDUEGETDATA_GET3(
-      List<P02REPORTOVERDUEGETDATAclass> toAdd,
-      Emitter<List<P02REPORTOVERDUEGETDATAclass>> emit) async {
-    // List<P02REPORTOVERDUEGETDATAclass> output = [];
+  Future<void> _P02REPORTOVERKPIGETDATA_GET3(
+      List<P02REPORTOVERKPIGETDATAclass> toAdd,
+      Emitter<List<P02REPORTOVERKPIGETDATAclass>> emit) async {
+    // List<P02REPORTOVERKPIGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    // List<P02REPORTOVERDUEGETDATAclass> datadummy = [
-    //   P02REPORTOVERDUEGETDATAclass(
+    // List<P02REPORTOVERKPIGETDATAclass> datadummy = [
+    //   P02REPORTOVERKPIGETDATAclass(
     //     PLANT: "PH PO:1234",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //   ),
-    //   P02REPORTOVERDUEGETDATAclass(
+    //   P02REPORTOVERKPIGETDATAclass(
     //     PLANT: "PH PO:5555",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //     STEP03: "YES",
     //     STEP04: "YES",
     //   ),
-    //   P02REPORTOVERDUEGETDATAclass(
+    //   P02REPORTOVERKPIGETDATAclass(
     //     PLANT: "PH PO:5556",
     //     STEP01: "YES",
     //     STEP02: "YES",
     //   ),
-    //   P02REPORTOVERDUEGETDATAclass(
+    //   P02REPORTOVERKPIGETDATAclass(
     //     PLANT: "PH PO:9999",
     //   ),
     // ];
@@ -371,16 +371,16 @@ class P02REPORTOVERDUEGETDATA_Bloc extends Bloc<P02REPORTOVERDUEGETDATA_Event,
     // emit(output);
   }
 
-  Future<void> _P02REPORTOVERDUEGETDATA_FLUSH(
-      List<P02REPORTOVERDUEGETDATAclass> toAdd,
-      Emitter<List<P02REPORTOVERDUEGETDATAclass>> emit) async {
-    List<P02REPORTOVERDUEGETDATAclass> output = [];
+  Future<void> _P02REPORTOVERKPIGETDATA_FLUSH(
+      List<P02REPORTOVERKPIGETDATAclass> toAdd,
+      Emitter<List<P02REPORTOVERKPIGETDATAclass>> emit) async {
+    List<P02REPORTOVERKPIGETDATAclass> output = [];
     emit(output);
   }
 }
 
-class P02REPORTOVERDUEGETDATAclass {
-  P02REPORTOVERDUEGETDATAclass({
+class P02REPORTOVERKPIGETDATAclass {
+  P02REPORTOVERKPIGETDATAclass({
     this.TYPE = '',
     this.MKTGROUP = '',
     this.GROUP = '',
@@ -845,8 +845,9 @@ String formatDate(String? date) {
   if (date == null || date.isEmpty) return '';
   if (date == 'CLOSE LINE') return 'CLOSE LINE';
   try {
+    print(date);
     DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
-    return DateFormat('dd-MMM').format(parsedDate);
+    return DateFormat('dd/MM/yyyy').format(parsedDate);
   } catch (e) {
     return '';
   }

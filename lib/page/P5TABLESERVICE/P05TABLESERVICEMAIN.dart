@@ -82,10 +82,15 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
 
     // กรองข้อมูลด้วยปีและเดือน
     List<P05TABLESERVICEGETDATAclass> filteredData = _datain.where((data) {
-      return data.MKTGROUP == selectedGroup &&
-          data.YEAR == selectedYear &&
-          data.MONTH == selectedMonth;
+      if (selectedGroup == 'All') {
+        return data.YEAR == selectedYear && data.MONTH == selectedMonth;
+      } else {
+        return data.MKTGROUP == selectedGroup &&
+            data.YEAR == selectedYear &&
+            data.MONTH == selectedMonth;
+      }
     }).toList();
+
     // print(filteredData);
 
     // List<P05TABLESERVICEGETDATA1class> filteredData1 = _datain1
@@ -711,6 +716,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                             hint: "GROUP",
                             listdropdown: const [
                               // MapEntry("GROUP", " "),
+                              MapEntry("All", "All"),
                               MapEntry("1", "1"),
                               MapEntry("2", "2"),
                               MapEntry("5", "5"),
@@ -4635,139 +4641,139 @@ String convertMonthToMMM(String monthNumber) {
   return monthMMM;
 }
 
-void exportTable(
-    List<dynamic> dataSearch, groupADataCount, groupBDataCount) async {
-  final pdf = pw.Document();
+// void exportTable(
+//     List<dynamic> dataSearch, groupADataCount, groupBDataCount) async {
+//   final pdf = pw.Document();
 
-  pdf.addPage(
-    pw.Page(
-      pageFormat: PdfPageFormat.a3.landscape,
-      build: (pw.Context context) {
-        return pw.Row(
-          crossAxisAlignment: pw.CrossAxisAlignment.start,
-          children: [
-            pw.Table(
-              border: pw.TableBorder.all(),
-              columnWidths: {
-                0: pw.FixedColumnWidth(25),
-              },
-              children: [
-                pw.TableRow(
-                  children: [
-                    pw.Container(
-                      height: 80,
-                      color: PdfColors.grey300,
-                      child: pw.Center(
-                        child: pw.Text(
-                          'NO.',
-                          style: pw.TextStyle(
-                            color: PdfColors.black,
-                            fontSize: 10,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                ...dataSearch.asMap().entries.map((entry) {
-                  int dataCount = entry.key + 1;
-                  return pw.TableRow(
-                    children: [
-                      pw.Container(
-                        height: 20,
-                        child: pw.Center(
-                          child: pw.Text(
-                            dataCount.toString(),
-                            style: pw.TextStyle(fontSize: 10),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ],
-            ),
-            pw.Column(
-              children: [
-                pw.Table(
-                  border: pw.TableBorder.all(),
-                  columnWidths: {
-                    0: pw.FixedColumnWidth(100),
-                  },
-                  children: [
-                    pw.TableRow(
-                      children: [
-                        pw.Container(
-                          height: 80,
-                          color: PdfColors.grey300,
-                          child: pw.Center(
-                            child: pw.Text(
-                              'Type',
-                              style: pw.TextStyle(
-                                  color: PdfColors.black,
-                                  fontSize: 10,
-                                  fontWeight: pw.FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                // ข้อมูล Group A
-                if (groupADataCount > 0)
-                  pw.Container(
-                    height: groupADataCount * 20,
-                    width: 100,
-                    decoration: pw.BoxDecoration(
-                      border: pw.TableBorder.all(),
-                    ),
-                    child: pw.Center(
-                      child: pw.Text(
-                        'Group A: Long\nsample preparation\ntime',
-                        style: pw.TextStyle(fontSize: 10),
-                        textAlign: pw.TextAlign.center,
-                      ),
-                    ),
-                  ),
-                // ข้อมูล Group B
-                if (groupBDataCount > 0)
-                  pw.Container(
-                    height: groupBDataCount * 20,
-                    width: 100,
-                    decoration: pw.BoxDecoration(
-                      border: pw.TableBorder.all(),
-                    ),
-                    child: pw.Center(
-                      child: pw.Text(
-                        'Group B: Other\n(Not long sample\npreparation time)',
-                        style: pw.TextStyle(fontSize: 10),
-                        textAlign: pw.TextAlign.center,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        );
-      },
-    ),
-  );
+//   pdf.addPage(
+//     pw.Page(
+//       pageFormat: PdfPageFormat.a3.landscape,
+//       build: (pw.Context context) {
+//         return pw.Row(
+//           crossAxisAlignment: pw.CrossAxisAlignment.start,
+//           children: [
+//             pw.Table(
+//               border: pw.TableBorder.all(),
+//               columnWidths: {
+//                 0: pw.FixedColumnWidth(25),
+//               },
+//               children: [
+//                 pw.TableRow(
+//                   children: [
+//                     pw.Container(
+//                       height: 80,
+//                       color: PdfColors.grey300,
+//                       child: pw.Center(
+//                         child: pw.Text(
+//                           'NO.',
+//                           style: pw.TextStyle(
+//                             color: PdfColors.black,
+//                             fontSize: 10,
+//                             fontWeight: pw.FontWeight.bold,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 ...dataSearch.asMap().entries.map((entry) {
+//                   int dataCount = entry.key + 1;
+//                   return pw.TableRow(
+//                     children: [
+//                       pw.Container(
+//                         height: 20,
+//                         child: pw.Center(
+//                           child: pw.Text(
+//                             dataCount.toString(),
+//                             style: pw.TextStyle(fontSize: 10),
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   );
+//                 }).toList(),
+//               ],
+//             ),
+//             pw.Column(
+//               children: [
+//                 pw.Table(
+//                   border: pw.TableBorder.all(),
+//                   columnWidths: {
+//                     0: pw.FixedColumnWidth(100),
+//                   },
+//                   children: [
+//                     pw.TableRow(
+//                       children: [
+//                         pw.Container(
+//                           height: 80,
+//                           color: PdfColors.grey300,
+//                           child: pw.Center(
+//                             child: pw.Text(
+//                               'Type',
+//                               style: pw.TextStyle(
+//                                   color: PdfColors.black,
+//                                   fontSize: 10,
+//                                   fontWeight: pw.FontWeight.bold),
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
+//                 // ข้อมูล Group A
+//                 if (groupADataCount > 0)
+//                   pw.Container(
+//                     height: groupADataCount * 20,
+//                     width: 100,
+//                     decoration: pw.BoxDecoration(
+//                       border: pw.TableBorder.all(),
+//                     ),
+//                     child: pw.Center(
+//                       child: pw.Text(
+//                         'Group A: Long\nsample preparation\ntime',
+//                         style: pw.TextStyle(fontSize: 10),
+//                         textAlign: pw.TextAlign.center,
+//                       ),
+//                     ),
+//                   ),
+//                 // ข้อมูล Group B
+//                 if (groupBDataCount > 0)
+//                   pw.Container(
+//                     height: groupBDataCount * 20,
+//                     width: 100,
+//                     decoration: pw.BoxDecoration(
+//                       border: pw.TableBorder.all(),
+//                     ),
+//                     child: pw.Center(
+//                       child: pw.Text(
+//                         'Group B: Other\n(Not long sample\npreparation time)',
+//                         style: pw.TextStyle(fontSize: 10),
+//                         textAlign: pw.TextAlign.center,
+//                       ),
+//                     ),
+//                   ),
+//               ],
+//             ),
+//           ],
+//         );
+//       },
+//     ),
+//   );
 
-  // บันทึก PDF เป็นไบต์
-  final pdfBytes = await pdf.save();
+//   // บันทึก PDF เป็นไบต์
+//   final pdfBytes = await pdf.save();
 
-  // สร้าง Blob และ URL สำหรับดาวน์โหลด PDF
-  final blob = html.Blob([pdfBytes], 'application/pdf');
-  final url = html.Url.createObjectUrlFromBlob(blob);
+//   // สร้าง Blob และ URL สำหรับดาวน์โหลด PDF
+//   final blob = html.Blob([pdfBytes], 'application/pdf');
+//   final url = html.Url.createObjectUrlFromBlob(blob);
 
-  // สร้าง anchor สำหรับดาวน์โหลด PDF
-  // ignore: unused_local_variable
-  final anchor = html.AnchorElement(href: url)
-    ..setAttribute('download', 'exported_table.pdf')
-    ..click();
+//   // สร้าง anchor สำหรับดาวน์โหลด PDF
+//   // ignore: unused_local_variable
+//   final anchor = html.AnchorElement(href: url)
+//     ..setAttribute('download', 'exported_table.pdf')
+//     ..click();
 
-  // ล้าง URL ที่ไม่ต้องการหลังดาวน์โหลดเสร็จ
-  html.Url.revokeObjectUrl(url);
-}
+//   // ล้าง URL ที่ไม่ต้องการหลังดาวน์โหลดเสร็จ
+//   html.Url.revokeObjectUrl(url);
+// }

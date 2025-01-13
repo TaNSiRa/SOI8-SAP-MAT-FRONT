@@ -8,7 +8,7 @@ class P05TABLESERVICEVAR {
   static bool isHoveredClear1 = false;
   static final currentYear = DateFormat('yyyy').format(DateTime.now());
   static final currentMonth2 = DateFormat('MM').format(DateTime.now());
-  static String DropDownGroup = '1';
+  static String DropDownGroup = 'All';
   static String DropDownYear = currentYear;
   static String DropDownMonth = currentMonth2;
 }

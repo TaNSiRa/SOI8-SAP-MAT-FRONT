@@ -68,4 +68,26 @@ class P07ASSEMBLEGRAPHVAR {
     3,
     1,
   ];
+  static String extractMonth(String? date) {
+    if (date == null || date.isEmpty) return '';
+    try {
+      // print(date);
+      final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+      // print(parsedDate);
+      return DateFormat('MM').format(parsedDate);
+    } catch (e) {
+      return '';
+    }
+  }
+
+  static String extractYear(String? date) {
+    if (date == null || date.isEmpty) return '';
+    try {
+      final parsedDate = DateFormat('dd/MM/yyyy').parse(date);
+      return DateFormat('yyyy')
+          .format(parsedDate); // Extract the year as 'yyyy'
+    } catch (e) {
+      return ''; // Return empty if parsing fails
+    }
+  }
 }
