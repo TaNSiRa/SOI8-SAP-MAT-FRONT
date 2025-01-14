@@ -76,7 +76,7 @@ Future<String> capture(
             child: pw.Image(imagePDF,
                 // fit: pw.BoxFit.contain, height: 650, width: 1300), //for landscape
                 fit: pw.BoxFit.contain,
-                height: 1050,
+                height: 1020,
                 width: 792), //for portrait
           ),
           pw.SizedBox(height: 10),

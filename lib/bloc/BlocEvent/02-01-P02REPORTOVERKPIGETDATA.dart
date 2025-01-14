@@ -44,7 +44,7 @@ class P02REPORTOVERKPIGETDATA_Bloc extends Bloc<P02REPORTOVERKPIGETDATA_Event,
     List<P02REPORTOVERKPIGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://172.23.10.51:14000/02SARKPI/ReportOverKPISelect",
+      "http://127.0.0.1:14000/02SARKPI/ReportOverKPISelect",
       data: {
         // 'TYPE': P02REPORTOVERKPIVAR.DropDownType.toString(),
         // 'MONTH': P02REPORTOVERKPIVAR.DropDownMonth.toString(),

@@ -44,7 +44,7 @@ class P03ACHIEVEDCUSGETDATA_Bloc extends Bloc<P03ACHIEVEDCUSGETDATA_Event,
     List<P03ACHIEVEDCUSGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://172.23.10.51:14000/02SARKPI/AchievedCustomerSelect",
+      "http://127.0.0.1:14000/02SARKPI/AchievedCustomerSelect",
       data: {
         // 'TYPE': P03ACHIEVEDCUSVAR.DropDownType.toString(),
         // 'YEAR': P03ACHIEVEDCUSVAR.DropDownYear.toString(),

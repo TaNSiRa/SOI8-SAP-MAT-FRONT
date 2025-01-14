@@ -44,7 +44,7 @@ class P07ASSEMBLEGRAPHGETDATA1_Bloc extends Bloc<P07ASSEMBLEGRAPHGETDATA1_Event,
     List<P07ASSEMBLEGRAPHGETDATA1class> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://172.23.10.51:14000/02SARKPI/ReportOverKPISelect",
+      "http://127.0.0.1:14000/02SARKPI/ReportOverKPISelect",
       data: {
         // 'TYPE': P07ASSEMBLEGRAPHVAR.DropDownType.toString(),
         // 'MONTH': P07ASSEMBLEGRAPHVAR.DropDownMonth.toString(),

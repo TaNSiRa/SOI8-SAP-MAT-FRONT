@@ -44,7 +44,7 @@ class P05TABLESERVICEGETDATA_Bloc extends Bloc<P05TABLESERVICEGETDATA_Event,
     List<P05TABLESERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://172.23.10.51:14000/02SARKPI/ServiceSelect",
+      "http://127.0.0.1:14000/02SARKPI/ServiceSelect",
       data: {
         // 'MKTGROUP': P05TABLESERVICEVAR.DropDownGroup.toString(),
         // 'MONTH': P05TABLESERVICEVAR.DropDownMonth.toString(),
