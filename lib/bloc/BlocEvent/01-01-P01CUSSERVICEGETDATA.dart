@@ -44,7 +44,7 @@ class P01CUSSERVICEGETDATA_Bloc
     List<P01CUSSERVICEGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "http://127.0.0.1:14000/02SARKPI/CustServiceSelect",
+      "http://172.23.10.51:14000/02SARKPI/CustServiceSelect",
       data: {
         'YEAR': P01CUSSERVICEVAR.DropDownYear.toString(),
       },
