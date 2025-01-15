@@ -11,6 +11,9 @@ import '../../widget/function/helper.dart';
 import '../../widget/piechart/chart_values_options.dart';
 import '../../widget/piechart/legend_options.dart';
 import '../../widget/piechart/pie_chart.dart';
+import '../page2.dart';
+import '../page3.dart';
+import '../page4.dart';
 import 'P07ASSEMBLEGRAPHVAR.dart';
 
 final GlobalKey _globalKey = GlobalKey();
@@ -1761,121 +1764,105 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                             scrollDirection: Axis.horizontal,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
-                              child: Column(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Center(
-                                            child: Text(
-                                              'Group $selectedType\n'
-                                              '$GroupTargetDays ($selectedMonthMMM $selectedYear)',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: SizedBox(
+                                          height: 600,
+                                          width: 1000,
+                                          child: Page4(),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Center(
+                                              child: Text(
+                                                'Group $selectedType\n'
+                                                '$GroupTargetDays ($selectedMonthMMM $selectedYear)',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 20),
-                                          SizedBox(
-                                            width: 750,
-                                            child: Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                Positioned(
-                                                  top: 100,
-                                                  left: 335,
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Colors.black,
-                                                        width: 2.0,
+                                            SizedBox(height: 20),
+                                            SizedBox(
+                                              width: 750,
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Positioned(
+                                                    bottom: 45,
+                                                    left: 165,
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 2.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                    child: Text(
-                                                      'Total : $AllReport Iss.',
-                                                      style: TextStyle(
-                                                        fontSize: 12.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                      child: Text(
+                                                        'Total : $AllReport Iss.',
+                                                        style: TextStyle(
+                                                          fontSize: 10.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    PieChart(
-                                                      dataMap: pieData1,
-                                                      chartRadius: 200,
-                                                      colorList: [
-                                                        Colors.lightGreen,
-                                                        Colors.yellow.shade200
-                                                      ],
-                                                      chartValuesOptions:
-                                                          ChartValuesOptions(
-                                                        showChartValueBackground:
-                                                            true,
-                                                        chartValueBackgroundColor:
-                                                            Colors.white,
-                                                        showChartValues: true,
-                                                        chartValueStyle:
-                                                            TextStyle(
+                                                  Positioned(
+                                                    bottom: 70,
+                                                    right: 155,
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
                                                           color: Colors.black,
+                                                          width: 2.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      child: Text(
+                                                        'Total over due : $IssueReport Iss.',
+                                                        style: TextStyle(
+                                                          fontSize: 10.0,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 14,
                                                         ),
                                                       ),
-                                                      legendOptions:
-                                                          LegendOptions(
-                                                        legendPosition:
-                                                            LegendPosition
-                                                                .bottom,
-                                                        showLegendsInRow: true,
-                                                        legendTextStyle:
-                                                            TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                      chartType: ChartType.disc,
-                                                      baseChartColor:
-                                                          Colors.grey[300]!,
-                                                      centerTextStyle:
-                                                          TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black,
-                                                      ),
-                                                      initialAngleInDegree:
-                                                          initialAngleInDegree,
                                                     ),
-                                                    PieChart(
-                                                        dataMap: P07ASSEMBLEGRAPHVAR
-                                                                    .DropDownType ==
-                                                                'B'
-                                                            ? pieData3
-                                                            : P07ASSEMBLEGRAPHVAR.DropDownType ==
-                                                                    'A'
-                                                                ? pieData2
-                                                                : {},
-                                                        chartRadius: 150,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      PieChart(
+                                                        dataMap: pieData1,
+                                                        chartRadius: 200,
                                                         colorList: [
-                                                          Colors
-                                                              .yellow.shade200,
-                                                          Colors.red
+                                                          Colors.lightGreen,
+                                                          Colors.yellow.shade200
                                                         ],
                                                         chartValuesOptions:
                                                             ChartValuesOptions(
@@ -1889,6 +1876,7 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                                                             color: Colors.black,
                                                             fontWeight:
                                                                 FontWeight.bold,
+                                                            fontSize: 14,
                                                           ),
                                                         ),
                                                         legendOptions:
@@ -1903,6 +1891,7 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                                                             fontSize: 12,
                                                             fontWeight:
                                                                 FontWeight.bold,
+                                                            color: Colors.black,
                                                           ),
                                                         ),
                                                         chartType:
@@ -1916,31 +1905,94 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                                                               FontWeight.bold,
                                                           color: Colors.black,
                                                         ),
-                                                        initialAngleInDegree: P07ASSEMBLEGRAPHVAR
-                                                                    .DropDownType ==
-                                                                'B'
-                                                            ? initialAngleInDegree1113
-                                                            : P07ASSEMBLEGRAPHVAR
-                                                                        .DropDownType ==
-                                                                    'A'
-                                                                ? initialAngleInDegree1315
-                                                                : 0.0),
-                                                  ],
-                                                ),
-                                                CustomPaint(
-                                                  size: Size(600,
-                                                      300), // กำหนดขนาดของพื้นที่วาด
-                                                  painter:
-                                                      LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
-                                                ),
-                                              ],
+                                                        initialAngleInDegree:
+                                                            initialAngleInDegree,
+                                                      ),
+                                                      PieChart(
+                                                          dataMap: P07ASSEMBLEGRAPHVAR
+                                                                      .DropDownType ==
+                                                                  'B'
+                                                              ? pieData3
+                                                              : P07ASSEMBLEGRAPHVAR
+                                                                          .DropDownType ==
+                                                                      'A'
+                                                                  ? pieData2
+                                                                  : {},
+                                                          chartRadius: 150,
+                                                          colorList: [
+                                                            Colors.yellow
+                                                                .shade200,
+                                                            Colors.red
+                                                          ],
+                                                          chartValuesOptions:
+                                                              ChartValuesOptions(
+                                                            showChartValueBackground:
+                                                                true,
+                                                            chartValueBackgroundColor:
+                                                                Colors.white,
+                                                            showChartValues:
+                                                                true,
+                                                            chartValueStyle:
+                                                                TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          legendOptions:
+                                                              LegendOptions(
+                                                            legendPosition:
+                                                                LegendPosition
+                                                                    .bottom,
+                                                            showLegendsInRow:
+                                                                true,
+                                                            legendTextStyle:
+                                                                TextStyle(
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          chartType:
+                                                              ChartType.disc,
+                                                          baseChartColor:
+                                                              Colors.grey[300]!,
+                                                          centerTextStyle:
+                                                              TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.black,
+                                                          ),
+                                                          initialAngleInDegree: P07ASSEMBLEGRAPHVAR
+                                                                      .DropDownType ==
+                                                                  'B'
+                                                              ? initialAngleInDegree1113
+                                                              : P07ASSEMBLEGRAPHVAR
+                                                                          .DropDownType ==
+                                                                      'A'
+                                                                  ? initialAngleInDegree1315
+                                                                  : 0.0),
+                                                    ],
+                                                  ),
+                                                  CustomPaint(
+                                                    size: Size(600,
+                                                        300), // กำหนดขนาดของพื้นที่วาด
+                                                    painter:
+                                                        LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -1949,203 +2001,236 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          height: 280.5,
-                          width: 765,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1.0,
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: SizedBox(
+                                    height: 600,
+                                    width: 1100,
+                                    child: Page2(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            height: 280.5,
+                            width: 765,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Scrollbar(
-                            controller: _controllerIN03,
-                            thumbVisibility: true,
-                            interactive: true,
-                            thickness: 10,
-                            radius: Radius.circular(20),
-                            child: Center(
-                              child: SingleChildScrollView(
-                                controller: _controllerIN03,
-                                scrollDirection: Axis.horizontal,
+                            child: Scrollbar(
+                              controller: _controllerIN03,
+                              thumbVisibility: true,
+                              interactive: true,
+                              thickness: 10,
+                              radius: Radius.circular(20),
+                              child: Center(
                                 child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                        top: 20,
-                                        left: 300,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 5,
-                                              color: Colors.yellow.shade600,
-                                            ),
-                                            Text(
-                                              ' Target Days',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
+                                  controller: _controllerIN03,
+                                  scrollDirection: Axis.horizontal,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 20,
+                                          left: 300,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 5,
+                                                width: 5,
+                                                color: Colors.yellow.shade600,
                                               ),
-                                            ),
-                                            SizedBox(width: 20),
-                                            Container(
-                                              height: 5,
-                                              width: 5,
-                                              color: Colors.blue.shade900,
-                                            ),
-                                            Text(
-                                              ' Actual Days',
-                                              style: TextStyle(
-                                                fontSize: 10.0,
+                                              Text(
+                                                ' Target Days',
+                                                style: TextStyle(
+                                                  fontSize: 10.0,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 2,
-                                        left: 180,
-                                        child: Text(
-                                          'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonthMMM $selectedYear)',
-                                          style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
+                                              SizedBox(width: 20),
+                                              Container(
+                                                height: 5,
+                                                width: 5,
+                                                color: Colors.blue.shade900,
+                                              ),
+                                              Text(
+                                                ' Actual Days',
+                                                style: TextStyle(
+                                                  fontSize: 10.0,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ),
-                                      Column(
-                                        children: [
-                                          SizedBox(height: 8),
-                                          SizedBox(
-                                            height: 270,
-                                            width: 760,
-                                            child: Stack(
-                                              children: [
-                                                Center(
-                                                  child: CustomBarChart1(
-                                                    GroupTargetDays1:
-                                                        GroupTargetDays1,
-                                                    avgAllBreakdown:
-                                                        avgAllBreakdown,
-                                                    maxY: 20,
+                                        Positioned(
+                                          top: 2,
+                                          left: 180,
+                                          child: Text(
+                                            'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonthMMM $selectedYear)',
+                                            style: TextStyle(
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 8),
+                                            SizedBox(
+                                              height: 270,
+                                              width: 760,
+                                              child: Stack(
+                                                children: [
+                                                  Center(
+                                                    child: CustomBarChart1(
+                                                      GroupTargetDays1:
+                                                          GroupTargetDays1,
+                                                      avgAllBreakdown:
+                                                          avgAllBreakdown,
+                                                      maxY: 20,
+                                                    ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  top: 130,
-                                                  left: -40,
-                                                  child: Transform.rotate(
-                                                    angle:
-                                                        -90 * (3.14159 / 180),
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Text(
-                                                        groupSampleTime,
-                                                        style: TextStyle(
-                                                          fontSize: 8,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                  Positioned(
+                                                    top: 130,
+                                                    left: -40,
+                                                    child: Transform.rotate(
+                                                      angle:
+                                                          -90 * (3.14159 / 180),
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          groupSampleTime,
+                                                          style: TextStyle(
+                                                            fontSize: 8,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Stack(
-                          children: [
-                            Positioned(
-                              top: 60,
-                              right: 5,
-                              child: Row(
-                                children: [
-                                  Icon(Icons.arrow_back_rounded,
-                                      size: 12, color: Colors.blue.shade900),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.all(4.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.blue.shade900,
-                                        width: 2.0,
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  child: SizedBox(
+                                    height: 600,
+                                    width: 1100,
+                                    child: Page3(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 60,
+                                right: 5,
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.arrow_back_rounded,
+                                        size: 12, color: Colors.blue.shade900),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.all(4.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.blue.shade900,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Center(
+                                        child: Text(
+                                          'Target 100%',
+                                          style: TextStyle(
+                                            fontSize: 8.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        'Target 100%',
-                                        style: TextStyle(
-                                          fontSize: 8.0,
-                                          fontWeight: FontWeight.bold,
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 280.5,
+                                width: 765,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Scrollbar(
+                                  controller: _controllerIN02,
+                                  thumbVisibility: true,
+                                  interactive: true,
+                                  thickness: 10,
+                                  radius: Radius.circular(20),
+                                  child: Center(
+                                    child: SingleChildScrollView(
+                                      controller: _controllerIN02,
+                                      scrollDirection: Axis.horizontal,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 5),
+                                            Center(
+                                              child: Text(
+                                                '% Achieved Customer Group $selectedType (Yr.$selectedYear)',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            CustomBarChart(
+                                              SuccessReportMonths:
+                                                  SuccessReportMonths,
+                                              maxY: 100,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 280.5,
-                              width: 765,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Scrollbar(
-                                controller: _controllerIN02,
-                                thumbVisibility: true,
-                                interactive: true,
-                                thickness: 10,
-                                radius: Radius.circular(20),
-                                child: Center(
-                                  child: SingleChildScrollView(
-                                    controller: _controllerIN02,
-                                    scrollDirection: Axis.horizontal,
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: 5),
-                                          Center(
-                                            child: Text(
-                                              '% Achieved Customer Group $selectedType (Yr.$selectedYear)',
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          CustomBarChart(
-                                            SuccessReportMonths:
-                                                SuccessReportMonths,
-                                            maxY: 100,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
