@@ -3,9 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'dart:html' as html;
 import '../../bloc/BlocEvent/05-01-P05TABLESERVICEGETDATA.dart';
 import 'dart:math';
 import '../../widget/common/Advancedropdown.dart';
