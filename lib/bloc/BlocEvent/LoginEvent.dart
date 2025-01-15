@@ -84,10 +84,14 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
 
     if (token != '') {
       BlocProvider.of<BlocNotification>(contextGB).UpdateNotification(
-          "Success", "Login OK", enumNotificationlist.Success);
+          "Good to see you, ${USERDATA.NAME}!",
+          "Let's check on your progress today.",
+          enumNotificationlist.Success);
     } else {
-      BlocProvider.of<BlocNotification>(contextGB).UpdateNotification("Error",
-          "user or password have some problem", enumNotificationlist.Error);
+      BlocProvider.of<BlocNotification>(contextGB).UpdateNotification(
+          "Oops!",
+          "The username or password you entered is incorrect. Please try again.",
+          enumNotificationlist.Error);
     }
 
     emit(token);
@@ -130,8 +134,10 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
     });
 
     if (token == '') {
-      BlocProvider.of<BlocNotification>(contextGB)
-          .UpdateNotification("", "Logout", enumNotificationlist.Success);
+      BlocProvider.of<BlocNotification>(contextGB).UpdateNotification(
+          "You have been logged out successfully.",
+          "See you next time!",
+          enumNotificationlist.Success);
     }
 
     emit('');
