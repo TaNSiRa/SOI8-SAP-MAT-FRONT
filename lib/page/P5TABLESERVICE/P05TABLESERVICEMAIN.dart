@@ -524,366 +524,28 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
     double MEDIUMVisitPercent =
         (MEDIUMVisitActualCount / MEDIUMSumVisitFrequency) * 100;
 
-    return Scrollbar(
-      controller: _controllerIN01,
-      thumbVisibility: true,
-      interactive: true,
-      thickness: 10,
-      radius: Radius.circular(20),
-      child: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Scrollbar(
         controller: _controllerIN01,
-        scrollDirection: Axis.horizontal,
+        thumbVisibility: true,
+        interactive: true,
+        thickness: 10,
+        radius: Radius.circular(20),
         child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Center(
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: const [
-                            Colors.blueAccent,
-                            Colors.lightBlueAccent
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(bounds),
-                        child: Text(
-                          'SAR : Technical Service Report of Group $selectedGroup ($selectedMonthMMM $selectedYear)',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      ComInputTextTan(
-                        sPlaceholder:
-                            "Search... (Type, Group, Customer ,Incharge)",
-                        isSideIcon: false,
-                        height: 30,
-                        width: 400,
-                        isContr: P05TABLESERVICEVAR.iscontrol,
-                        fnContr: (input) {
-                          P05TABLESERVICEVAR.iscontrol = input;
-                        },
-                        sValue: P05TABLESERVICEVAR.SEARCH,
-                        returnfunc: (String s) {
-                          setState(() {
-                            P05TABLESERVICEVAR.SEARCH = s;
-                          });
-                        },
-                      ),
-                      MouseRegion(
-                        onEnter: (_) {
-                          setState(() {
-                            P05TABLESERVICEVAR.isHoveredClear = true;
-                          });
-                        },
-                        onExit: (_) {
-                          setState(() {
-                            P05TABLESERVICEVAR.isHoveredClear = false;
-                          });
-                        },
-                        child: InkWell(
-                          overlayColor:
-                              WidgetStateProperty.all(Colors.transparent),
-                          onTap: () {
-                            setState(() {
-                              P05TABLESERVICEVAR.isHoveredClear = false;
-                              P05TABLESERVICEVAR.iscontrol = true;
-                              P05TABLESERVICEVAR.SEARCH = '';
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: P05TABLESERVICEVAR.isHoveredClear
-                                    ? Colors.yellowAccent.shade700
-                                    : Colors.redAccent.shade700,
-                                width: 3.0,
-                              ),
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            padding: EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ShaderMask(
-                                  shaderCallback: (bounds) => LinearGradient(
-                                    colors: const [
-                                      Colors.white,
-                                      Colors.red,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ).createShader(bounds),
-                                  child: TweenAnimationBuilder<double>(
-                                    tween: Tween<double>(
-                                      begin: P05TABLESERVICEVAR.isHoveredClear
-                                          ? 8
-                                          : 8,
-                                      end: P05TABLESERVICEVAR.isHoveredClear
-                                          ? 8
-                                          : 8,
-                                    ),
-                                    duration: Duration(milliseconds: 200),
-                                    builder: (context, size, child) {
-                                      return TweenAnimationBuilder<Color?>(
-                                        tween: ColorTween(
-                                          begin: P05TABLESERVICEVAR
-                                                  .isHoveredClear
-                                              ? Colors.redAccent.shade700
-                                              : Colors.yellowAccent.shade700,
-                                          end: P05TABLESERVICEVAR.isHoveredClear
-                                              ? Colors.yellowAccent.shade700
-                                              : Colors.redAccent.shade700,
-                                        ),
-                                        duration: Duration(milliseconds: 200),
-                                        builder: (context, color, child) {
-                                          return Text(
-                                            'CLEAR',
-                                            style: TextStyle(
-                                              fontSize: size,
-                                              color: color,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context
-                              .read<P05TABLESERVICEGETDATA_Bloc>()
-                              .add(P05TABLESERVICEGETDATA_GET());
-                          // Timer(Duration(seconds: 1), () {
-                          //   context
-                          //       .read<P05TABLESERVICEGETDATA1_Bloc>()
-                          //       .add(P05TABLESERVICEGETDATA1_GET());
-                          // });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(10),
-                        ),
-                        child: const Icon(
-                          Icons.refresh_rounded,
-                          color: Colors.blue,
-                          size: 20,
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'GROUP',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          AdvanceDropDown(
-                            hint: "GROUP",
-                            listdropdown: const [
-                              // MapEntry("GROUP", " "),
-                              MapEntry("All", "All"),
-                              MapEntry("1", "1"),
-                              MapEntry("2", "2"),
-                              MapEntry("5", "5"),
-                              MapEntry("6", "6"),
-                            ],
-                            onChangeinside: (d, k) {
-                              setState(() {
-                                P05TABLESERVICEVAR.DropDownGroup = d;
-                                // context
-                                //     .read<P05TABLESERVICEGETDATA_Bloc>()
-                                //     .add(P05TABLESERVICEGETDATA_GET());
-                                // Timer(Duration(seconds: 1), () {
-                                //   context
-                                //       .read<P05TABLESERVICEGETDATA1_Bloc>()
-                                //       .add(P05TABLESERVICEGETDATA1_GET());
-                                // });
-                              });
-                            },
-                            value: P05TABLESERVICEVAR.DropDownGroup,
-                            height: 30,
-                            width: 100,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        children: [
-                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'YEAR',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          AdvanceDropDown(
-                            hint: "YEAR",
-                            listdropdown: const [
-                              // MapEntry("YEAR", " "),
-                              MapEntry("2023", "2023"),
-                              MapEntry("2024", "2024"),
-                              MapEntry("2025", "2025"),
-                              MapEntry("2026", "2026"),
-                              MapEntry("2027", "2027"),
-                              MapEntry("2028", "2028"),
-                              MapEntry("2029", "2029"),
-                              MapEntry("2030", "2030"),
-                              MapEntry("2031", "2031"),
-                              MapEntry("2032", "2032"),
-                              MapEntry("2033", "2033"),
-                              MapEntry("2034", "2034"),
-                              MapEntry("2035", "2035"),
-                              MapEntry("2036", "2036"),
-                              MapEntry("2037", "2037"),
-                              MapEntry("2038", "2038"),
-                              MapEntry("2039", "2039"),
-                              MapEntry("2040", "2040"),
-                            ],
-                            onChangeinside: (d, k) {
-                              setState(() {
-                                P05TABLESERVICEVAR.DropDownYear = d;
-
-                                // context
-                                //     .read<P05TABLESERVICEGETDATA_Bloc>()
-                                //     .add(P05TABLESERVICEGETDATA_GET());
-                                // Timer(Duration(seconds: 1), () {
-                                //   context
-                                //       .read<P05TABLESERVICEGETDATA1_Bloc>()
-                                //       .add(P05TABLESERVICEGETDATA1_GET());
-                                // });
-                              });
-                            },
-                            value: P05TABLESERVICEVAR.DropDownYear,
-                            height: 30,
-                            width: 100,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Column(
-                        children: [
-                          if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
-                              P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'MONTH',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          AdvanceDropDown(
-                            hint: "MONTH",
-                            listdropdown: const [
-                              // MapEntry("MONTH", " "),
-                              MapEntry("Jan", "01"),
-                              MapEntry("Feb", "02"),
-                              MapEntry("Mar", "03"),
-                              MapEntry("Apr", "04"),
-                              MapEntry("May", "05"),
-                              MapEntry("Jun", "06"),
-                              MapEntry("Jul", "07"),
-                              MapEntry("Aug", "08"),
-                              MapEntry("Sep", "09"),
-                              MapEntry("Oct", "10"),
-                              MapEntry("Nov", "11"),
-                              MapEntry("Dec", "12"),
-                            ],
-                            onChangeinside: (d, k) {
-                              setState(() {
-                                P05TABLESERVICEVAR.DropDownMonth = d;
-                                // context
-                                //     .read<P05TABLESERVICEGETDATA_Bloc>()
-                                //     .add(P05TABLESERVICEGETDATA_GET());
-                                // Timer(Duration(seconds: 1), () {
-                                //   context
-                                //       .read<P05TABLESERVICEGETDATA1_Bloc>()
-                                //       .add(P05TABLESERVICEGETDATA1_GET());
-                                // });
-                              });
-                            },
-                            value: P05TABLESERVICEVAR.DropDownMonth,
-                            height: 30,
-                            width: 100,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      ElevatedButton(
-                        // onPressed: () => exportTable(
-                        //     _datasearch, groupADataCount, groupBDataCount),
-                        onPressed: () {
-                          FreeLoadingTan(P05TABLESERVICEMAINcontext);
-                          Future.delayed(const Duration(milliseconds: 1000),
-                              () {
-                            // capture(
-                            // captureToback(
-                            capture(
-                              _globalKey,
-                              "ReportPDFCommonvar",
-                            ).then((value) {
-                              // ignore: avoid_print
-                              print(value);
-                              Navigator.pop(P05TABLESERVICEMAINcontext);
-                            });
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.white, // กำหนดสีพื้นหลังของปุ่ม
-                        ),
+          controller: _controllerIN01,
+          scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
                         child: ShaderMask(
                           shaderCallback: (bounds) => LinearGradient(
                             colors: const [
@@ -894,129 +556,706 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                             end: Alignment.bottomRight,
                           ).createShader(bounds),
                           child: Text(
-                            'Export to PDF',
+                            'SAR : Technical Service Report of Group $selectedGroup ($selectedMonthMMM $selectedYear)',
                             style: TextStyle(
-                              color: Colors.white, // กำหนดสีตัวหนังสือให้ชัดเจน
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  RepaintBoundary(
-                    key: _globalKey,
-                    child: Column(
+                      ),
+                    ),
+                    Row(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Table(
-                              border: TableBorder.all(),
-                              columnWidths: const {
-                                0: FixedColumnWidth(25),
-                              },
-                              children: [
-                                TableRow(
-                                  children: [
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'NO.',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ComInputTextTan(
+                          sPlaceholder:
+                              "Search... (Type, Group, Customer ,Incharge)",
+                          isSideIcon: false,
+                          height: 30,
+                          width: 400,
+                          isContr: P05TABLESERVICEVAR.iscontrol,
+                          fnContr: (input) {
+                            P05TABLESERVICEVAR.iscontrol = input;
+                          },
+                          sValue: P05TABLESERVICEVAR.SEARCH,
+                          returnfunc: (String s) {
+                            setState(() {
+                              P05TABLESERVICEVAR.SEARCH = s;
+                            });
+                          },
+                        ),
+                        MouseRegion(
+                          onEnter: (_) {
+                            setState(() {
+                              P05TABLESERVICEVAR.isHoveredClear = true;
+                            });
+                          },
+                          onExit: (_) {
+                            setState(() {
+                              P05TABLESERVICEVAR.isHoveredClear = false;
+                            });
+                          },
+                          child: InkWell(
+                            overlayColor:
+                                WidgetStateProperty.all(Colors.transparent),
+                            onTap: () {
+                              setState(() {
+                                P05TABLESERVICEVAR.isHoveredClear = false;
+                                P05TABLESERVICEVAR.iscontrol = true;
+                                P05TABLESERVICEVAR.SEARCH = '';
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: P05TABLESERVICEVAR.isHoveredClear
+                                      ? Colors.yellowAccent.shade700
+                                      : Colors.redAccent.shade700,
+                                  width: 3.0,
                                 ),
-                                ..._datasearch.map((item) {
-                                  int dataCount = _datasearch.indexOf(item) + 1;
-                                  return TableRow(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ShaderMask(
+                                    shaderCallback: (bounds) => LinearGradient(
+                                      colors: const [
+                                        Colors.white,
+                                        Colors.red,
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ).createShader(bounds),
+                                    child: TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                        begin: P05TABLESERVICEVAR.isHoveredClear
+                                            ? 8
+                                            : 8,
+                                        end: P05TABLESERVICEVAR.isHoveredClear
+                                            ? 8
+                                            : 8,
+                                      ),
+                                      duration: Duration(milliseconds: 200),
+                                      builder: (context, size, child) {
+                                        return TweenAnimationBuilder<Color?>(
+                                          tween: ColorTween(
+                                            begin: P05TABLESERVICEVAR
+                                                    .isHoveredClear
+                                                ? Colors.redAccent.shade700
+                                                : Colors.yellowAccent.shade700,
+                                            end: P05TABLESERVICEVAR
+                                                    .isHoveredClear
+                                                ? Colors.yellowAccent.shade700
+                                                : Colors.redAccent.shade700,
+                                          ),
+                                          duration: Duration(milliseconds: 200),
+                                          builder: (context, color, child) {
+                                            return Text(
+                                              'CLEAR',
+                                              style: TextStyle(
+                                                fontSize: size,
+                                                color: color,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        ElevatedButton(
+                          onPressed: () {
+                            context
+                                .read<P05TABLESERVICEGETDATA_Bloc>()
+                                .add(P05TABLESERVICEGETDATA_GET());
+                            // Timer(Duration(seconds: 1), () {
+                            //   context
+                            //       .read<P05TABLESERVICEGETDATA1_Bloc>()
+                            //       .add(P05TABLESERVICEGETDATA1_GET());
+                            // });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(10),
+                          ),
+                          child: const Icon(
+                            Icons.refresh_rounded,
+                            color: Colors.blue,
+                            size: 20,
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  'GROUP',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            AdvanceDropDown(
+                              hint: "GROUP",
+                              listdropdown: const [
+                                // MapEntry("GROUP", " "),
+                                MapEntry("All", "All"),
+                                MapEntry("1", "1"),
+                                MapEntry("2", "2"),
+                                MapEntry("5", "5"),
+                                MapEntry("6", "6"),
+                              ],
+                              onChangeinside: (d, k) {
+                                setState(() {
+                                  P05TABLESERVICEVAR.DropDownGroup = d;
+                                  // context
+                                  //     .read<P05TABLESERVICEGETDATA_Bloc>()
+                                  //     .add(P05TABLESERVICEGETDATA_GET());
+                                  // Timer(Duration(seconds: 1), () {
+                                  //   context
+                                  //       .read<P05TABLESERVICEGETDATA1_Bloc>()
+                                  //       .add(P05TABLESERVICEGETDATA1_GET());
+                                  // });
+                                });
+                              },
+                              value: P05TABLESERVICEVAR.DropDownGroup,
+                              height: 30,
+                              width: 100,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  'YEAR',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            AdvanceDropDown(
+                              hint: "YEAR",
+                              listdropdown: const [
+                                // MapEntry("YEAR", " "),
+                                MapEntry("2023", "2023"),
+                                MapEntry("2024", "2024"),
+                                MapEntry("2025", "2025"),
+                                MapEntry("2026", "2026"),
+                                MapEntry("2027", "2027"),
+                                MapEntry("2028", "2028"),
+                                MapEntry("2029", "2029"),
+                                MapEntry("2030", "2030"),
+                                MapEntry("2031", "2031"),
+                                MapEntry("2032", "2032"),
+                                MapEntry("2033", "2033"),
+                                MapEntry("2034", "2034"),
+                                MapEntry("2035", "2035"),
+                                MapEntry("2036", "2036"),
+                                MapEntry("2037", "2037"),
+                                MapEntry("2038", "2038"),
+                                MapEntry("2039", "2039"),
+                                MapEntry("2040", "2040"),
+                              ],
+                              onChangeinside: (d, k) {
+                                setState(() {
+                                  P05TABLESERVICEVAR.DropDownYear = d;
+
+                                  // context
+                                  //     .read<P05TABLESERVICEGETDATA_Bloc>()
+                                  //     .add(P05TABLESERVICEGETDATA_GET());
+                                  // Timer(Duration(seconds: 1), () {
+                                  //   context
+                                  //       .read<P05TABLESERVICEGETDATA1_Bloc>()
+                                  //       .add(P05TABLESERVICEGETDATA1_GET());
+                                  // });
+                                });
+                              },
+                              value: P05TABLESERVICEVAR.DropDownYear,
+                              height: 30,
+                              width: 100,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Column(
+                          children: [
+                            if (P05TABLESERVICEVAR.DropDownGroup.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownYear.isNotEmpty ||
+                                P05TABLESERVICEVAR.DropDownMonth.isNotEmpty)
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  'MONTH',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            AdvanceDropDown(
+                              hint: "MONTH",
+                              listdropdown: const [
+                                // MapEntry("MONTH", " "),
+                                MapEntry("Jan", "01"),
+                                MapEntry("Feb", "02"),
+                                MapEntry("Mar", "03"),
+                                MapEntry("Apr", "04"),
+                                MapEntry("May", "05"),
+                                MapEntry("Jun", "06"),
+                                MapEntry("Jul", "07"),
+                                MapEntry("Aug", "08"),
+                                MapEntry("Sep", "09"),
+                                MapEntry("Oct", "10"),
+                                MapEntry("Nov", "11"),
+                                MapEntry("Dec", "12"),
+                              ],
+                              onChangeinside: (d, k) {
+                                setState(() {
+                                  P05TABLESERVICEVAR.DropDownMonth = d;
+                                  // context
+                                  //     .read<P05TABLESERVICEGETDATA_Bloc>()
+                                  //     .add(P05TABLESERVICEGETDATA_GET());
+                                  // Timer(Duration(seconds: 1), () {
+                                  //   context
+                                  //       .read<P05TABLESERVICEGETDATA1_Bloc>()
+                                  //       .add(P05TABLESERVICEGETDATA1_GET());
+                                  // });
+                                });
+                              },
+                              value: P05TABLESERVICEVAR.DropDownMonth,
+                              height: 30,
+                              width: 100,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        ElevatedButton(
+                          // onPressed: () => exportTable(
+                          //     _datasearch, groupADataCount, groupBDataCount),
+                          onPressed: () {
+                            FreeLoadingTan(P05TABLESERVICEMAINcontext);
+                            Future.delayed(const Duration(milliseconds: 1000),
+                                () {
+                              // capture(
+                              // captureToback(
+                              capture(
+                                _globalKey,
+                                "ReportPDFCommonvar",
+                              ).then((value) {
+                                // ignore: avoid_print
+                                // print(value);
+                                Navigator.pop(P05TABLESERVICEMAINcontext);
+                              });
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Colors.white, // กำหนดสีพื้นหลังของปุ่ม
+                          ),
+                          child: ShaderMask(
+                            shaderCallback: (bounds) => LinearGradient(
+                              colors: const [
+                                Colors.blueAccent,
+                                Colors.lightBlueAccent
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ).createShader(bounds),
+                            child: Text(
+                              'Export to PDF',
+                              style: TextStyle(
+                                color:
+                                    Colors.white, // กำหนดสีตัวหนังสือให้ชัดเจน
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    RepaintBoundary(
+                      key: _globalKey,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Table(
+                                border: TableBorder.all(),
+                                columnWidths: const {
+                                  0: FixedColumnWidth(25),
+                                },
+                                children: [
+                                  TableRow(
                                     children: [
                                       TableCell(
                                         child: SizedBox(
-                                          height: 20,
-                                          child: Center(
-                                            child: Text(
-                                              dataCount.toString(),
-                                              style: TextStyle(fontSize: 10),
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'NO.',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ],
-                                  );
-                                }),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Table(
-                                  border: TableBorder(
-                                    top: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    bottom: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
                                   ),
-                                  columnWidths: const {
-                                    0: FixedColumnWidth(100),
-                                  },
-                                  children: [
-                                    TableRow(
+                                  ..._datasearch.map((item) {
+                                    int dataCount =
+                                        _datasearch.indexOf(item) + 1;
+                                    return TableRow(
                                       children: [
                                         TableCell(
                                           child: SizedBox(
-                                            height: 80,
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Text(
-                                                  'Type',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                            height: 20,
+                                            child: Center(
+                                              child: Text(
+                                                dataCount.toString(),
+                                                style: TextStyle(fontSize: 10),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ],
+                                    );
+                                  }),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Table(
+                                    border: TableBorder(
+                                      top: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      bottom: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                if (groupADataCount > 0)
+                                    columnWidths: const {
+                                      0: FixedColumnWidth(100),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: SizedBox(
+                                              height: 80,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Type',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  if (groupADataCount > 0)
+                                    Container(
+                                      height:
+                                          max(groupADataCount * 20, 0.5) - 0.5,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Group A: Long\nsample preparation\ntime',
+                                          style: TextStyle(fontSize: 10),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  if (groupBDataCount > 0)
+                                    Container(
+                                      height: groupBDataCount * 20 + 0.5,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Group B: Other\n(Not long sample\npreparation time)',
+                                          style: TextStyle(fontSize: 10),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              Table(
+                                border: TableBorder.all(),
+                                columnWidths: const {
+                                  0: FixedColumnWidth(50),
+                                  1: FixedColumnWidth(100),
+                                  2: FixedColumnWidth(70),
+                                  3: FixedColumnWidth(80),
+                                },
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Group',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Customer and line',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Frequency\n(Time/Month)',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TableCell(
+                                        child: SizedBox(
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Incharge',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  ..._datasearch.map((item) {
+                                    return TableRow(
+                                      children: [
+                                        TableCell(
+                                          child: SizedBox(
+                                            height: 20,
+                                            child: Center(
+                                                child: Text(
+                                              item.GROUP,
+                                              style: TextStyle(fontSize: 10),
+                                            )),
+                                          ),
+                                        ),
+                                        TableCell(
+                                          child: SizedBox(
+                                            height: 20,
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                ' ${item.CUSTSHORT}',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TableCell(
+                                          child: SizedBox(
+                                            height: 20,
+                                            child: Center(
+                                              child: Text(
+                                                item.FREQUENCY,
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        TableCell(
+                                          child: SizedBox(
+                                            height: 20,
+                                            child: Center(
+                                              child: Text(
+                                                item.INCHARGE,
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Table(
+                                    border: TableBorder(
+                                      top: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      right: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      bottom: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    columnWidths: const {
+                                      0: FixedColumnWidth(30),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: SizedBox(
+                                              height: 80,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child: Text(
+                                                    'KPI\nserv.',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                   Container(
                                     height:
-                                        max(groupADataCount * 20, 0.5) - 0.5,
-                                    width: 100,
+                                        max(adjustedGroupADataCount * 20, 0.5) -
+                                            0.5,
+                                    width: 30,
                                     decoration: BoxDecoration(
                                       border: Border(
-                                        top: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                        bottom: BorderSide(
+                                        right: BorderSide(
                                           color: Colors.black,
                                           width: 1,
                                         ),
@@ -1025,243 +1264,67 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'Group A: Long\nsample preparation\ntime',
+                                        '100%',
                                         style: TextStyle(fontSize: 10),
-                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),
-                                if (groupBDataCount > 0)
+                                  if (GroupBKACDataCount > 0)
+                                    Container(
+                                      height: GroupAMEDIUMDataCount * 20 + 0.5,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          right: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '> 95%',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    ),
+                                  if (GroupAMEDIUMDataCount > 0)
+                                    Container(
+                                      height:
+                                          max(GroupBKACDataCount * 20, 0.5) -
+                                              0.5,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          right: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '100%',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    ),
                                   Container(
-                                    height: groupBDataCount * 20 + 0.5,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        top: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                        bottom: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Group B: Other\n(Not long sample\npreparation time)',
-                                        style: TextStyle(fontSize: 10),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                            Table(
-                              border: TableBorder.all(),
-                              columnWidths: const {
-                                0: FixedColumnWidth(50),
-                                1: FixedColumnWidth(100),
-                                2: FixedColumnWidth(70),
-                                3: FixedColumnWidth(80),
-                              },
-                              children: [
-                                TableRow(
-                                  children: [
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'Group',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'Customer and line',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'Frequency\n(Time/Month)',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'Incharge',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                ..._datasearch.map((item) {
-                                  return TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Center(
-                                              child: Text(
-                                            item.GROUP,
-                                            style: TextStyle(fontSize: 10),
-                                          )),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              ' ${item.CUSTSHORT}',
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Center(
-                                            child: Text(
-                                              item.FREQUENCY,
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TableCell(
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Center(
-                                            child: Text(
-                                              item.INCHARGE,
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                }),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Table(
-                                  border: TableBorder(
-                                    top: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    right: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    bottom: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  columnWidths: const {
-                                    0: FixedColumnWidth(30),
-                                  },
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        TableCell(
-                                          child: SizedBox(
-                                            height: 80,
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Text(
-                                                  'KPI\nserv.',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  height:
-                                      max(adjustedGroupADataCount * 20, 0.5) -
-                                          0.5,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '100%',
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                  ),
-                                ),
-                                if (GroupBKACDataCount > 0)
-                                  Container(
-                                    height: GroupAMEDIUMDataCount * 20 + 0.5,
+                                    height: adjustedGroupBDataCount * 20 + 0.5,
                                     width: 30,
                                     decoration: BoxDecoration(
                                       border: Border(
@@ -1287,36 +1350,12 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                       ),
                                     ),
                                   ),
-                                if (GroupAMEDIUMDataCount > 0)
-                                  Container(
-                                    height:
-                                        max(GroupBKACDataCount * 20, 0.5) - 0.5,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        top: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                        right: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        '100%',
-                                        style: TextStyle(fontSize: 10),
-                                      ),
-                                    ),
-                                  ),
-                                Container(
-                                  height: adjustedGroupBDataCount * 20 + 0.5,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    border: Border(
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Table(
+                                    border: TableBorder(
                                       top: BorderSide(
                                         color: Colors.black,
                                         width: 1,
@@ -1325,532 +1364,387 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                         color: Colors.black,
                                         width: 1,
                                       ),
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
                                     ),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      '> 95%',
-                                      style: TextStyle(fontSize: 10),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Table(
-                                  border: TableBorder(
-                                    top: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    bottom: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  columnWidths: const {
-                                    0: FixedColumnWidth(60),
-                                  },
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        TableCell(
-                                          child: SizedBox(
-                                            height: 80,
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Text(
-                                                  'KPI\nreport\nperiod\n(Days)',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                    columnWidths: const {
+                                      0: FixedColumnWidth(60),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: SizedBox(
+                                              height: 80,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child: Text(
+                                                    'KPI\nreport\nperiod\n(Days)',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                if (groupADataCount > 0)
-                                  Container(
-                                    height:
-                                        max(groupADataCount * 20, 0.5) - 0.5,
-                                    width: 60,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        top: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                        bottom: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
+                                        ],
                                       ),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'Within 12 WD\n100%',
-                                        style: TextStyle(fontSize: 8),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                if (groupBDataCount > 0)
-                                  Container(
-                                    height: groupBDataCount * 20 + 0.5,
-                                    width: 60,
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        top: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                        bottom: BorderSide(
-                                          color: Colors.black,
-                                          width: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'Within 10 WD\n100%',
-                                        style: TextStyle(fontSize: 8),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                            Table(
-                              border: TableBorder(
-                                horizontalInside: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                                top: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                                bottom: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                                left: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              columnWidths: const {
-                                0: FixedColumnWidth(30),
-                              },
-                              children: [
-                                TableRow(
-                                  children: [
-                                    TableCell(
-                                      child: SizedBox(
-                                        height: 80,
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                            child: Text(
-                                              'Rep.\nitems',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
+                                  if (groupADataCount > 0)
+                                    Container(
+                                      height:
+                                          max(groupADataCount * 20, 0.5) - 0.5,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
                                           ),
                                         ),
                                       ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Within 12 WD\n100%',
+                                          style: TextStyle(fontSize: 8),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
                                     ),
-                                  ],
+                                  if (groupBDataCount > 0)
+                                    Container(
+                                      height: groupBDataCount * 20 + 0.5,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          bottom: BorderSide(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Within 10 WD\n100%',
+                                          style: TextStyle(fontSize: 8),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              Table(
+                                border: TableBorder(
+                                  horizontalInside: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  top: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  left: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
                                 ),
-                                ..._datasearch.map((item) {
-                                  return TableRow(
+                                columnWidths: const {
+                                  0: FixedColumnWidth(30),
+                                },
+                                children: [
+                                  TableRow(
                                     children: [
                                       TableCell(
                                         child: SizedBox(
-                                          height: 20,
-                                          child: Center(
-                                            child: Text(
-                                              item.REPITEM,
-                                              style: TextStyle(fontSize: 10),
+                                          height: 80,
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: Center(
+                                              child: Text(
+                                                'Rep.\nitems',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ],
-                                  );
-                                }),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Table(
-                                  border: TableBorder(
-                                    top: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    right: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                    left: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
                                   ),
-                                  columnWidths: const {
-                                    0: FixedColumnWidth(1200),
-                                  },
-                                  children: [
-                                    TableRow(
+                                  ..._datasearch.map((item) {
+                                    return TableRow(
                                       children: [
                                         TableCell(
                                           child: SizedBox(
-                                            height: 15,
-                                            child: Container(
-                                              color: Colors.white,
-                                              child: Center(
-                                                child: Text(
-                                                  '$selectedMonthMMM $selectedYear',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
+                                            height: 20,
+                                            child: Center(
+                                              child: Text(
+                                                item.REPITEM,
+                                                style: TextStyle(fontSize: 10),
                                               ),
                                             ),
                                           ),
                                         ),
                                       ],
+                                    );
+                                  }),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Table(
+                                    border: TableBorder(
+                                      top: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      right: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      left: BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Table(
-                                          border: TableBorder(
-                                            top: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            right: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            left: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
+                                    columnWidths: const {
+                                      0: FixedColumnWidth(1200),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          TableCell(
+                                            child: SizedBox(
+                                              height: 15,
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: Center(
+                                                  child: Text(
+                                                    '$selectedMonthMMM $selectedYear',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(300),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 15,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'W1',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Table(
+                                            border: TableBorder(
+                                              top: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              right: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              left: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                        Table(
-                                          border: TableBorder.all(),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(50),
-                                            1: FixedColumnWidth(50),
-                                            2: FixedColumnWidth(50),
-                                            3: FixedColumnWidth(50),
-                                            4: FixedColumnWidth(50),
-                                            5: FixedColumnWidth(50),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Freq.',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Plan\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Act\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep\nDue\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Sent\nRep\nDate',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep days',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            ..._datasearch.map((item) {
-                                              return TableRow(
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(300),
+                                            },
+                                            children: [
+                                              TableRow(
                                                 children: [
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.FREQ1 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 15,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'W1',
+                                                            style: TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                              )
-                                                            : Text(
-                                                                item.FREQ1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8),
-                                                              ),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Table(
+                                            border: TableBorder.all(),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(50),
+                                              1: FixedColumnWidth(50),
+                                              2: FixedColumnWidth(50),
+                                              3: FixedColumnWidth(50),
+                                              4: FixedColumnWidth(50),
+                                              5: FixedColumnWidth(50),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Freq.',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.PLANSAM1 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Plan\nSam\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                              )
-                                                            : Text(
-                                                                item.PLANSAM1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8),
-                                                              ),
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.ACTSAM1 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Act\nSam\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                              )
-                                                            : Text(
-                                                                item.ACTSAM1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8),
-                                                              ),
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.REPDUE1 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep\nDue\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                              )
-                                                            : Text(
-                                                                item.REPDUE1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8),
-                                                              ),
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.SENTREP1 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Sent\nRep\nDate',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
                                                                 color: Colors
                                                                     .black,
-                                                              )
-                                                            : Text(
-                                                                item.SENTREP1,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8),
-                                                              ),
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
-                                                    child: Container(
-                                                      color: item.REPDAYS1 ==
-                                                              'CLOSE LINE'
-                                                          ? Colors.black
-                                                          : int.tryParse(item
-                                                                      .EVALUATION1) ==
-                                                                  0
-                                                              ? Colors.green
-                                                              : (int.tryParse(item.EVALUATION1) !=
-                                                                          null &&
-                                                                      int.tryParse(item.EVALUATION1)! >=
-                                                                          1 &&
-                                                                      int.tryParse(item
-                                                                              .EVALUATION1)! <=
-                                                                          3)
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : (int.tryParse(item.EVALUATION1) !=
-                                                                              null &&
-                                                                          int.tryParse(item.EVALUATION1)! >
-                                                                              3)
-                                                                      ? Colors
-                                                                          .red
-                                                                      : Colors
-                                                                          .transparent,
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep days',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ..._datasearch.map((item) {
+                                                return TableRow(
+                                                  children: [
+                                                    TableCell(
                                                       child: SizedBox(
                                                         height: 20,
                                                         child: Center(
-                                                          child: item.REPDAYS1 ==
+                                                          child: item.FREQ1 ==
                                                                   'CLOSE LINE'
-                                                              ? SizedBox
-                                                                  .shrink()
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
                                                               : Text(
-                                                                  item.REPDAYS1,
+                                                                  item.FREQ1,
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           8),
@@ -1858,374 +1752,175 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              );
-                                            }),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Table(
-                                          border: TableBorder(
-                                            top: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            right: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(300),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 15,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'W2',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Table(
-                                          border: TableBorder(
-                                            horizontalInside: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            verticalInside: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            top: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            bottom: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(50),
-                                            1: FixedColumnWidth(50),
-                                            2: FixedColumnWidth(50),
-                                            3: FixedColumnWidth(50),
-                                            4: FixedColumnWidth(50),
-                                            5: FixedColumnWidth(50),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Freq.',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Plan\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Act\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep\nDue\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Sent\nRep\nDate',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep days',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            ..._datasearch.map((item) {
-                                              return TableRow(
-                                                children: [
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.FREQ2 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.FREQ2,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.PLANSAM2 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.PLANSAM2,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.ACTSAM2 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.ACTSAM2,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.REPDUE2 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.REPDUE2,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.SENTREP2 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.SENTREP2,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Container(
-                                                      color: item.REPDAYS2 ==
-                                                              'CLOSE LINE'
-                                                          ? Colors.black
-                                                          : int.tryParse(item
-                                                                      .EVALUATION2) ==
-                                                                  0
-                                                              ? Colors.green
-                                                              : (int.tryParse(item.EVALUATION2) !=
-                                                                          null &&
-                                                                      int.tryParse(item.EVALUATION2)! >=
-                                                                          1 &&
-                                                                      int.tryParse(item
-                                                                              .EVALUATION2)! <=
-                                                                          3)
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : (int.tryParse(item.EVALUATION2) !=
-                                                                              null &&
-                                                                          int.tryParse(item.EVALUATION2)! >
-                                                                              3)
-                                                                      ? Colors
-                                                                          .red
-                                                                      : Colors
-                                                                          .transparent,
+                                                    TableCell(
                                                       child: SizedBox(
                                                         height: 20,
                                                         child: Center(
-                                                          child: item.REPDAYS2 ==
+                                                          child: item.PLANSAM1 ==
                                                                   'CLOSE LINE'
-                                                              ? SizedBox
-                                                                  .shrink()
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
                                                               : Text(
-                                                                  item.REPDAYS2,
+                                                                  item.PLANSAM1,
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          8)),
+                                                                          8),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.ACTSAM1 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              : Text(
+                                                                  item.ACTSAM1,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.REPDUE1 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              : Text(
+                                                                  item.REPDUE1,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.SENTREP1 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              : Text(
+                                                                  item.SENTREP1,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: Container(
+                                                        color: item.REPDAYS1 ==
+                                                                'CLOSE LINE'
+                                                            ? Colors.black
+                                                            : int.tryParse(item
+                                                                        .EVALUATION1) ==
+                                                                    0
+                                                                ? Colors.green
+                                                                : (int.tryParse(item.EVALUATION1) != null &&
+                                                                        int.tryParse(item.EVALUATION1)! >=
+                                                                            1 &&
+                                                                        int.tryParse(item.EVALUATION1)! <=
+                                                                            3)
+                                                                    ? Colors
+                                                                        .yellow
+                                                                    : (int.tryParse(item.EVALUATION1) !=
+                                                                                null &&
+                                                                            int.tryParse(item.EVALUATION1)! >
+                                                                                3)
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .transparent,
+                                                        child: SizedBox(
+                                                          height: 20,
+                                                          child: Center(
+                                                            child: item.REPDAYS1 ==
+                                                                    'CLOSE LINE'
+                                                                ? SizedBox
+                                                                    .shrink()
+                                                                : Text(
+                                                                    item.REPDAYS1,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            8),
+                                                                  ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Table(
+                                            border: TableBorder(
+                                              top: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              right: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(300),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 15,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'W2',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
-                                              );
-                                            }),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Table(
-                                          border: TableBorder(
-                                            top: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            right: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(300),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 15,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'W3',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Table(
-                                          border: TableBorder(
+                                          Table(
+                                            border: TableBorder(
                                               horizontalInside: BorderSide(
                                                 color: Colors.black,
                                                 width: 1,
@@ -2242,2391 +1937,2721 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                                 color: Colors.black,
                                                 width: 1,
                                               ),
-                                              left: BorderSide(
-                                                color: Colors.black,
-                                                width: 1,
-                                              )),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(50),
-                                            1: FixedColumnWidth(50),
-                                            2: FixedColumnWidth(50),
-                                            3: FixedColumnWidth(50),
-                                            4: FixedColumnWidth(50),
-                                            5: FixedColumnWidth(50),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Freq.',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Plan\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Act\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep\nDue\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Sent\nRep\nDate',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep days',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
                                             ),
-                                            ..._datasearch.map((item) {
-                                              return TableRow(
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(50),
+                                              1: FixedColumnWidth(50),
+                                              2: FixedColumnWidth(50),
+                                              3: FixedColumnWidth(50),
+                                              4: FixedColumnWidth(50),
+                                              5: FixedColumnWidth(50),
+                                            },
+                                            children: [
+                                              TableRow(
                                                 children: [
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.FREQ3 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Freq.',
+                                                            style: TextStyle(
                                                                 color: Colors
-                                                                    .black)
-                                                            : Text(item.FREQ3,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.PLANSAM3 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Plan\nSam\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.PLANSAM3,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.ACTSAM3 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Act\nSam\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
-                                                                    .black)
-                                                            : Text(item.ACTSAM3,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.REPDUE3 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep\nDue\nDate',
+                                                            style: TextStyle(
                                                                 color: Colors
-                                                                    .black)
-                                                            : Text(item.REPDUE3,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
                                                     child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.SENTREP3 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Sent\nRep\nDate',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
                                                                 color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.SENTREP3,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                   TableCell(
-                                                    child: Container(
-                                                      color: item.REPDAYS3 ==
-                                                              'CLOSE LINE'
-                                                          ? Colors.black
-                                                          : int.tryParse(item
-                                                                      .EVALUATION3) ==
-                                                                  0
-                                                              ? Colors.green
-                                                              : (int.tryParse(item.EVALUATION3) !=
-                                                                          null &&
-                                                                      int.tryParse(item.EVALUATION3)! >=
-                                                                          1 &&
-                                                                      int.tryParse(item
-                                                                              .EVALUATION3)! <=
-                                                                          3)
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : (int.tryParse(item.EVALUATION3) !=
-                                                                              null &&
-                                                                          int.tryParse(item.EVALUATION3)! >
-                                                                              3)
-                                                                      ? Colors
-                                                                          .red
-                                                                      : Colors
-                                                                          .transparent,
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep days',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ..._datasearch.map((item) {
+                                                return TableRow(
+                                                  children: [
+                                                    TableCell(
                                                       child: SizedBox(
                                                         height: 20,
                                                         child: Center(
-                                                          child: item.REPDAYS3 ==
+                                                          child: item.FREQ2 ==
                                                                   'CLOSE LINE'
-                                                              ? SizedBox
-                                                                  .shrink()
-                                                              : Text(
-                                                                  item.REPDAYS3,
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(item.FREQ2,
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           8)),
                                                         ),
                                                       ),
                                                     ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.PLANSAM2 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.PLANSAM2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.ACTSAM2 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.ACTSAM2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.REPDUE2 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.REPDUE2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.SENTREP2 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.SENTREP2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: Container(
+                                                        color: item.REPDAYS2 ==
+                                                                'CLOSE LINE'
+                                                            ? Colors.black
+                                                            : int.tryParse(item
+                                                                        .EVALUATION2) ==
+                                                                    0
+                                                                ? Colors.green
+                                                                : (int.tryParse(item.EVALUATION2) != null &&
+                                                                        int.tryParse(item.EVALUATION2)! >=
+                                                                            1 &&
+                                                                        int.tryParse(item.EVALUATION2)! <=
+                                                                            3)
+                                                                    ? Colors
+                                                                        .yellow
+                                                                    : (int.tryParse(item.EVALUATION2) !=
+                                                                                null &&
+                                                                            int.tryParse(item.EVALUATION2)! >
+                                                                                3)
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .transparent,
+                                                        child: SizedBox(
+                                                          height: 20,
+                                                          child: Center(
+                                                            child: item.REPDAYS2 ==
+                                                                    'CLOSE LINE'
+                                                                ? SizedBox
+                                                                    .shrink()
+                                                                : Text(
+                                                                    item
+                                                                        .REPDAYS2,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            8)),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Table(
+                                            border: TableBorder(
+                                              top: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              right: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(300),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 15,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'W3',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
-                                              );
-                                            }),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      children: [
-                                        Table(
-                                          border: TableBorder(
-                                            top: BorderSide(
-                                              color: Colors.black,
-                                              width: 1,
+                                              ),
+                                            ],
+                                          ),
+                                          Table(
+                                            border: TableBorder(
+                                                horizontalInside: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                verticalInside: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                top: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                bottom: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                left: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                )),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(50),
+                                              1: FixedColumnWidth(50),
+                                              2: FixedColumnWidth(50),
+                                              3: FixedColumnWidth(50),
+                                              4: FixedColumnWidth(50),
+                                              5: FixedColumnWidth(50),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Freq.',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Plan\nSam\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Act\nSam\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep\nDue\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Sent\nRep\nDate',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep days',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ..._datasearch.map((item) {
+                                                return TableRow(
+                                                  children: [
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.FREQ3 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(item.FREQ3,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.PLANSAM3 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.PLANSAM3,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.ACTSAM3 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.ACTSAM3,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.REPDUE3 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.REPDUE3,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.SENTREP3 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.SENTREP3,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: Container(
+                                                        color: item.REPDAYS3 ==
+                                                                'CLOSE LINE'
+                                                            ? Colors.black
+                                                            : int.tryParse(item
+                                                                        .EVALUATION3) ==
+                                                                    0
+                                                                ? Colors.green
+                                                                : (int.tryParse(item.EVALUATION3) != null &&
+                                                                        int.tryParse(item.EVALUATION3)! >=
+                                                                            1 &&
+                                                                        int.tryParse(item.EVALUATION3)! <=
+                                                                            3)
+                                                                    ? Colors
+                                                                        .yellow
+                                                                    : (int.tryParse(item.EVALUATION3) !=
+                                                                                null &&
+                                                                            int.tryParse(item.EVALUATION3)! >
+                                                                                3)
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .transparent,
+                                                        child: SizedBox(
+                                                          height: 20,
+                                                          child: Center(
+                                                            child: item.REPDAYS3 ==
+                                                                    'CLOSE LINE'
+                                                                ? SizedBox
+                                                                    .shrink()
+                                                                : Text(
+                                                                    item
+                                                                        .REPDAYS3,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            8)),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          Table(
+                                            border: TableBorder(
+                                              top: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              right: BorderSide(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
                                             ),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(300),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 15,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'W4',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Table(
+                                            border: TableBorder.all(),
+                                            columnWidths: const {
+                                              0: FixedColumnWidth(50),
+                                              1: FixedColumnWidth(50),
+                                              2: FixedColumnWidth(50),
+                                              3: FixedColumnWidth(50),
+                                              4: FixedColumnWidth(50),
+                                              5: FixedColumnWidth(50),
+                                            },
+                                            children: [
+                                              TableRow(
+                                                children: [
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Freq.',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Plan\nSam\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Act\nSam\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep\nDue\nDate',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Sent\nRep\nDate',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TableCell(
+                                                    child: SizedBox(
+                                                      height: 50,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Rep days',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              ..._datasearch.map((item) {
+                                                return TableRow(
+                                                  children: [
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.FREQ4 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(item.FREQ4,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.PLANSAM4 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.PLANSAM4,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.ACTSAM4 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.ACTSAM4,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.REPDUE4 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.REPDUE4,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: SizedBox(
+                                                        height: 20,
+                                                        child: Center(
+                                                          child: item.SENTREP4 ==
+                                                                  'CLOSE LINE'
+                                                              ? Container(
+                                                                  color: Colors
+                                                                      .black)
+                                                              : Text(
+                                                                  item.SENTREP4,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TableCell(
+                                                      child: Container(
+                                                        color: item.REPDAYS4 ==
+                                                                'CLOSE LINE'
+                                                            ? Colors.black
+                                                            : int.tryParse(item
+                                                                        .EVALUATION4) ==
+                                                                    0
+                                                                ? Colors.green
+                                                                : (int.tryParse(item.EVALUATION4) != null &&
+                                                                        int.tryParse(item.EVALUATION4)! >=
+                                                                            1 &&
+                                                                        int.tryParse(item.EVALUATION4)! <=
+                                                                            3)
+                                                                    ? Colors
+                                                                        .yellow
+                                                                    : (int.tryParse(item.EVALUATION4) !=
+                                                                                null &&
+                                                                            int.tryParse(item.EVALUATION4)! >
+                                                                                3)
+                                                                        ? Colors
+                                                                            .red
+                                                                        : Colors
+                                                                            .transparent,
+                                                        child: SizedBox(
+                                                          height: 20,
+                                                          child: Center(
+                                                            child: item.REPDAYS4 ==
+                                                                    'CLOSE LINE'
+                                                                ? SizedBox
+                                                                    .shrink()
+                                                                : Text(
+                                                                    item
+                                                                        .REPDAYS4,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            8)),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 120,
+                                    width: 175,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        left: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Group A:\nLong sample preparation time',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 120,
+                                    width: 175,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        left: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Group B:\nOther (Not long sample\npreparation time)',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 120,
+                                    width: 175,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        left: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Service performance',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Weekly',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Monthly',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Weekly',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Monthly',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'KAC customer',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: Colors.black,
+                                          width: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Medium customer',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
                                             right: BorderSide(
                                               color: Colors.black,
                                               width: 1,
                                             ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
                                           ),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(300),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 15,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'W4',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
                                         ),
-                                        Table(
-                                          border: TableBorder.all(),
-                                          columnWidths: const {
-                                            0: FixedColumnWidth(50),
-                                            1: FixedColumnWidth(50),
-                                            2: FixedColumnWidth(50),
-                                            3: FixedColumnWidth(50),
-                                            4: FixedColumnWidth(50),
-                                            5: FixedColumnWidth(50),
-                                          },
-                                          children: [
-                                            TableRow(
-                                              children: [
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Freq.',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Plan\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Act\nSam\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep\nDue\nDate',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Sent\nRep\nDate',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TableCell(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Container(
-                                                      color: Colors.white,
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Rep days',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                        child: Text(
+                                          'Total report (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
                                             ),
-                                            ..._datasearch.map((item) {
-                                              return TableRow(
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumFreq1.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumFreq2.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumFreq3.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumFreq4.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Report more than 12 WD (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupACountRepDays1.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupACountRepDays2.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupACountRepDays3.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupACountRepDays4.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'KPI achievement (Target 100%)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupAKPIAchievement1.isNaN
+                                                ? '0%'
+                                                : (groupAKPIAchievement1 % 1 ==
+                                                        0
+                                                    ? '${groupAKPIAchievement1.toInt()}%'
+                                                    : '${groupAKPIAchievement1.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupAKPIAchievement2.isNaN
+                                                ? '0%'
+                                                : (groupAKPIAchievement2 % 1 ==
+                                                        0
+                                                    ? '${groupAKPIAchievement2.toInt()}%'
+                                                    : '${groupAKPIAchievement2.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupAKPIAchievement3.isNaN
+                                                ? '0%'
+                                                : (groupAKPIAchievement3 % 1 ==
+                                                        0
+                                                    ? '${groupAKPIAchievement3.toInt()}%'
+                                                    : '${groupAKPIAchievement3.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupAKPIAchievement4.isNaN
+                                                ? '0%'
+                                                : (groupAKPIAchievement4 % 1 ==
+                                                        0
+                                                    ? '${groupAKPIAchievement4.toInt()}%'
+                                                    : '${groupAKPIAchievement4.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Total report (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumAllFreq.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Report more than 12 WD (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupASumAllRepDays.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'KPI achievement (Target 100%)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupAKPISumAchievement.isNaN
+                                                ? '0%'
+                                                : (groupAKPISumAchievement %
+                                                            1 ==
+                                                        0
+                                                    ? '${groupAKPISumAchievement.toInt()}%'
+                                                    : '${groupAKPISumAchievement.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Total report (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumFreq1.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumFreq2.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumFreq3.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumFreq4.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Report more than 10 WD (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBCountRepDays1.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBCountRepDays2.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBCountRepDays3.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBCountRepDays4.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'KPI achievement (Target 100%)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBKPIAchievement1.isNaN
+                                                ? '0%'
+                                                : (groupBKPIAchievement1 % 1 ==
+                                                        0
+                                                    ? '${groupBKPIAchievement1.toInt()}%'
+                                                    : '${groupBKPIAchievement1.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBKPIAchievement2.isNaN
+                                                ? '0%'
+                                                : (groupBKPIAchievement2 % 1 ==
+                                                        0
+                                                    ? '${groupBKPIAchievement2.toInt()}%'
+                                                    : '${groupBKPIAchievement2.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBKPIAchievement3.isNaN
+                                                ? '0%'
+                                                : (groupBKPIAchievement3 % 1 ==
+                                                        0
+                                                    ? '${groupBKPIAchievement3.toInt()}%'
+                                                    : '${groupBKPIAchievement3.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBKPIAchievement4.isNaN
+                                                ? '0%'
+                                                : (groupBKPIAchievement4 % 1 ==
+                                                        0
+                                                    ? '${groupBKPIAchievement4.toInt()}%'
+                                                    : '${groupBKPIAchievement4.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Total report (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumAllFreq.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'Report more than 10 WD (issue)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBSumAllRepDays.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        width: 270,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          'KPI achievement (Target 100%)',
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 20,
+                                        width: 1200,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            groupBKPISumAchievement.isNaN
+                                                ? '0%'
+                                                : (groupBKPISumAchievement %
+                                                            1 ==
+                                                        0
+                                                    ? '${groupBKPISumAchievement.toInt()}%'
+                                                    : '${groupBKPISumAchievement.toStringAsFixed(2)}%'),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 180,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Visit 100%',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                height: 20,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Visit plan',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 1200,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    KACSumVisitFrequency
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                height: 20,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Visit actual',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 1200,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    KACVisitActualCount
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                height: 20,
+                                                width: 90,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '%Visit',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 1200,
+                                                decoration: BoxDecoration(
+                                                  border: Border(
+                                                    right: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    KACVisitPercent.isNaN
+                                                        ? '0%'
+                                                        : (KACVisitPercent %
+                                                                    1 ==
+                                                                0
+                                                            ? '${KACVisitPercent.toInt()}%'
+                                                            : '${KACVisitPercent.toStringAsFixed(2)}%'),
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 180,
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            right: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            bottom: BorderSide(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Visit 95%',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.FREQ4 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.FREQ4,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                  Container(
+                                                    height: 20,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Visit plan',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.PLANSAM4 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.PLANSAM4,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
+                                                  Container(
+                                                    height: 20,
+                                                    width: 1200,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.ACTSAM4 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.ACTSAM4,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.REPDUE4 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(item.REPDUE4,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: SizedBox(
-                                                      height: 20,
-                                                      child: Center(
-                                                        child: item.SENTREP4 ==
-                                                                'CLOSE LINE'
-                                                            ? Container(
-                                                                color: Colors
-                                                                    .black)
-                                                            : Text(
-                                                                item.SENTREP4,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        8)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TableCell(
-                                                    child: Container(
-                                                      color: item.REPDAYS4 ==
-                                                              'CLOSE LINE'
-                                                          ? Colors.black
-                                                          : int.tryParse(item
-                                                                      .EVALUATION4) ==
-                                                                  0
-                                                              ? Colors.green
-                                                              : (int.tryParse(item.EVALUATION4) !=
-                                                                          null &&
-                                                                      int.tryParse(item.EVALUATION4)! >=
-                                                                          1 &&
-                                                                      int.tryParse(item
-                                                                              .EVALUATION4)! <=
-                                                                          3)
-                                                                  ? Colors
-                                                                      .yellow
-                                                                  : (int.tryParse(item.EVALUATION4) !=
-                                                                              null &&
-                                                                          int.tryParse(item.EVALUATION4)! >
-                                                                              3)
-                                                                      ? Colors
-                                                                          .red
-                                                                      : Colors
-                                                                          .transparent,
-                                                      child: SizedBox(
-                                                        height: 20,
-                                                        child: Center(
-                                                          child: item.REPDAYS4 ==
-                                                                  'CLOSE LINE'
-                                                              ? SizedBox
-                                                                  .shrink()
-                                                              : Text(
-                                                                  item.REPDAYS4,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          8)),
+                                                    child: Center(
+                                                      child: Text(
+                                                        MEDIUMSumVisitFrequency
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ],
-                                              );
-                                            }),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Column(
-                              children: [
-                                Container(
-                                  height: 120,
-                                  width: 175,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      left: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Group A:\nLong sample preparation time',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 120,
-                                  width: 175,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      left: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Group B:\nOther (Not long sample\npreparation time)',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 120,
-                                  width: 175,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      left: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Service performance',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Weekly',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Monthly',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Weekly',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Monthly',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'KAC customer',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      right: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      bottom: BorderSide(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Medium customer',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Total report (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumFreq1.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumFreq2.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumFreq3.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumFreq4.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Report more than 12 WD (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupACountRepDays1.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupACountRepDays2.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupACountRepDays3.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupACountRepDays4.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'KPI achievement (Target 100%)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupAKPIAchievement1.isNaN
-                                              ? '0%'
-                                              : (groupAKPIAchievement1 % 1 == 0
-                                                  ? '${groupAKPIAchievement1.toInt()}%'
-                                                  : '${groupAKPIAchievement1.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupAKPIAchievement2.isNaN
-                                              ? '0%'
-                                              : (groupAKPIAchievement2 % 1 == 0
-                                                  ? '${groupAKPIAchievement2.toInt()}%'
-                                                  : '${groupAKPIAchievement2.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupAKPIAchievement3.isNaN
-                                              ? '0%'
-                                              : (groupAKPIAchievement3 % 1 == 0
-                                                  ? '${groupAKPIAchievement3.toInt()}%'
-                                                  : '${groupAKPIAchievement3.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupAKPIAchievement4.isNaN
-                                              ? '0%'
-                                              : (groupAKPIAchievement4 % 1 == 0
-                                                  ? '${groupAKPIAchievement4.toInt()}%'
-                                                  : '${groupAKPIAchievement4.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Total report (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumAllFreq.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Report more than 12 WD (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupASumAllRepDays.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'KPI achievement (Target 100%)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupAKPISumAchievement.isNaN
-                                              ? '0%'
-                                              : (groupAKPISumAchievement % 1 ==
-                                                      0
-                                                  ? '${groupAKPISumAchievement.toInt()}%'
-                                                  : '${groupAKPISumAchievement.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Total report (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumFreq1.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumFreq2.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumFreq3.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumFreq4.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Report more than 10 WD (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBCountRepDays1.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBCountRepDays2.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBCountRepDays3.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBCountRepDays4.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'KPI achievement (Target 100%)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBKPIAchievement1.isNaN
-                                              ? '0%'
-                                              : (groupBKPIAchievement1 % 1 == 0
-                                                  ? '${groupBKPIAchievement1.toInt()}%'
-                                                  : '${groupBKPIAchievement1.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBKPIAchievement2.isNaN
-                                              ? '0%'
-                                              : (groupBKPIAchievement2 % 1 == 0
-                                                  ? '${groupBKPIAchievement2.toInt()}%'
-                                                  : '${groupBKPIAchievement2.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBKPIAchievement3.isNaN
-                                              ? '0%'
-                                              : (groupBKPIAchievement3 % 1 == 0
-                                                  ? '${groupBKPIAchievement3.toInt()}%'
-                                                  : '${groupBKPIAchievement3.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 300,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBKPIAchievement4.isNaN
-                                              ? '0%'
-                                              : (groupBKPIAchievement4 % 1 == 0
-                                                  ? '${groupBKPIAchievement4.toInt()}%'
-                                                  : '${groupBKPIAchievement4.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Total report (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumAllFreq.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'Report more than 10 WD (issue)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBSumAllRepDays.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 20,
-                                      width: 270,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        'KPI achievement (Target 100%)',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1200,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          groupBKPISumAchievement.isNaN
-                                              ? '0%'
-                                              : (groupBKPISumAchievement % 1 ==
-                                                      0
-                                                  ? '${groupBKPISumAchievement.toInt()}%'
-                                                  : '${groupBKPISumAchievement.toStringAsFixed(2)}%'),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 60,
-                                      width: 180,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Visit 100%',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 20,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
                                               ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Visit plan',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 20,
-                                              width: 1200,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  KACSumVisitFrequency
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 20,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  'Visit actual',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 20,
-                                              width: 1200,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  KACVisitActualCount
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 20,
-                                              width: 90,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '%Visit',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 20,
-                                              width: 1200,
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                  bottom: BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  KACVisitPercent.isNaN
-                                                      ? '0%'
-                                                      : (KACVisitPercent % 1 ==
-                                                              0
-                                                          ? '${KACVisitPercent.toInt()}%'
-                                                          : '${KACVisitPercent.toStringAsFixed(2)}%'),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      height: 60,
-                                      width: 180,
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          right: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                          bottom: BorderSide(
-                                            color: Colors.black,
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Visit 95%',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 90,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
                                                       ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Visit actual',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Visit plan',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
+                                                  Container(
+                                                    height: 20,
+                                                    width: 1200,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        MEDIUMVisitActualCount
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  height: 20,
-                                                  width: 1200,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 90,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
                                                       ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        '%Visit',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      MEDIUMSumVisitFrequency
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
+                                                  Container(
+                                                    height: 20,
+                                                    width: 1200,
+                                                    decoration: BoxDecoration(
+                                                      border: Border(
+                                                        right: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                        bottom: BorderSide(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        MEDIUMVisitPercent.isNaN
+                                                            ? '0%'
+                                                            : (MEDIUMVisitPercent %
+                                                                        1 ==
+                                                                    0
+                                                                ? '${MEDIUMVisitPercent.toInt()}%'
+                                                                : '${MEDIUMVisitPercent.toStringAsFixed(2)}%'),
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 90,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Visit actual',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 20,
-                                                  width: 1200,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      MEDIUMVisitActualCount
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 90,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      '%Visit',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 20,
-                                                  width: 1200,
-                                                  decoration: BoxDecoration(
-                                                    border: Border(
-                                                      right: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                      bottom: BorderSide(
-                                                        color: Colors.black,
-                                                        width: 1,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      MEDIUMVisitPercent.isNaN
-                                                          ? '0%'
-                                                          : (MEDIUMVisitPercent %
-                                                                      1 ==
-                                                                  0
-                                                              ? '${MEDIUMVisitPercent.toInt()}%'
-                                                              : '${MEDIUMVisitPercent.toStringAsFixed(2)}%'),
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        ),
-                      ],
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

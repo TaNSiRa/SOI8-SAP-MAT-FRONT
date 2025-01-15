@@ -37,7 +37,7 @@ class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
     // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedType = (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty)
         ? P02REPORTOVERKPIVAR.DropDownType
-        : 'Group A';
+        : 'A';
     final selectedYear = (P02REPORTOVERKPIVAR.DropDownYear.isNotEmpty)
         ? P02REPORTOVERKPIVAR.DropDownYear
         : P02REPORTOVERKPIVAR.currentYear;
@@ -50,8 +50,8 @@ class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupTargetDaysMap = {
-      'Group A': P02REPORTOVERKPIVAR.GroupATargetDays,
-      'Group B': P02REPORTOVERKPIVAR.GroupBTargetDays,
+      'A': P02REPORTOVERKPIVAR.GroupATargetDays,
+      'B': P02REPORTOVERKPIVAR.GroupBTargetDays,
     };
 
     // เลือก Group A,B ตาม selectedType
@@ -60,8 +60,8 @@ class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
 
     // Map สำหรับจับคู่ระหว่าง selectedType กับ GroupTargetDays
     final groupSampleTimeMap = {
-      'Group A': P02REPORTOVERKPIVAR.GroupAsampleTime,
-      'Group B': P02REPORTOVERKPIVAR.GroupBsampleTime,
+      'A': P02REPORTOVERKPIVAR.GroupAsampleTime,
+      'B': P02REPORTOVERKPIVAR.GroupBsampleTime,
     };
 
     // เลือก Group A,B ตาม selectedType
@@ -80,437 +80,438 @@ class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
       return data.TYPE == selectedType;
     }).toList();
 
-    print(filteredData.length);
+    // print(filteredData.length);
 
     //แยกข้อมูล week 1-4
     List<Map<String, String>> newData = [];
     for (var data in filteredData) {
       if (data.REPDAYS1.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
-          P02REPORTOVERKPIVAR.extractYear(data.REPDUE1) == selectedYear &&
-          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE1) == selectedMonth &&
+          extractYear(data.REPDUE1) == selectedYear &&
+          extractMonth(data.REPDUE1) == selectedMonth &&
           int.tryParse(data.REPDAYS1)! > int.tryParse(data.KPIPERIOD)!) {
-        List<double> bdReviseValues1 = [
-          data.BDREVISE1_1,
-          data.BDREVISE1_2,
-          data.BDREVISE1_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdSubLeadValues1 = [
-          data.BDSUBLEAD1,
-          data.BDSUBLEAD1_1,
-          data.BDSUBLEAD1_2,
-          data.BDSUBLEAD1_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdGLValues1 = [
-          data.BDGL1,
-          data.BDGL1_1,
-          data.BDGL1_2,
-          data.BDGL1_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdMGRValues1 = [
-          data.BDMGR1,
-          data.BDMGR1_1,
-          data.BDMGR1_2,
-          data.BDMGR1_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdJPValues1 = [
-          data.BDJP1,
-          data.BDJP1_1,
-          data.BDJP1_2,
-          data.BDJP1_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        double bdrevise1 = bdReviseValues1.isNotEmpty
-            ? bdReviseValues1.reduce((a, b) => a + b) / bdReviseValues1.length
-            : 0;
-        double bdsublead1 = bdSubLeadValues1.isNotEmpty
-            ? bdSubLeadValues1.reduce((a, b) => a + b) / bdSubLeadValues1.length
-            : 0;
-        double bdgl1 = bdGLValues1.isNotEmpty
-            ? bdGLValues1.reduce((a, b) => a + b) / bdGLValues1.length
-            : 0;
-        double bdmgr1 = bdMGRValues1.isNotEmpty
-            ? bdMGRValues1.reduce((a, b) => a + b) / bdMGRValues1.length
-            : 0;
-        double bdjp1 = bdJPValues1.isNotEmpty
-            ? bdJPValues1.reduce((a, b) => a + b) / bdJPValues1.length
-            : 0;
-
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
+          'mktgroup': data.MKTGROUP,
+          'group': data.GROUP,
+          'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
+          'frequency': data.FREQUENCY,
+          'incharge': data.INCHARGE,
+          'kpi serv': data.KPISERV,
+          'kpi period': data.KPIPERIOD,
+          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO1,
+          'freq': data.FREQ1,
+          'plan sam': (data.PLANSAM1),
+          'act sam': (data.ACTSAM1),
+          'rep due': (data.REPDUE1),
+          'sent rep': (data.SENTREP1),
+          'rep days': (data.REPDAYS1),
+          'request': (data.REQUEST1),
+          'ttcresult': (data.TTCRESULT1),
+          'issuedate': (data.ISSUEDATE1),
+          'sublead': (data.SUBLEAD1),
+          'gl': (data.GL1),
+          'mgr': (data.MGR1),
+          'jp': (data.JP1),
+          'revise1': (data.REVISE1_1),
+          'sublead1': (data.SUBLEAD1_1),
+          'gl1': (data.GL1_1),
+          'mgr1': (data.MGR1_1),
+          'jp1': (data.JP1_1),
+          'revise2': (data.REVISE1_2),
+          'sublead2': (data.SUBLEAD1_1),
+          'gl2': (data.GL1_2),
+          'mgr2': (data.MGR1_2),
+          'jp2': (data.JP1_2),
+          'revise3': (data.REVISE1_3),
+          'sublead3': (data.SUBLEAD1_3),
+          'gl3': (data.GL1_3),
+          'mgr3': (data.MGR1_3),
+          'jp3': (data.JP1_3),
           'bdprepare': data.BDPREPARE1,
           'bdttc': data.BDTTC1,
           'bdissue': data.BDISSUE1,
-          'bdrevise': bdrevise1.toString(),
-          'bdsublead': bdsublead1.toString(),
-          'bdgl': bdgl1.toString(),
-          'bdmgr': bdmgr1.toString(),
-          'bdjp': bdjp1.toString(),
+          'bdsublead': data.BDSUBLEAD1,
+          'bdgl': data.BDGL1,
+          'bdmgr': data.BDMGR1,
+          'bdjp': data.BDJP1,
+          'bdrevise1': data.BDREVISE1_1,
+          'bdsublead1': data.BDSUBLEAD1_1,
+          'bdgl1': data.BDGL1_1,
+          'bdmgr1': data.BDMGR1_1,
+          'bdjp1': data.BDJP1_1,
+          'bdrevise2': data.BDREVISE1_2,
+          'bdsublead2': data.BDSUBLEAD1_2,
+          'bdgl2': data.BDGL1_2,
+          'bdmgr2': data.BDMGR1_2,
+          'bdjp2': data.BDJP1_2,
+          'bdrevise3': data.BDREVISE1_3,
+          'bdsublead3': data.BDSUBLEAD1_3,
+          'bdgl3': data.BDGL1_3,
+          'bdmgr3': data.BDMGR1_3,
+          'bdjp3': data.BDJP1_3,
           'bdsent': data.BDSENT1,
+          'reason': data.REASON1,
         };
         newData.add(transformedData1);
       }
-
       if (data.REPDAYS2.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
-          P02REPORTOVERKPIVAR.extractYear(data.REPDUE2) == selectedYear &&
-          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE2) == selectedMonth &&
+          extractYear(data.REPDUE2) == selectedYear &&
+          extractMonth(data.REPDUE2) == selectedMonth &&
           int.tryParse(data.REPDAYS2)! > int.tryParse(data.KPIPERIOD)!) {
-        List<double> bdReviseValues2 = [
-          data.BDREVISE2_1,
-          data.BDREVISE2_2,
-          data.BDREVISE2_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdSubLeadValues2 = [
-          data.BDSUBLEAD2,
-          data.BDSUBLEAD2_1,
-          data.BDSUBLEAD2_2,
-          data.BDSUBLEAD2_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdGLValues2 = [
-          data.BDGL2,
-          data.BDGL2_1,
-          data.BDGL2_2,
-          data.BDGL2_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdMGRValues2 = [
-          data.BDMGR2,
-          data.BDMGR2_1,
-          data.BDMGR2_2,
-          data.BDMGR2_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdJPValues2 = [
-          data.BDJP2,
-          data.BDJP2_1,
-          data.BDJP2_2,
-          data.BDJP2_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        double bdrevise2 = bdReviseValues2.isNotEmpty
-            ? bdReviseValues2.reduce((a, b) => a + b) / bdReviseValues2.length
-            : 0;
-        double bdsublead2 = bdSubLeadValues2.isNotEmpty
-            ? bdSubLeadValues2.reduce((a, b) => a + b) / bdSubLeadValues2.length
-            : 0;
-        double bdgl2 = bdGLValues2.isNotEmpty
-            ? bdGLValues2.reduce((a, b) => a + b) / bdGLValues2.length
-            : 0;
-        double bdmgr2 = bdMGRValues2.isNotEmpty
-            ? bdMGRValues2.reduce((a, b) => a + b) / bdMGRValues2.length
-            : 0;
-        double bdjp2 = bdJPValues2.isNotEmpty
-            ? bdJPValues2.reduce((a, b) => a + b) / bdJPValues2.length
-            : 0;
-
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
+          'mktgroup': data.MKTGROUP,
+          'group': data.GROUP,
+          'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
+          'frequency': data.FREQUENCY,
+          'incharge': data.INCHARGE,
+          'kpi serv': data.KPISERV,
+          'kpi period': data.KPIPERIOD,
+          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO2,
+          'freq': data.FREQ2,
+          'plan sam': (data.PLANSAM2),
+          'act sam': (data.ACTSAM2),
+          'rep due': (data.REPDUE2),
+          'sent rep': (data.SENTREP2),
+          'rep days': (data.REPDAYS2),
+          'request': (data.REQUEST2),
+          'ttcresult': (data.TTCRESULT2),
+          'issuedate': (data.ISSUEDATE2),
+          'sublead': (data.SUBLEAD2),
+          'gl': (data.GL2),
+          'mgr': (data.MGR2),
+          'jp': (data.JP2),
+          'revise1': (data.REVISE2_1),
+          'sublead1': (data.SUBLEAD2_1),
+          'gl1': (data.GL2_1),
+          'mgr1': (data.MGR2_1),
+          'jp1': (data.JP2_1),
+          'revise2': (data.REVISE2_2),
+          'sublead2': (data.SUBLEAD2_1),
+          'gl2': (data.GL2_2),
+          'mgr2': (data.MGR2_2),
+          'jp2': (data.JP2_2),
+          'revise3': (data.REVISE2_3),
+          'sublead3': (data.SUBLEAD2_3),
+          'gl3': (data.GL2_3),
+          'mgr3': (data.MGR2_3),
+          'jp3': (data.JP2_3),
           'bdprepare': data.BDPREPARE2,
           'bdttc': data.BDTTC2,
           'bdissue': data.BDISSUE2,
-          'bdrevise': bdrevise2.toString(),
-          'bdsublead': bdsublead2.toString(),
-          'bdgl': bdgl2.toString(),
-          'bdmgr': bdmgr2.toString(),
-          'bdjp': bdjp2.toString(),
+          'bdsublead': data.BDSUBLEAD2,
+          'bdgl': data.BDGL2,
+          'bdmgr': data.BDMGR2,
+          'bdjp': data.BDJP2,
+          'bdrevise1': data.BDREVISE2_1,
+          'bdsublead1': data.BDSUBLEAD2_1,
+          'bdgl1': data.BDGL2_1,
+          'bdmgr1': data.BDMGR2_1,
+          'bdjp1': data.BDJP2_1,
+          'bdrevise2': data.BDREVISE2_2,
+          'bdsublead2': data.BDSUBLEAD2_2,
+          'bdgl2': data.BDGL2_2,
+          'bdmgr2': data.BDMGR2_2,
+          'bdjp2': data.BDJP2_2,
+          'bdrevise3': data.BDREVISE2_3,
+          'bdsublead3': data.BDSUBLEAD2_3,
+          'bdgl3': data.BDGL2_3,
+          'bdmgr3': data.BDMGR2_3,
+          'bdjp3': data.BDJP2_3,
           'bdsent': data.BDSENT2,
+          'reason': data.REASON2,
         };
         newData.add(transformedData1);
       }
-
       if (data.REPDAYS3.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
-          P02REPORTOVERKPIVAR.extractYear(data.REPDUE3) == selectedYear &&
-          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE3) == selectedMonth &&
+          extractYear(data.REPDUE3) == selectedYear &&
+          extractMonth(data.REPDUE3) == selectedMonth &&
           int.tryParse(data.REPDAYS3)! > int.tryParse(data.KPIPERIOD)!) {
-        List<double> bdReviseValues3 = [
-          data.BDREVISE3_1,
-          data.BDREVISE3_2,
-          data.BDREVISE3_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdSubLeadValues3 = [
-          data.BDSUBLEAD3,
-          data.BDSUBLEAD3_1,
-          data.BDSUBLEAD3_2,
-          data.BDSUBLEAD3_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdGLValues3 = [
-          data.BDGL3,
-          data.BDGL3_1,
-          data.BDGL3_2,
-          data.BDGL3_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdMGRValues3 = [
-          data.BDMGR3,
-          data.BDMGR3_1,
-          data.BDMGR3_2,
-          data.BDMGR3_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdJPValues3 = [
-          data.BDJP3,
-          data.BDJP3_1,
-          data.BDJP3_2,
-          data.BDJP3_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        double bdrevise3 = bdReviseValues3.isNotEmpty
-            ? bdReviseValues3.reduce((a, b) => a + b) / bdReviseValues3.length
-            : 0;
-        double bdsublead3 = bdSubLeadValues3.isNotEmpty
-            ? bdSubLeadValues3.reduce((a, b) => a + b) / bdSubLeadValues3.length
-            : 0;
-        double bdgl3 = bdGLValues3.isNotEmpty
-            ? bdGLValues3.reduce((a, b) => a + b) / bdGLValues3.length
-            : 0;
-        double bdmgr3 = bdMGRValues3.isNotEmpty
-            ? bdMGRValues3.reduce((a, b) => a + b) / bdMGRValues3.length
-            : 0;
-        double bdjp3 = bdJPValues3.isNotEmpty
-            ? bdJPValues3.reduce((a, b) => a + b) / bdJPValues3.length
-            : 0;
-
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
+          'mktgroup': data.MKTGROUP,
+          'group': data.GROUP,
+          'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
+          'frequency': data.FREQUENCY,
+          'incharge': data.INCHARGE,
+          'kpi serv': data.KPISERV,
+          'kpi period': data.KPIPERIOD,
+          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO3,
+          'freq': data.FREQ3,
+          'plan sam': (data.PLANSAM3),
+          'act sam': (data.ACTSAM3),
+          'rep due': (data.REPDUE3),
+          'sent rep': (data.SENTREP3),
+          'rep days': (data.REPDAYS3),
+          'request': (data.REQUEST3),
+          'ttcresult': (data.TTCRESULT3),
+          'issuedate': (data.ISSUEDATE3),
+          'sublead': (data.SUBLEAD3),
+          'gl': (data.GL3),
+          'mgr': (data.MGR3),
+          'jp': (data.JP3),
+          'revise1': (data.REVISE3_1),
+          'sublead1': (data.SUBLEAD3_1),
+          'gl1': (data.GL3_1),
+          'mgr1': (data.MGR3_1),
+          'jp1': (data.JP3_1),
+          'revise2': (data.REVISE3_2),
+          'sublead2': (data.SUBLEAD3_1),
+          'gl2': (data.GL3_2),
+          'mgr2': (data.MGR3_2),
+          'jp2': (data.JP3_2),
+          'revise3': (data.REVISE3_3),
+          'sublead3': (data.SUBLEAD3_3),
+          'gl3': (data.GL3_3),
+          'mgr3': (data.MGR3_3),
+          'jp3': (data.JP3_3),
           'bdprepare': data.BDPREPARE3,
           'bdttc': data.BDTTC3,
           'bdissue': data.BDISSUE3,
-          'bdrevise': bdrevise3.toString(),
-          'bdsublead': bdsublead3.toString(),
-          'bdgl': bdgl3.toString(),
-          'bdmgr': bdmgr3.toString(),
-          'bdjp': bdjp3.toString(),
+          'bdsublead': data.BDSUBLEAD3,
+          'bdgl': data.BDGL3,
+          'bdmgr': data.BDMGR3,
+          'bdjp': data.BDJP3,
+          'bdrevise1': data.BDREVISE3_1,
+          'bdsublead1': data.BDSUBLEAD3_1,
+          'bdgl1': data.BDGL3_1,
+          'bdmgr1': data.BDMGR3_1,
+          'bdjp1': data.BDJP3_1,
+          'bdrevise2': data.BDREVISE3_2,
+          'bdsublead2': data.BDSUBLEAD3_2,
+          'bdgl2': data.BDGL3_2,
+          'bdmgr2': data.BDMGR3_2,
+          'bdjp2': data.BDJP3_2,
+          'bdrevise3': data.BDREVISE3_3,
+          'bdsublead3': data.BDSUBLEAD3_3,
+          'bdgl3': data.BDGL3_3,
+          'bdmgr3': data.BDMGR3_3,
+          'bdjp3': data.BDJP3_3,
           'bdsent': data.BDSENT3,
+          'reason': data.REASON3,
         };
         newData.add(transformedData1);
       }
-
       if (data.REPDAYS4.isNotEmpty &&
           data.KPIPERIOD.isNotEmpty &&
-          P02REPORTOVERKPIVAR.extractYear(data.REPDUE4) == selectedYear &&
-          P02REPORTOVERKPIVAR.extractMonth(data.REPDUE4) == selectedMonth &&
+          extractYear(data.REPDUE4) == selectedYear &&
+          extractMonth(data.REPDUE4) == selectedMonth &&
           int.tryParse(data.REPDAYS4)! > int.tryParse(data.KPIPERIOD)!) {
-        // ตรวจสอบค่าที่ไม่ใช่ null หรือ empty สำหรับ bdrevise
-        List<double> bdReviseValues4 = [
-          data.BDREVISE4_1,
-          data.BDREVISE4_2,
-          data.BDREVISE4_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!) // ใช้ map เพื่อให้แน่ใจว่าทุกค่าคือ double
-            .toList();
-
-        List<double> bdSubLeadValues4 = [
-          data.BDSUBLEAD4,
-          data.BDSUBLEAD4_1,
-          data.BDSUBLEAD4_2,
-          data.BDSUBLEAD4_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdGLValues4 = [
-          data.BDGL4,
-          data.BDGL4_1,
-          data.BDGL4_2,
-          data.BDGL4_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdMGRValues4 = [
-          data.BDMGR4,
-          data.BDMGR4_1,
-          data.BDMGR4_2,
-          data.BDMGR4_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        List<double> bdJPValues4 = [
-          data.BDJP4,
-          data.BDJP4_1,
-          data.BDJP4_2,
-          data.BDJP4_3
-        ]
-            .map((value) =>
-                value != null ? double.tryParse(value.toString()) : null)
-            .where((value) => value != null)
-            .map((value) => value!)
-            .toList();
-
-        double bdrevise4 = bdReviseValues4.isNotEmpty
-            ? bdReviseValues4.reduce((a, b) => a + b) / bdReviseValues4.length
-            : 0;
-        double bdsublead4 = bdSubLeadValues4.isNotEmpty
-            ? bdSubLeadValues4.reduce((a, b) => a + b) / bdSubLeadValues4.length
-            : 0;
-        double bdgl4 = bdGLValues4.isNotEmpty
-            ? bdGLValues4.reduce((a, b) => a + b) / bdGLValues4.length
-            : 0;
-        double bdmgr4 = bdMGRValues4.isNotEmpty
-            ? bdMGRValues4.reduce((a, b) => a + b) / bdMGRValues4.length
-            : 0;
-        double bdjp4 = bdJPValues4.isNotEmpty
-            ? bdJPValues4.reduce((a, b) => a + b) / bdJPValues4.length
-            : 0;
-
         Map<String, String> transformedData1 = {
           'type': data.TYPE,
+          'mktgroup': data.MKTGROUP,
+          'group': data.GROUP,
+          'customer': data.CUSTOMER,
+          'custshort': data.CUSTSHORT,
+          'frequency': data.FREQUENCY,
+          'incharge': data.INCHARGE,
+          'kpi serv': data.KPISERV,
+          'kpi period': data.KPIPERIOD,
+          'repitems': data.REPITEM,
           'month': data.MONTH,
           'year': data.YEAR,
+          'reqno': data.REQNO4,
+          'freq': data.FREQ4,
+          'plan sam': (data.PLANSAM4),
+          'act sam': (data.ACTSAM4),
+          'rep due': (data.REPDUE4),
+          'sent rep': (data.SENTREP4),
+          'rep days': (data.REPDAYS4),
+          'request': (data.REQUEST4),
+          'ttcresult': (data.TTCRESULT4),
+          'issuedate': (data.ISSUEDATE4),
+          'sublead': (data.SUBLEAD4),
+          'gl': (data.GL4),
+          'mgr': (data.MGR4),
+          'jp': (data.JP4),
+          'revise1': (data.REVISE4_1),
+          'sublead1': (data.SUBLEAD4_1),
+          'gl1': (data.GL4_1),
+          'mgr1': (data.MGR4_1),
+          'jp1': (data.JP4_1),
+          'revise2': (data.REVISE4_2),
+          'sublead2': (data.SUBLEAD4_1),
+          'gl2': (data.GL4_2),
+          'mgr2': (data.MGR4_2),
+          'jp2': (data.JP4_2),
+          'revise3': (data.REVISE4_3),
+          'sublead3': (data.SUBLEAD4_3),
+          'gl3': (data.GL4_3),
+          'mgr3': (data.MGR4_3),
+          'jp3': (data.JP4_3),
           'bdprepare': data.BDPREPARE4,
           'bdttc': data.BDTTC4,
           'bdissue': data.BDISSUE4,
-          'bdrevise': bdrevise4.toString(),
-          'bdsublead': bdsublead4.toString(),
-          'bdgl': bdgl4.toString(),
-          'bdmgr': bdmgr4.toString(),
-          'bdjp': bdjp4.toString(),
+          'bdsublead': data.BDSUBLEAD4,
+          'bdgl': data.BDGL4,
+          'bdmgr': data.BDMGR4,
+          'bdjp': data.BDJP4,
+          'bdrevise1': data.BDREVISE4_1,
+          'bdsublead1': data.BDSUBLEAD4_1,
+          'bdgl1': data.BDGL4_1,
+          'bdmgr1': data.BDMGR4_1,
+          'bdjp1': data.BDJP4_1,
+          'bdrevise2': data.BDREVISE4_2,
+          'bdsublead2': data.BDSUBLEAD4_2,
+          'bdgl2': data.BDGL4_2,
+          'bdmgr2': data.BDMGR4_2,
+          'bdjp2': data.BDJP4_2,
+          'bdrevise3': data.BDREVISE4_3,
+          'bdsublead3': data.BDSUBLEAD4_3,
+          'bdgl3': data.BDGL4_3,
+          'bdmgr3': data.BDMGR4_3,
+          'bdjp3': data.BDJP4_3,
           'bdsent': data.BDSENT4,
+          'reason': data.REASON4,
         };
         newData.add(transformedData1);
       }
     }
-    print("newData: $newData");
+
+    // print(newData);
 
     // Sum ข้อมูลแต่ะชุด
     List<double> avgAllBreakdown = [];
 
-    if (newData.isNotEmpty) {
-      List<int> sumList = [];
-      sumList = newData.map((item) {
-        final int bdprepare =
-            int.tryParse(item['bdprepare']?.toString() ?? '0') ?? 0;
-        final int bdttc = int.tryParse(item['bdttc']?.toString() ?? '0') ?? 0;
-        final int bdissue =
-            int.tryParse(item['bdissue']?.toString() ?? '0') ?? 0;
-        final int bdrevise =
-            int.tryParse(item['bdrevise']?.toString() ?? '0') ?? 0;
-        final int bdsublead =
-            int.tryParse(item['bdsublead']?.toString() ?? '0') ?? 0;
-        final int bdgl = int.tryParse(item['bdgl']?.toString() ?? '0') ?? 0;
-        final int bdmgr = int.tryParse(item['bdmgr']?.toString() ?? '0') ?? 0;
-        final int bdjp = int.tryParse(item['bdjp']?.toString() ?? '0') ?? 0;
-        final int bdsent = int.tryParse(item['bdsent']?.toString() ?? '0') ?? 0;
+    List<double> FilterBdprepare = newData
+        .where((item) => item['bdprepare'] != null && item['bdprepare'] != "")
+        .map((item) => double.tryParse(item['bdprepare'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdprepare = FilterBdprepare.isNotEmpty
+        ? FilterBdprepare.reduce((a, b) => a + b) / FilterBdprepare.length
+        : 0.0;
 
-        final int sumTotalDay = bdprepare +
-            bdttc +
-            bdissue +
-            bdrevise +
-            bdsublead +
-            bdgl +
-            bdmgr +
-            bdjp +
-            bdsent;
-        return sumTotalDay;
-      }).toList();
-      print("sumList: $sumList");
+    List<double> FilterBdttc = newData
+        .where((item) => item['bdttc'] != null && item['bdttc'] != "")
+        .map((item) => double.tryParse(item['bdttc'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdttc = FilterBdttc.isNotEmpty
+        ? FilterBdttc.reduce((a, b) => a + b) / FilterBdttc.length
+        : 0.0;
+
+    List<double> FilterBdissue = newData
+        .where((item) => item['bdissue'] != null && item['bdissue'] != "")
+        .map((item) => double.tryParse(item['bdissue'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdissue = FilterBdissue.isNotEmpty
+        ? FilterBdissue.reduce((a, b) => a + b) / FilterBdissue.length
+        : 0.0;
+
+    List<double> allBdreviseValues = newData
+        .expand((item) => [
+              item['bdrevise1'],
+              item['bdrevise2'],
+              item['bdrevise3'],
+            ])
+        .where((value) =>
+            value != null && value != 'null' && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdrevise = allBdreviseValues.isNotEmpty
+        ? allBdreviseValues.reduce((a, b) => a + b) / allBdreviseValues.length
+        : 0.0;
+
+    List<double> allBdsubleadValues = newData
+        .expand((item) => [
+              item['bdsublead'],
+              item['bdsublead1'],
+              item['bdsublead2'],
+              item['bdsublead3'],
+            ])
+        .where((value) =>
+            value != null && value != 'null' && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdsublead = allBdsubleadValues.isNotEmpty
+        ? allBdsubleadValues.reduce((a, b) => a + b) / allBdsubleadValues.length
+        : 0.0;
+
+    List<double> allBdglValues = newData
+        .expand((item) => [
+              item['bdgl'],
+              item['bdgl1'],
+              item['bdgl2'],
+              item['bdgl3'],
+            ])
+        .where((value) =>
+            value != null && value != 'null' && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdgl = allBdglValues.isNotEmpty
+        ? allBdglValues.reduce((a, b) => a + b) / allBdglValues.length
+        : 0.0;
+
+    List<double> allBdmgrValues = newData
+        .expand((item) => [
+              item['bdmgr'],
+              item['bdmgr1'],
+              item['bdmgr2'],
+              item['bdmgr3'],
+            ])
+        .where((value) =>
+            value != null && value != 'null' && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdmgr = allBdmgrValues.isNotEmpty
+        ? allBdmgrValues.reduce((a, b) => a + b) / allBdmgrValues.length
+        : 0.0;
+
+    List<double> allBdjpValues = newData
+        .expand((item) => [
+              item['bdjp'],
+              item['bdjp1'],
+              item['bdjp2'],
+              item['bdjp3'],
+            ])
+        .where((value) =>
+            value != null && value != 'null' && value.toString().isNotEmpty)
+        .map((value) => double.tryParse(value.toString()) ?? 0.0)
+        .toList();
+    double AvgAllBdjp = allBdjpValues.isNotEmpty
+        ? allBdjpValues.reduce((a, b) => a + b) / allBdjpValues.length
+        : 0.0;
+
+    List<double> FilterBdsent = newData
+        .where((item) => item['bdsent'] != null && item['bdsent'] != "")
+        .map((item) => double.tryParse(item['bdsent'].toString()) ?? 0.0)
+        .toList();
+    double AvgBdsent = FilterBdsent.isNotEmpty
+        ? FilterBdsent.reduce((a, b) => a + b) / FilterBdsent.length
+        : 0.0;
+
+    if (newData.isNotEmpty) {
+      List<double> sumList = [
+        AvgBdprepare,
+        AvgBdttc,
+        AvgBdissue,
+        AvgAllBdrevise,
+        AvgAllBdsublead,
+        AvgAllBdgl,
+        AvgAllBdmgr,
+        AvgAllBdjp,
+        AvgBdsent
+      ];
+      // print("sumList: $sumList");
+
       // หา Avg ของ sumList
       if (sumList.isNotEmpty) {
-        double avgTotal = sumList.reduce((a, b) => a + b) / sumList.length;
+        // double avgTotal = sumList.reduce((a, b) => a + b) / sumList.length;
+        double avgTotal = sumList.reduce((a, b) => a + b);
         avgTotal = double.parse(avgTotal.toStringAsFixed(2));
 
         // ใส่ avgTotal เป็นตัวแรกใน avgAllBreakdown
@@ -519,295 +520,296 @@ class _P02REPORTOVERKPIMAINState extends State<P02REPORTOVERKPIMAIN> {
         // กรองข้อมูลมั้งหมดแล้วนำไปใส่ไว้ใน List avgAllBreakdown
         for (String breakdown in [
           'bdsent',
-          'bdjp',
-          'bdmgr',
-          'bdgl',
-          'bdsublead',
-          'bdrevise',
+          // 'bdjp',
+          // 'bdmgr',
+          // 'bdgl',
+          // 'bdsublead',
+          // 'bdrevise',
           'bdissue',
           'bdttc',
           'bdprepare',
         ]) {
-          var filteredItems = newData
-              // .where((item) =>
-              //     item['type'] == selectedType &&
-              //     item['month'] == P02REPORTOVERKPIVAR.DropDownMonth &&
-              //     item['year'] == selectedYear)
+          List<double> breakdownValues = newData
+              .where((item) => item[breakdown] != null && item[breakdown] != "")
+              .map((item) => double.tryParse(item[breakdown].toString()) ?? 0.0)
               .toList();
 
-          if (filteredItems.isNotEmpty) {
-            double AvgBreakdown = filteredItems
-                    .map((item) =>
-                        (double.tryParse(item[breakdown] ?? '0.0') ?? 0.0))
-                    .fold(0.0, (sum, freq) => sum + freq) /
-                filteredItems.length;
-
-            AvgBreakdown = double.parse(AvgBreakdown.toStringAsFixed(2));
-            avgAllBreakdown.add(AvgBreakdown);
-          }
+          double AvgBreakdown =
+              breakdownValues.reduce((a, b) => a + b) / breakdownValues.length;
+          AvgBreakdown = double.parse(AvgBreakdown.toStringAsFixed(2));
+          avgAllBreakdown.add(AvgBreakdown);
         }
+        avgAllBreakdown.insert(2, AvgAllBdrevise);
+        avgAllBreakdown.insert(2, AvgAllBdsublead);
+        avgAllBreakdown.insert(2, AvgAllBdgl);
+        avgAllBreakdown.insert(2, AvgAllBdmgr);
+        avgAllBreakdown.insert(2, AvgAllBdjp);
       } else {
         print("sumList is empty.");
       }
     } else {}
-    print("avgAllBreakdown: $avgAllBreakdown");
-    return Scrollbar(
-      controller: _controllerIN01,
-      thumbVisibility: true,
-      interactive: true,
-      thickness: 10,
-      radius: Radius.circular(20),
-      child: Center(
-        child: SingleChildScrollView(
-          controller: _controllerIN01,
-          scrollDirection: Axis.horizontal,
+    // print("avgAllBreakdown: $avgAllBreakdown");
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Scrollbar(
+        controller: _controllerIN01,
+        thumbVisibility: true,
+        interactive: true,
+        thickness: 10,
+        radius: Radius.circular(20),
+        child: Center(
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: const [
-                          Colors.blueAccent,
-                          Colors.lightBlueAccent
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: Text(
-                        'SAR : Report Performance',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+            controller: _controllerIN01,
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: const [
+                            Colors.blueAccent,
+                            Colors.lightBlueAccent
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ).createShader(bounds),
+                        child: Text(
+                          'SAR : Report Performance',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Text(
-                    'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonthMMM $selectedYear)',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                  Center(
+                    child: Text(
+                      'Report Over KPI: Customer $selectedType (Target ≤ $typeValue days) ($selectedMonthMMM $selectedYear)',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 10,
-                      width: 10,
-                      color: Colors.yellow.shade600,
-                    ),
-                    Text(' Target Days'),
-                    SizedBox(width: 20),
-                    Container(
-                      height: 10,
-                      width: 10,
-                      color: Colors.blue.shade900,
-                    ),
-                    Text(' Actual Days'),
-                  ],
-                ),
-                SizedBox(
-                  height: 390,
-                  width: 1100,
-                  child: Stack(
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: CustomBarChart(
-                          GroupTargetDays: GroupTargetDays,
-                          avgAllBreakdown: avgAllBreakdown,
-                          maxY: 20,
-                        ),
+                      Container(
+                        height: 10,
+                        width: 10,
+                        color: Colors.yellow.shade600,
                       ),
-                      Positioned(
-                        top: 195,
-                        left: -50,
-                        child: Transform.rotate(
-                          angle: -90 * (3.14159 / 180),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              groupSampleTime,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                      Text(' Target Days'),
+                      SizedBox(width: 20),
+                      Container(
+                        height: 10,
+                        width: 10,
+                        color: Colors.blue.shade900,
+                      ),
+                      Text(' Actual Days'),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 390,
+                    width: 1100,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: CustomBarChart(
+                            GroupTargetDays: GroupTargetDays,
+                            avgAllBreakdown: avgAllBreakdown,
+                            maxY: 20,
+                          ),
+                        ),
+                        Positioned(
+                          top: 195,
+                          left: -50,
+                          child: Transform.rotate(
+                            angle: -90 * (3.14159 / 180),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                groupSampleTime,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownMonth.isNotEmpty)
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      'TYPE',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'TYPE',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                AdvanceDropDown(
-                                  hint: "TYPE",
-                                  listdropdown: const [
-                                    // MapEntry("TYPE", ""),
-                                    MapEntry("Group A", "A"),
-                                    MapEntry("Group B", "B"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P02REPORTOVERKPIVAR.DropDownType = d;
-                                      // context
-                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
-                                    });
-                                  },
-                                  value: P02REPORTOVERKPIVAR.DropDownType,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              children: [
-                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownMonth.isNotEmpty)
-                                  SizedBox(
+                                  AdvanceDropDown(
+                                    hint: "TYPE",
+                                    listdropdown: const [
+                                      // MapEntry("TYPE", ""),
+                                      MapEntry("Group A", "A"),
+                                      MapEntry("Group B", "B"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P02REPORTOVERKPIVAR.DropDownType = d;
+                                        // context
+                                        //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                        //     .add(P02REPORTOVERKPIGETDATA_GET());
+                                      });
+                                    },
+                                    value: P02REPORTOVERKPIVAR.DropDownType,
+                                    height: 30,
                                     width: 100,
-                                    child: Text(
-                                      'YEAR',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
                                   ),
-                                AdvanceDropDown(
-                                  hint: "YEAR",
-                                  listdropdown: const [
-                                    // MapEntry("YEAR", ""),
-                                    MapEntry("2023", "2023"),
-                                    MapEntry("2024", "2024"),
-                                    MapEntry("2025", "2025"),
-                                    MapEntry("2026", "2026"),
-                                    MapEntry("2027", "2027"),
-                                    MapEntry("2028", "2028"),
-                                    MapEntry("2029", "2029"),
-                                    MapEntry("2030", "2030"),
-                                    MapEntry("2031", "2031"),
-                                    MapEntry("2032", "2032"),
-                                    MapEntry("2033", "2033"),
-                                    MapEntry("2034", "2034"),
-                                    MapEntry("2035", "2035"),
-                                    MapEntry("2036", "2036"),
-                                    MapEntry("2037", "2037"),
-                                    MapEntry("2038", "2038"),
-                                    MapEntry("2039", "2039"),
-                                    MapEntry("2040", "2040"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P02REPORTOVERKPIVAR.DropDownYear = d;
-                                      // context
-                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
-                                    });
-                                  },
-                                  value: P02REPORTOVERKPIVAR.DropDownYear,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              children: [
-                                if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownYear.isNotEmpty ||
-                                    P02REPORTOVERKPIVAR
-                                        .DropDownMonth.isNotEmpty)
-                                  SizedBox(
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Column(
+                                children: [
+                                  if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'YEAR',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  AdvanceDropDown(
+                                    hint: "YEAR",
+                                    listdropdown: const [
+                                      // MapEntry("YEAR", ""),
+                                      MapEntry("2023", "2023"),
+                                      MapEntry("2024", "2024"),
+                                      MapEntry("2025", "2025"),
+                                      MapEntry("2026", "2026"),
+                                      MapEntry("2027", "2027"),
+                                      MapEntry("2028", "2028"),
+                                      MapEntry("2029", "2029"),
+                                      MapEntry("2030", "2030"),
+                                      MapEntry("2031", "2031"),
+                                      MapEntry("2032", "2032"),
+                                      MapEntry("2033", "2033"),
+                                      MapEntry("2034", "2034"),
+                                      MapEntry("2035", "2035"),
+                                      MapEntry("2036", "2036"),
+                                      MapEntry("2037", "2037"),
+                                      MapEntry("2038", "2038"),
+                                      MapEntry("2039", "2039"),
+                                      MapEntry("2040", "2040"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P02REPORTOVERKPIVAR.DropDownYear = d;
+                                        // context
+                                        //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                        //     .add(P02REPORTOVERKPIGETDATA_GET());
+                                      });
+                                    },
+                                    value: P02REPORTOVERKPIVAR.DropDownYear,
+                                    height: 30,
                                     width: 100,
-                                    child: Text(
-                                      'MONTH',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
                                   ),
-                                AdvanceDropDown(
-                                  hint: "MONTH",
-                                  listdropdown: const [
-                                    // MapEntry("MONTH", ""),
-                                    MapEntry("Jan", "01"),
-                                    MapEntry("Feb", "02"),
-                                    MapEntry("Mar", "03"),
-                                    MapEntry("Apr", "04"),
-                                    MapEntry("May", "05"),
-                                    MapEntry("Jun", "06"),
-                                    MapEntry("Jul", "07"),
-                                    MapEntry("Aug", "08"),
-                                    MapEntry("Sep", "09"),
-                                    MapEntry("Oct", "10"),
-                                    MapEntry("Nov", "11"),
-                                    MapEntry("Dec", "12"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P02REPORTOVERKPIVAR.DropDownMonth = d;
-                                      // context
-                                      //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
-                                      //     .add(P02REPORTOVERKPIGETDATA_GET());
-                                    });
-                                  },
-                                  value: P02REPORTOVERKPIVAR.DropDownMonth,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Column(
+                                children: [
+                                  if (P02REPORTOVERKPIVAR.DropDownType.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P02REPORTOVERKPIVAR
+                                          .DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'MONTH',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  AdvanceDropDown(
+                                    hint: "MONTH",
+                                    listdropdown: const [
+                                      // MapEntry("MONTH", ""),
+                                      MapEntry("Jan", "01"),
+                                      MapEntry("Feb", "02"),
+                                      MapEntry("Mar", "03"),
+                                      MapEntry("Apr", "04"),
+                                      MapEntry("May", "05"),
+                                      MapEntry("Jun", "06"),
+                                      MapEntry("Jul", "07"),
+                                      MapEntry("Aug", "08"),
+                                      MapEntry("Sep", "09"),
+                                      MapEntry("Oct", "10"),
+                                      MapEntry("Nov", "11"),
+                                      MapEntry("Dec", "12"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P02REPORTOVERKPIVAR.DropDownMonth = d;
+                                        // context
+                                        //     .read<P02REPORTOVERKPIGETDATA_Bloc>()
+                                        //     .add(P02REPORTOVERKPIGETDATA_GET());
+                                      });
+                                    },
+                                    value: P02REPORTOVERKPIVAR.DropDownMonth,
+                                    height: 30,
+                                    width: 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-              ],
+                  SizedBox(height: 10),
+                ],
+              ),
             ),
           ),
         ),

@@ -845,7 +845,7 @@ String formatDate(String? date) {
   if (date == null || date.isEmpty) return '';
   if (date == 'CLOSE LINE') return 'CLOSE LINE';
   try {
-    print(date);
+    // print(date);
     DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
     return DateFormat('dd/MM/yyyy').format(parsedDate);
   } catch (e) {

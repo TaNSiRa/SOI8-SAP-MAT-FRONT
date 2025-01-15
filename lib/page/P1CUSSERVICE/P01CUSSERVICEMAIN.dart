@@ -30,7 +30,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
   Widget build(BuildContext context) {
     P01CUSSERVICEMAINcontext = context;
     List<P01CUSSERVICEGETDATAclass> _datain = widget.data ?? [];
-    print("datain: ${_datain.length}");
+    // print("datain: ${_datain.length}");
     // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedYear = (P01CUSSERVICEVAR.DropDownYear.isNotEmpty)
         ? P01CUSSERVICEVAR.DropDownYear
@@ -77,7 +77,8 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
             (int.tryParse(item['freq3'] ?? '0') ?? 0) +
             (int.tryParse(item['freq4'] ?? '0') ?? 0))
         .fold(0, (sum, freq) => sum + freq);
-    print('KACSumVisitFrequencyYear: $KACSumVisitFrequencyYear');
+    // print('KACSumVisitFrequencyYear: $KACSumVisitFrequencyYear');
+
     // KAC Sum Close Line previous year
     // int KACcloseLineCountYear = UseforPreviousYear.where((item) =>
     //     item['group'] == 'KAC' &&
@@ -120,7 +121,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
           (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
-    print('KACVisitActualCountYear: $KACVisitActualCountYear');
+    // print('KACVisitActualCountYear: $KACVisitActualCountYear');
 
 // KAC Sum close line monthly previous year
     int KACCloseLineCountYear = UseforPreviousYear.where((item) =>
@@ -137,7 +138,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
           (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
-    print('KACCloseLineCountYear: $KACCloseLineCountYear');
+    // print('KACCloseLineCountYear: $KACCloseLineCountYear');
 
     // KAC Sum visit plan previous year + close line
     // int KACVisitPlanSumWithCloseLineYear =
@@ -159,7 +160,8 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
             (int.tryParse(item['freq3'] ?? '0') ?? 0) +
             (int.tryParse(item['freq4'] ?? '0') ?? 0))
         .fold(0, (sum, freq) => sum + freq);
-    print('MEDIUMSumVisitFrequencyYear: $MEDIUMSumVisitFrequencyYear');
+    // print('MEDIUMSumVisitFrequencyYear: $MEDIUMSumVisitFrequencyYear');
+
     // MEDIUM Sum Close Line monthly previous year
     // int MEDIUMCloseLineCountYear = UseforPreviousYear.where((item) =>
     //     item['group'] == 'MEDIUM' &&
@@ -202,7 +204,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
           (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
-    print('MEDIUMVisitActualCountYear: $MEDIUMVisitActualCountYear');
+    // print('MEDIUMVisitActualCountYear: $MEDIUMVisitActualCountYear');
 
 // MEDIUM Sum close line monthly previous year
     int MEDIUMCloseLineCountYear = UseforPreviousYear.where((item) =>
@@ -219,7 +221,7 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
           (item['act sam4']?.isNotEmpty ?? false)) count++;
       return count;
     }).fold(0, (sum, count) => sum + count);
-    print('MEDIUMCloseLineCountYear: $MEDIUMCloseLineCountYear');
+    // print('MEDIUMCloseLineCountYear: $MEDIUMCloseLineCountYear');
 
     // MEDIUM Sum visit plan previous year + close line
     // int MEDIUMVisitPlanSumWithCloseLineYear =
@@ -452,232 +454,235 @@ class _P01CUSSERVICEMAINState extends State<P01CUSSERVICEMAIN> {
           : 0;
       mediumVisitPercents.add(mediumVisitPercent);
     }
-    print('kacSumVisitFrequency: $kacSumVisitFrequency');
-    print('KACcloseLineCounts: $KACcloseLineCounts');
-    print('kacVisitPercents: $kacVisitPercents');
-    print('kacSumVisitFrequency: $mediumSumVisitFrequency');
-    print('mediumcloseLineCounts: $mediumcloseLineCounts');
-    print('mediumVisitPercents: $mediumVisitPercents');
+    // print('kacSumVisitFrequency: $kacSumVisitFrequency');
+    // print('KACcloseLineCounts: $KACcloseLineCounts');
+    // print('kacVisitPercents: $kacVisitPercents');
+    // print('kacSumVisitFrequency: $mediumSumVisitFrequency');
+    // print('mediumcloseLineCounts: $mediumcloseLineCounts');
+    // print('mediumVisitPercents: $mediumVisitPercents');
 
-    return Scrollbar(
-      controller: _controllerIN01,
-      thumbVisibility: true,
-      interactive: true,
-      thickness: 10,
-      radius: Radius.circular(20),
-      child: Center(
-        child: SingleChildScrollView(
-          controller: _controllerIN01,
-          scrollDirection: Axis.horizontal,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Scrollbar(
+        controller: _controllerIN01,
+        thumbVisibility: true,
+        interactive: true,
+        thickness: 10,
+        radius: Radius.circular(20),
+        child: Center(
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: const [
-                          Colors.blueAccent,
-                          Colors.lightBlueAccent
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: Text(
-                        'SAR : Service Performance',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+            controller: _controllerIN01,
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: const [
+                            Colors.blueAccent,
+                            Colors.lightBlueAccent
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ).createShader(bounds),
+                        child: Text(
+                          'SAR : Service Performance',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Text(
-                    'Customer Service Performance Yr.$selectedYear',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                  Center(
+                    child: Text(
+                      'Customer Service Performance Yr.$selectedYear',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 10,
-                      width: 10,
-                      color: Colors.blue.shade900,
-                    ),
-                    Text(' % Performance KAC'),
-                    SizedBox(width: 20),
-                    Container(
-                      height: 10,
-                      width: 10,
-                      color: Colors.deepOrange,
-                    ),
-                    Text(' % Performance MEDIUM Customer (Day)'),
-                  ],
-                ),
-                SizedBox(
-                  height: 380,
-                  width: 1100,
-                  child: Stack(
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: CustomBarChart(
-                          kacVisitPercents: kacVisitPercents,
-                          mediumVisitPercents: mediumVisitPercents,
-                          maxY: 140,
-                        ),
+                      Container(
+                        height: 10,
+                        width: 10,
+                        color: Colors.blue.shade900,
                       ),
-                      Positioned(
-                        top: 180,
-                        left: 70,
-                        child: Transform.rotate(
-                          angle: -90 * (3.14159 / 180),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '% Performance',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                      Text(' % Performance KAC'),
+                      SizedBox(width: 20),
+                      Container(
+                        height: 10,
+                        width: 10,
+                        color: Colors.deepOrange,
+                      ),
+                      Text(' % Performance MEDIUM Customer (Day)'),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 380,
+                    width: 1100,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: CustomBarChart(
+                            kacVisitPercents: kacVisitPercents,
+                            mediumVisitPercents: mediumVisitPercents,
+                            maxY: 140,
+                          ),
+                        ),
+                        Positioned(
+                          top: 180,
+                          left: 70,
+                          child: Transform.rotate(
+                            angle: -90 * (3.14159 / 180),
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '% Performance',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Column(
-                          children: [
-                            if (P01CUSSERVICEVAR.DropDownYear.isNotEmpty) ...[
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  'YEAR',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              if (P01CUSSERVICEVAR.DropDownYear.isNotEmpty) ...[
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    'YEAR',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
+                              ],
+                              AdvanceDropDown(
+                                hint: "YEAR",
+                                listdropdown: const [
+                                  MapEntry("YEAR", ""),
+                                  MapEntry("2023", "2023"),
+                                  MapEntry("2024", "2024"),
+                                  MapEntry("2025", "2025"),
+                                  MapEntry("2026", "2026"),
+                                  MapEntry("2027", "2027"),
+                                  MapEntry("2028", "2028"),
+                                  MapEntry("2029", "2029"),
+                                  MapEntry("2030", "2030"),
+                                  MapEntry("2031", "2031"),
+                                  MapEntry("2032", "2032"),
+                                  MapEntry("2033", "2033"),
+                                  MapEntry("2034", "2034"),
+                                  MapEntry("2035", "2035"),
+                                  MapEntry("2036", "2036"),
+                                  MapEntry("2037", "2037"),
+                                  MapEntry("2038", "2038"),
+                                  MapEntry("2039", "2039"),
+                                  MapEntry("2040", "2040"),
+                                ],
+                                onChangeinside: (d, k) {
+                                  setState(() {
+                                    P01CUSSERVICEVAR.DropDownYear = d;
+                                    // context
+                                    //     .read<P01CUSSERVICEGETDATA_Bloc>()
+                                    //     .add(P01CUSSERVICEGETDATA_GET());
+                                  });
+                                },
+                                value: P01CUSSERVICEVAR.DropDownYear,
+                                height: 30,
+                                width: 100,
                               ),
                             ],
-                            AdvanceDropDown(
-                              hint: "YEAR",
-                              listdropdown: const [
-                                MapEntry("YEAR", ""),
-                                MapEntry("2023", "2023"),
-                                MapEntry("2024", "2024"),
-                                MapEntry("2025", "2025"),
-                                MapEntry("2026", "2026"),
-                                MapEntry("2027", "2027"),
-                                MapEntry("2028", "2028"),
-                                MapEntry("2029", "2029"),
-                                MapEntry("2030", "2030"),
-                                MapEntry("2031", "2031"),
-                                MapEntry("2032", "2032"),
-                                MapEntry("2033", "2033"),
-                                MapEntry("2034", "2034"),
-                                MapEntry("2035", "2035"),
-                                MapEntry("2036", "2036"),
-                                MapEntry("2037", "2037"),
-                                MapEntry("2038", "2038"),
-                                MapEntry("2039", "2039"),
-                                MapEntry("2040", "2040"),
-                              ],
-                              onChangeinside: (d, k) {
-                                setState(() {
-                                  P01CUSSERVICEVAR.DropDownYear = d;
-                                  // context
-                                  //     .read<P01CUSSERVICEGETDATA_Bloc>()
-                                  //     .add(P01CUSSERVICEGETDATA_GET());
-                                });
-                              },
-                              value: P01CUSSERVICEVAR.DropDownYear,
-                              height: 30,
-                              width: 100,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 85,
-                        right: 0,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.arrow_back_rounded,
-                                    size: 20, color: Colors.blue.shade900),
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.blue.shade900,
-                                      width: 2.0,
+                        Positioned(
+                          top: 85,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.arrow_back_rounded,
+                                      size: 20, color: Colors.blue.shade900),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.blue.shade900,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Key Account Customer Top 50th + Automobile KPI: 100% Service',
-                                      style: TextStyle(
-                                        fontSize: 8.0,
-                                        fontWeight: FontWeight.bold,
+                                    child: Center(
+                                      child: Text(
+                                        'Key Account Customer Top 50th + Automobile KPI: 100% Service',
+                                        style: TextStyle(
+                                          fontSize: 8.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.arrow_back_rounded,
-                                    size: 20, color: Colors.deepOrange),
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.deepOrange,
-                                      width: 2.0,
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.arrow_back_rounded,
+                                      size: 20, color: Colors.deepOrange),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    height: 40,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.deepOrange,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Medium customer \n'
-                                      'KPI: more than 95% Service',
-                                      style: TextStyle(
-                                        fontSize: 8.0,
-                                        fontWeight: FontWeight.bold,
+                                    child: Center(
+                                      child: Text(
+                                        'Medium customer \n'
+                                        'KPI: more than 95% Service',
+                                        style: TextStyle(
+                                          fontSize: 8.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-              ],
+                  SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),

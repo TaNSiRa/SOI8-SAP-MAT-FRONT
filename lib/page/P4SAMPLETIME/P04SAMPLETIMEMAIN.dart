@@ -33,7 +33,7 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
   Widget build(BuildContext context) {
     P04SAMPLETIMEMAINcontext = context;
     List<P04SAMPLETIMEGETDATAclass> _datain = widget.data ?? [];
-    print(_datain.length);
+    // print(_datain.length);
 // ตัวแปรสําหรับใช้กับ Dropdown
     final selectedType = (P04SAMPLETIMEVAR.DropDownType.isNotEmpty)
         ? P04SAMPLETIMEVAR.DropDownType
@@ -482,303 +482,268 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
       initialAngleInDegree1113 = 0;
     }
 
-    return Scrollbar(
-      controller: _controllerIN01,
-      thumbVisibility: true,
-      interactive: true,
-      thickness: 10,
-      radius: Radius.circular(20),
-      child: Center(
-        child: SingleChildScrollView(
-          controller: _controllerIN01,
-          scrollDirection: Axis.horizontal,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Scrollbar(
+        controller: _controllerIN01,
+        thumbVisibility: true,
+        interactive: true,
+        thickness: 10,
+        radius: Radius.circular(20),
+        child: Center(
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Center(
-                    child: ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: const [
-                          Colors.blueAccent,
-                          Colors.lightBlueAccent
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: Text(
-                        'SAR : Report Performance',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+            controller: _controllerIN01,
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Center(
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: const [
+                            Colors.blueAccent,
+                            Colors.lightBlueAccent
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ).createShader(bounds),
+                        child: Text(
+                          'SAR : Report Performance',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Text(
-                  'Group $selectedType\n'
-                  '$GroupTargetDays ($selectedMonthMMM $selectedYear)',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    'Group $selectedType\n'
+                    '$GroupTargetDays ($selectedMonthMMM $selectedYear)',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                SizedBox(
-                  width: 1000,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      'TYPE',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                AdvanceDropDown(
-                                  hint: "TYPE",
-                                  listdropdown: const [
-                                    // MapEntry("TYPE", ""),
-                                    MapEntry("Group A", "A"),
-                                    MapEntry("Group B", "B"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P04SAMPLETIMEVAR.DropDownType = d;
-                                      // context
-                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
-                                      //     .add(P04SAMPLETIMEGETDATA_GET());
-                                    });
-                                  },
-                                  value: P04SAMPLETIMEVAR.DropDownType,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              children: [
-                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      'YEAR',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                AdvanceDropDown(
-                                  hint: "YEAR",
-                                  listdropdown: const [
-                                    // MapEntry("YEAR", ""),
-                                    MapEntry("2023", "2023"),
-                                    MapEntry("2024", "2024"),
-                                    MapEntry("2025", "2025"),
-                                    MapEntry("2026", "2026"),
-                                    MapEntry("2027", "2027"),
-                                    MapEntry("2028", "2028"),
-                                    MapEntry("2029", "2029"),
-                                    MapEntry("2030", "2030"),
-                                    MapEntry("2031", "2031"),
-                                    MapEntry("2032", "2032"),
-                                    MapEntry("2033", "2033"),
-                                    MapEntry("2034", "2034"),
-                                    MapEntry("2035", "2035"),
-                                    MapEntry("2036", "2036"),
-                                    MapEntry("2037", "2037"),
-                                    MapEntry("2038", "2038"),
-                                    MapEntry("2039", "2039"),
-                                    MapEntry("2040", "2040"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P04SAMPLETIMEVAR.DropDownYear = d;
-                                      // context
-                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
-                                      //     .add(P04SAMPLETIMEGETDATA_GET());
-                                    });
-                                  },
-                                  value: P04SAMPLETIMEVAR.DropDownYear,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Column(
-                              children: [
-                                if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownYear.isNotEmpty ||
-                                    P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      'MONTH',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                AdvanceDropDown(
-                                  hint: "MONTH",
-                                  listdropdown: const [
-                                    // MapEntry("MONTH", ""),
-                                    MapEntry("Jan", "01"),
-                                    MapEntry("Feb", "02"),
-                                    MapEntry("Mar", "03"),
-                                    MapEntry("Apr", "04"),
-                                    MapEntry("May", "05"),
-                                    MapEntry("Jun", "06"),
-                                    MapEntry("Jul", "07"),
-                                    MapEntry("Aug", "08"),
-                                    MapEntry("Sep", "09"),
-                                    MapEntry("Oct", "10"),
-                                    MapEntry("Nov", "11"),
-                                    MapEntry("Dec", "12"),
-                                  ],
-                                  onChangeinside: (d, k) {
-                                    setState(() {
-                                      P04SAMPLETIMEVAR.DropDownMonth = d;
-                                      // context
-                                      //     .read<P04SAMPLETIMEGETDATA_Bloc>()
-                                      //     .add(P04SAMPLETIMEGETDATA_GET());
-                                    });
-                                  },
-                                  value: P04SAMPLETIMEVAR.DropDownMonth,
-                                  height: 30,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Stack(
-                        children: [
-                          Positioned(
-                            bottom: 35,
-                            left: 188,
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                'Total report : $AllReport Iss.',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 85,
-                            right: 190,
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                'Total over due : $IssueReport Iss.',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: 1000,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              PieChart(
-                                dataMap: pieData1,
-                                chartRadius: 300,
-                                colorList: [
-                                  Colors.lightGreen,
-                                  Colors.yellow.shade200
+                              Column(
+                                children: [
+                                  if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                      P04SAMPLETIMEVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'TYPE',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  AdvanceDropDown(
+                                    hint: "TYPE",
+                                    listdropdown: const [
+                                      // MapEntry("TYPE", ""),
+                                      MapEntry("Group A", "A"),
+                                      MapEntry("Group B", "B"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P04SAMPLETIMEVAR.DropDownType = d;
+                                        // context
+                                        //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                        //     .add(P04SAMPLETIMEGETDATA_GET());
+                                      });
+                                    },
+                                    value: P04SAMPLETIMEVAR.DropDownType,
+                                    height: 30,
+                                    width: 100,
+                                  ),
                                 ],
-                                chartValuesOptions: ChartValuesOptions(
-                                  showChartValueBackground: true,
-                                  chartValueBackgroundColor: Colors.white,
-                                  showChartValues: true,
-                                  chartValueStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                legendOptions: LegendOptions(
-                                  legendPosition: LegendPosition.bottom,
-                                  showLegendsInRow: true,
-                                  legendTextStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                chartType: ChartType.disc,
-                                baseChartColor: Colors.grey[300]!,
-                                centerTextStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                initialAngleInDegree: initialAngleInDegree,
                               ),
-                              SizedBox(width: 160),
-                              PieChart(
-                                  dataMap: P04SAMPLETIMEVAR.DropDownType == 'B'
-                                      ? pieData3
-                                      : P04SAMPLETIMEVAR.DropDownType == 'A'
-                                          ? pieData2
-                                          : {},
-                                  chartRadius: 200,
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Column(
+                                children: [
+                                  if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                      P04SAMPLETIMEVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'YEAR',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  AdvanceDropDown(
+                                    hint: "YEAR",
+                                    listdropdown: const [
+                                      // MapEntry("YEAR", ""),
+                                      MapEntry("2023", "2023"),
+                                      MapEntry("2024", "2024"),
+                                      MapEntry("2025", "2025"),
+                                      MapEntry("2026", "2026"),
+                                      MapEntry("2027", "2027"),
+                                      MapEntry("2028", "2028"),
+                                      MapEntry("2029", "2029"),
+                                      MapEntry("2030", "2030"),
+                                      MapEntry("2031", "2031"),
+                                      MapEntry("2032", "2032"),
+                                      MapEntry("2033", "2033"),
+                                      MapEntry("2034", "2034"),
+                                      MapEntry("2035", "2035"),
+                                      MapEntry("2036", "2036"),
+                                      MapEntry("2037", "2037"),
+                                      MapEntry("2038", "2038"),
+                                      MapEntry("2039", "2039"),
+                                      MapEntry("2040", "2040"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P04SAMPLETIMEVAR.DropDownYear = d;
+                                        // context
+                                        //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                        //     .add(P04SAMPLETIMEGETDATA_GET());
+                                      });
+                                    },
+                                    value: P04SAMPLETIMEVAR.DropDownYear,
+                                    height: 30,
+                                    width: 100,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Column(
+                                children: [
+                                  if (P04SAMPLETIMEVAR.DropDownType.isNotEmpty ||
+                                      P04SAMPLETIMEVAR
+                                          .DropDownYear.isNotEmpty ||
+                                      P04SAMPLETIMEVAR.DropDownMonth.isNotEmpty)
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        'MONTH',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  AdvanceDropDown(
+                                    hint: "MONTH",
+                                    listdropdown: const [
+                                      // MapEntry("MONTH", ""),
+                                      MapEntry("Jan", "01"),
+                                      MapEntry("Feb", "02"),
+                                      MapEntry("Mar", "03"),
+                                      MapEntry("Apr", "04"),
+                                      MapEntry("May", "05"),
+                                      MapEntry("Jun", "06"),
+                                      MapEntry("Jul", "07"),
+                                      MapEntry("Aug", "08"),
+                                      MapEntry("Sep", "09"),
+                                      MapEntry("Oct", "10"),
+                                      MapEntry("Nov", "11"),
+                                      MapEntry("Dec", "12"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        P04SAMPLETIMEVAR.DropDownMonth = d;
+                                        // context
+                                        //     .read<P04SAMPLETIMEGETDATA_Bloc>()
+                                        //     .add(P04SAMPLETIMEGETDATA_GET());
+                                      });
+                                    },
+                                    value: P04SAMPLETIMEVAR.DropDownMonth,
+                                    height: 30,
+                                    width: 100,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Stack(
+                          children: [
+                            Positioned(
+                              bottom: 35,
+                              left: 188,
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Text(
+                                  'Total report : $AllReport Iss.',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 85,
+                              right: 190,
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Text(
+                                  'Total over due : $IssueReport Iss.',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                PieChart(
+                                  dataMap: pieData1,
+                                  chartRadius: 300,
                                   colorList: [
-                                    Colors.yellow.shade200,
-                                    Colors.red
+                                    Colors.lightGreen,
+                                    Colors.yellow.shade200
                                   ],
                                   chartValuesOptions: ChartValuesOptions(
                                     showChartValueBackground: true,
@@ -787,6 +752,7 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                     chartValueStyle: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 14,
                                     ),
                                   ),
                                   legendOptions: LegendOptions(
@@ -795,6 +761,7 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                     legendTextStyle: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   chartType: ChartType.disc,
@@ -804,25 +771,66 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
-                                  initialAngleInDegree:
-                                      P04SAMPLETIMEVAR.DropDownType == 'B'
-                                          ? initialAngleInDegree1113
-                                          : P04SAMPLETIMEVAR.DropDownType == 'A'
-                                              ? initialAngleInDegree1315
-                                              : 0.0),
-                            ],
-                          ),
-                        ],
-                      ),
-                      CustomPaint(
-                        size: Size(800, 400), // กำหนดขนาดของพื้นที่วาด
-                        painter:
-                            LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
-                      ),
-                    ],
+                                  initialAngleInDegree: initialAngleInDegree,
+                                ),
+                                SizedBox(width: 160),
+                                PieChart(
+                                    dataMap: P04SAMPLETIMEVAR.DropDownType ==
+                                            'B'
+                                        ? pieData3
+                                        : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                            ? pieData2
+                                            : {},
+                                    chartRadius: 200,
+                                    colorList: [
+                                      Colors.yellow.shade200,
+                                      Colors.red
+                                    ],
+                                    chartValuesOptions: ChartValuesOptions(
+                                      showChartValueBackground: true,
+                                      chartValueBackgroundColor: Colors.white,
+                                      showChartValues: true,
+                                      chartValueStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    legendOptions: LegendOptions(
+                                      legendPosition: LegendPosition.bottom,
+                                      showLegendsInRow: true,
+                                      legendTextStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    chartType: ChartType.disc,
+                                    baseChartColor: Colors.grey[300]!,
+                                    centerTextStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                    initialAngleInDegree: P04SAMPLETIMEVAR
+                                                .DropDownType ==
+                                            'B'
+                                        ? initialAngleInDegree1113
+                                        : P04SAMPLETIMEVAR.DropDownType == 'A'
+                                            ? initialAngleInDegree1315
+                                            : 0.0),
+                              ],
+                            ),
+                          ],
+                        ),
+                        CustomPaint(
+                          size: Size(800, 400), // กำหนดขนาดของพื้นที่วาด
+                          painter:
+                              LinePainter(), // ใช้ CustomPainter ที่สร้างขึ้น
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
