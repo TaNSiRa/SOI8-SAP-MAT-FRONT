@@ -4,8 +4,17 @@ import '../bloc/BlocEvent/LoginEvent.dart';
 import '../mainBody.dart';
 import '../data/global.dart';
 
-class LoginPageWidget extends StatelessWidget {
-  const LoginPageWidget({Key? key}) : super(key: key);
+class LoginPageWidget extends StatefulWidget {
+  LoginPageWidget({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageWidgetState createState() => _LoginPageWidgetState();
+}
+
+class _LoginPageWidgetState extends State<LoginPageWidget> {
+  final FocusNode userFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +22,49 @@ class LoginPageWidget extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blueAccent, Colors.lightBlue],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                image: AssetImage("assets/images/thaiparker.jpg"),
+                fit: BoxFit.cover, // ให้ภาพเต็มพื้นที่
               ),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black.withOpacity(0.6), // ไล่เฉดสีดำโปร่งใส
+                  Colors.transparent,
+                ],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  bottom: 20,
+                  right: 20,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      "Developed by Automation Version 1.0",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Center(
@@ -64,6 +110,7 @@ class LoginPageWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         TextField(
+                          focusNode: userFocusNode,
                           decoration: InputDecoration(
                             prefixIcon:
                                 const Icon(Icons.person, color: Colors.blue),
@@ -77,13 +124,31 @@ class LoginPageWidget extends StatelessWidget {
                           onChanged: (value) {
                             logindata.userID = value;
                           },
+                          onSubmitted: (value) {
+                            FocusScope.of(context)
+                                .requestFocus(passwordFocusNode);
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextField(
-                          obscureText: true,
+                          focusNode: passwordFocusNode,
+                          obscureText: _isObscure,
                           decoration: InputDecoration(
                             prefixIcon:
                                 const Icon(Icons.lock, color: Colors.blue),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.blue,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),
                             labelText: "Password",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -93,6 +158,9 @@ class LoginPageWidget extends StatelessWidget {
                           ),
                           onChanged: (value) {
                             logindata.userPASS = value;
+                          },
+                          onSubmitted: (value) {
+                            LoginContext.read<Login_Bloc>().add(LoginPage());
                           },
                         ),
                         const SizedBox(height: 30),
