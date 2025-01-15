@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, avoid_web_libraries_in_flutter
+
 import 'dart:convert';
 import 'dart:html';
 import 'dart:ui' as dart_ui;
@@ -244,7 +246,7 @@ Future<String> capture(
 
     // print(await pdf.save());
     final bytesPDF = await pdf.save();
-    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '$PO.pdf');
 
     // Navigator.pop(contextin);
     return 'ok';
@@ -276,7 +278,7 @@ Future<String> captureDefault(
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4.landscape,
-        margin: pw.EdgeInsets.all(4),
+        margin: const pw.EdgeInsets.all(4),
         build: (pw.Context context) => pw.Center(
           child: pw.Column(children: [pw.Image(imagePDF)]),
         ),
@@ -285,7 +287,7 @@ Future<String> captureDefault(
 
     // print(await pdf.save());
     final bytesPDF = await pdf.save();
-    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '${PO}.pdf');
+    await FileSaveHelper.saveAndLaunchFile(bytesPDF, '$PO.pdf');
 
     // Navigator.pop(contextin);
     return 'ok';
@@ -312,13 +314,13 @@ Future<String> captureToback(
 
     // print(imageEncoded);
     final response = await Dio().post(
-      server + 'goPDF',
+      '${server}goPDF',
       data: {
         "PIC": imageEncoded,
         "PO": PO,
       },
     );
-    String output = '';
+    // String output = '';
 
     if (response.statusCode == 200) {
       var databuff = response.data;
@@ -328,7 +330,7 @@ Future<String> captureToback(
         // final imageEncoded = base64.encode(databuff['PIC']);
         var base64 = databuff['PIC'].toString();
         var bytes = base64Decode(base64);
-        await FileSaveHelper.saveAndLaunchFile(bytes, '${PO}.pdf');
+        await FileSaveHelper.saveAndLaunchFile(bytes, '$PO.pdf');
       }
     } else {
       //
