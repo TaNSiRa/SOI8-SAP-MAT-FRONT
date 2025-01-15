@@ -671,6 +671,8 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(),
                         padding: const EdgeInsets.all(10),
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: Colors.blue),
                       ),
                       child: const Icon(
                         Icons.refresh_rounded,

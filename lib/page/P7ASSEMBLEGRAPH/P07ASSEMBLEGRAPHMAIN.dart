@@ -1723,7 +1723,8 @@ class _P07ASSEMBLEGRAPHMAINState extends State<P07ASSEMBLEGRAPHMAIN> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, // กำหนดสีพื้นหลังของปุ่ม
+                      backgroundColor: Colors.white,
+                      side: BorderSide(color: Colors.blue),
                     ),
                     child: ShaderMask(
                       shaderCallback: (bounds) => LinearGradient(

@@ -680,15 +680,12 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                             context
                                 .read<P05TABLESERVICEGETDATA_Bloc>()
                                 .add(P05TABLESERVICEGETDATA_GET());
-                            // Timer(Duration(seconds: 1), () {
-                            //   context
-                            //       .read<P05TABLESERVICEGETDATA1_Bloc>()
-                            //       .add(P05TABLESERVICEGETDATA1_GET());
-                            // });
                           },
                           style: ElevatedButton.styleFrom(
                             shape: const CircleBorder(),
                             padding: const EdgeInsets.all(10),
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: Colors.blue),
                           ),
                           child: const Icon(
                             Icons.refresh_rounded,
@@ -881,8 +878,8 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.white, // กำหนดสีพื้นหลังของปุ่ม
+                            backgroundColor: Colors.white,
+                            side: BorderSide(color: Colors.blue),
                           ),
                           child: ShaderMask(
                             shaderCallback: (bounds) => LinearGradient(
