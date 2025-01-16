@@ -3021,8 +3021,12 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                                 child: SizedBox(
                                   height: 20,
                                   child: Text(
-                                    item['stage'] != '' && item['reason'] != ''
-                                        ? ' ${item['stage']} (${item['reason']})'
+                                    // item['stage'] != '' && item['reason'] != ''
+                                    //     ? ' ${item['stage']} (${item['reason']})'
+                                    //     : '',
+
+                                    item['reason'] != ''
+                                        ? '(${item['reason']})'
                                         : '',
                                     style: TextStyle(fontSize: 10),
                                   ),
