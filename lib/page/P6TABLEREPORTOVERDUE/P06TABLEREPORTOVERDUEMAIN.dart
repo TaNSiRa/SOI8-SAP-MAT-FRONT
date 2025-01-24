@@ -1151,7 +1151,7 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                       border: TableBorder.all(),
                       columnWidths: const {
                         0: FixedColumnWidth(70),
-                        1: FixedColumnWidth(70),
+                        1: FixedColumnWidth(100),
                       },
                       children: [
                         TableRow(
@@ -2990,11 +2990,29 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                         ),
                       ),
                       columnWidths: const {
-                        0: FixedColumnWidth(250),
+                        0: FixedColumnWidth(150),
+                        1: FixedColumnWidth(250),
                       },
                       children: [
                         TableRow(
                           children: [
+                            TableCell(
+                              child: SizedBox(
+                                height: 80,
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: Text(
+                                      'Stage',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             TableCell(
                               child: SizedBox(
                                 height: 80,
@@ -3021,13 +3039,16 @@ class _P06TABLEREPORTOVERDUEMAINState extends State<P06TABLEREPORTOVERDUEMAIN> {
                                 child: SizedBox(
                                   height: 20,
                                   child: Text(
-                                    // item['stage'] != '' && item['reason'] != ''
-                                    //     ? ' ${item['stage']} (${item['reason']})'
-                                    //     : '',
-
-                                    item['reason'] != ''
-                                        ? '(${item['reason']})'
-                                        : '',
+                                    ' ${item['stage'] ?? ''}',
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ),
+                              ),
+                              TableCell(
+                                child: SizedBox(
+                                  height: 20,
+                                  child: Text(
+                                    ' ${item['reason'] ?? ''}',
                                     style: TextStyle(fontSize: 10),
                                   ),
                                 ),
