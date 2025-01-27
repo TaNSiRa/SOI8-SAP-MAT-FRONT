@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/BlocEvent/LoginEvent.dart';
+import '../../data/global.dart';
 import '../../mainBody.dart';
 // import 'package:tpk_login_arsa_01/script/bloc/login/login_bloc.dart';
 // import 'package:tpk_login_arsa_01/script/bloc/login/login_event.dart';
@@ -104,11 +105,28 @@ class Pack_topright_bar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: Container(
-          width: 150,
+          // width: 150,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Time_(), Icon_bell(), Icon_profile()],
-          )),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            USERDATA.NAME,
+            style: TextStyle(
+              fontFamily: 'Mitr',
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Time_(),
+          Icon_bell(),
+          Icon_profile()
+        ],
+      )),
     );
   }
 }

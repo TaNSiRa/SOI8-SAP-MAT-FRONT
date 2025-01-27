@@ -1063,7 +1063,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                   0: FixedColumnWidth(50),
                                   1: FixedColumnWidth(100),
                                   2: FixedColumnWidth(70),
-                                  3: FixedColumnWidth(80),
+                                  3: FixedColumnWidth(100),
                                 },
                                 children: [
                                   TableRow(
@@ -3081,7 +3081,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3209,7 +3209,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3337,7 +3337,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3485,7 +3485,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3538,7 +3538,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3591,7 +3591,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3650,7 +3650,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3778,7 +3778,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -3906,7 +3906,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -4054,7 +4054,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -4107,7 +4107,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -4160,7 +4160,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 20,
-                                        width: 270,
+                                        width: 290,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -4219,7 +4219,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 60,
-                                        width: 180,
+                                        width: 200,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
@@ -4426,7 +4426,7 @@ class _P05TABLESERVICEMAINState extends State<P05TABLESERVICEMAIN> {
                                     children: [
                                       Container(
                                         height: 60,
-                                        width: 180,
+                                        width: 200,
                                         decoration: BoxDecoration(
                                           border: Border(
                                             right: BorderSide(
