@@ -702,15 +702,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                   double.tryParse(
                                                       item.Mat_Quantity_Scada)
                                               ? Colors.red
-                                              : Colors.black),
-                                      fontWeight: _datasearch[0].Order_Status ==
-                                                  'SAP' &&
-                                              double.tryParse(
-                                                      item.Mat_Quantity) !=
-                                                  double.tryParse(
-                                                      item.Mat_Quantity_Scada)
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
+                                              : Colors.green),
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -734,13 +727,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                 double.tryParse(
                                                     item.Mat_Quantity_Scada)
                                             ? Colors.red
-                                            : Colors.black,
-                                        fontWeight: double.tryParse(
-                                                    item.Mat_Quantity) !=
-                                                double.tryParse(
-                                                    item.Mat_Quantity_Scada)
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
+                                            : Colors.green,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),

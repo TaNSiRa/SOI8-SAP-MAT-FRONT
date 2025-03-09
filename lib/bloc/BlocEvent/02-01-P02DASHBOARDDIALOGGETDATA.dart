@@ -139,7 +139,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
     await Dio().post(
-      "$APIArsa/soi8/createOrder",
+      "$APIArsa/soi8/sendOrderToSAP",
       data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
     );
     // List<P02DASHBOARDDIALOGGETDATAclass> outputdata = input
