@@ -703,7 +703,10 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                       item.Mat_Quantity_Scada)
                                               ? Colors.red
                                               : Colors.green),
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight:
+                                          _datasearch[0].Order_Status != 'SAP'
+                                              ? FontWeight.normal
+                                              : FontWeight.bold,
                                     ),
                                   ),
                                 ),
