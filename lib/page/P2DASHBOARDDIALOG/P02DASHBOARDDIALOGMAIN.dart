@@ -688,7 +688,10 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 child: Center(
                                   child: Text(
                                     double.tryParse(item.Mat_Quantity)
-                                            ?.toStringAsFixed(3) ??
+                                            ?.toStringAsFixed(3)
+                                            .replaceAll(
+                                                RegExp(r'([.]*0+)(?!.*\d)'),
+                                                '') ??
                                         item.Mat_Quantity,
                                     style: TextStyle(
                                       color: _datasearch[0].Order_Status !=
@@ -720,7 +723,10 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   child: Center(
                                     child: Text(
                                       double.tryParse(item.Mat_Quantity_Scada)
-                                              ?.toStringAsFixed(3) ??
+                                              ?.toStringAsFixed(3)
+                                              .replaceAll(
+                                                  RegExp(r'([.]*0+)(?!.*\d)'),
+                                                  '') ??
                                           item.Mat_Quantity_Scada,
                                       style: TextStyle(
                                         color: double.tryParse(
@@ -753,7 +759,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 height: 60,
                                 child: Center(
                                   child: Text(
-                                      '${(double.tryParse(item.Mat_Quantity) ?? 0) * 0.98} - ${(double.tryParse(item.Mat_Quantity) ?? 0) * 1.02}'),
+                                      '${((double.tryParse(item.Mat_Quantity) ?? 0) * 0.98).toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} - '
+                                      '${((double.tryParse(item.Mat_Quantity) ?? 0) * 1.02).toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')}'),
                                 ),
                               ),
                             ),
@@ -764,7 +771,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     height: 30,
                                     child: Center(
                                       child: Text(
-                                        '${item.Mat_Full_SP} ${item.Mat_Full_UOM}',
+                                        '${double.tryParse(item.Mat_Full_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Full_SP} ${item.Mat_Full_UOM}',
                                       ),
                                     ),
                                   ),
@@ -779,7 +786,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       height: 30,
                                       child: Center(
                                         child: Text(
-                                          '${double.tryParse(item.Mat_Sep_SP)?.toStringAsFixed(3) ?? item.Mat_Sep_SP} ${item.Mat_Sep_UOM}',
+                                          '${double.tryParse(item.Mat_Sep_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Sep_SP} ${item.Mat_Sep_UOM}',
                                         ),
                                       ),
                                     ),
