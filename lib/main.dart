@@ -54,7 +54,7 @@ class MainContext extends MyApp {
     return BlocBuilder<BlocPageRebuild, bool>(
       builder: (_, e) {
         return MaterialApp(
-          title: 'SAR KPI',
+          title: 'NEW SOI8',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

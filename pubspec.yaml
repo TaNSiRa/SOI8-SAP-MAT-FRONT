@@ -47,6 +47,9 @@ dependencies:
   dio: ^5.7.0
   equatable: ^2.0.5
   pdf: ^3.11.1
+  open_file: ^3.5.10
+  syncfusion_flutter_barcodes: ^28.2.7
+  printing: ^5.14.2
 
 dev_dependencies:
   flutter_test:

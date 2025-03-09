@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/BlocEvent/02-01-P02REPORTOVERKPIGETDATA.dart';
-import 'P2REPORTOVERKPI/P02REPORTOVERKPIMAIN.dart';
+import '../bloc/BlocEvent/02-01-P02DASHBOARDDIALOGGETDATA.dart';
+import 'P2DASHBOARDDIALOG/P02DASHBOARDDIALOGMAIN.dart';
 
 //---------------------------------------------------------
 
@@ -22,9 +22,9 @@ class Page2blockget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => P02REPORTOVERKPIGETDATA_Bloc(),
-        child: BlocBuilder<P02REPORTOVERKPIGETDATA_Bloc,
-            List<P02REPORTOVERKPIGETDATAclass>>(
+        create: (_) => P02DASHBOARDDIALOGGETDATA_Bloc(),
+        child: BlocBuilder<P02DASHBOARDDIALOGGETDATA_Bloc,
+            List<P02DASHBOARDDIALOGGETDATAclass>>(
           builder: (context, data) {
             return Page2Body(
               data: data,
@@ -39,10 +39,10 @@ class Page2Body extends StatelessWidget {
     super.key,
     this.data,
   });
-  List<P02REPORTOVERKPIGETDATAclass>? data;
+  List<P02DASHBOARDDIALOGGETDATAclass>? data;
   @override
   Widget build(BuildContext context) {
-    return P02REPORTOVERKPIMAIN(
+    return P02DASHBOARDDIALOGMAIN(
       data: data,
     );
   }

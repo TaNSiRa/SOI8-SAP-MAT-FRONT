@@ -120,7 +120,20 @@ class _AdvanceDropDownState extends State<AdvanceDropDown> {
               // iconSize: 24,
               // elevation: 16,
 
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: _showstr == 'UnFinish'
+                    ? Colors.lime
+                    : _showstr == 'Auto' ||
+                            _showstr == 'All_Full' ||
+                            _showstr == 'Finish'
+                        ? Colors.green
+                        : _showstr == 'Bypass'
+                            ? Colors.orange
+                            : _showstr == 'StandardWeightError'
+                                ? Colors.red
+                                : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
               underline: Container(
                 height: 2,
                 color: Colors.transparent,

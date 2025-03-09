@@ -86,40 +86,40 @@ class Data_Menu_mainmenu extends StatelessWidget {
                 ))),
         SizedBox(height: 10),
         menu_normal(
-          name: "Service report",
-          page: Page5(),
-          Lv: 1,
-        ),
-        menu_normal(
-          name: "Report over due",
-          page: Page6(),
-          Lv: 1,
-        ),
-        menu_normal(
-          name: "Customer Service",
+          name: "DASHBOARD TABLE",
           page: Page1(),
           Lv: 1,
         ),
         menu_normal(
-          name: "Report Over KPI",
+          name: "INSPECTION",
           page: Page2(),
           Lv: 1,
         ),
         menu_normal(
-          name: "Achieved Customer",
+          name: "PRINTBARCODE",
           page: Page3(),
           Lv: 1,
         ),
-        menu_normal(
-          name: "Sample time",
-          page: Page4(),
-          Lv: 1,
-        ),
-        menu_normal(
-          name: "Export 3 graph",
-          page: Page7(),
-          Lv: 1,
-        ),
+        // menu_normal(
+        //   name: "Report Over KPI",
+        //   page: Page2(),
+        //   Lv: 1,
+        // ),
+        // menu_normal(
+        //   name: "Achieved Customer",
+        //   page: Page3(),
+        //   Lv: 1,
+        // ),
+        // menu_normal(
+        //   name: "Sample time",
+        //   page: Page4(),
+        //   Lv: 1,
+        // ),
+        // menu_normal(
+        //   name: "Export 3 graph",
+        //   page: Page7(),
+        //   Lv: 1,
+        // ),
         menu_logout(
           name: "Logout",
         ),

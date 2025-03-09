@@ -84,7 +84,7 @@ class Logo1 extends StatelessWidget {
       child: Container(
         color: Color(0xff0b1327),
         child: Text(
-          "SAR KPI CHART",
+          PageName.isEmpty ? 'NEW SOI8' : PageName,
           style: TextStyle(
             fontFamily: 'Mitr',
             color: Colors.white,
