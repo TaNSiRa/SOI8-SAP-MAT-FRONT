@@ -60,6 +60,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       );
       print('Sent complete');
     }
+
     // response = await Dio().post(
     //   "$APIArsa/soi8/compareSCADA",
     //   data: {'OrderNo': P01DASHBOARDVAR.SendAllDataToAPI},
@@ -138,10 +139,21 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     // List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
-    await Dio().post(
-      "$APIArsa/soi8/sendOrderToSAP",
-      data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
-    );
+    Response response;
+    if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
+      response = await Dio().post(
+        "$APIArsa/soi8/createOrder",
+        data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+      );
+      print('Sent complete');
+    } else {
+      response = await Dio().post(
+        "$APIArsa/soi8/sendOrderToSAP",
+        data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+      );
+      print('Sent complete');
+    }
+
     // List<P02DASHBOARDDIALOGGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&

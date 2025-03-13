@@ -792,6 +792,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     SizedBox(
                                       height: 30,
                                       child: TextFormField(
+                                        textAlign: TextAlign.center,
                                         initialValue: item.Mat_Full_Act_Weight,
                                         keyboardType:
                                             TextInputType.numberWithOptions(
@@ -821,6 +822,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       child: SizedBox(
                                         height: 30,
                                         child: TextFormField(
+                                          textAlign: TextAlign.center,
                                           initialValue: item.Mat_Sep_Act_Weight,
                                           keyboardType:
                                               TextInputType.numberWithOptions(
