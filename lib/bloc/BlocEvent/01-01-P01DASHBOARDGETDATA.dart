@@ -124,7 +124,7 @@ class P01DASHBOARDGETDATA_Bloc
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
-      "$PrintGenTag/02GENBARCODE/GenBarcodePDF2",
+      "$PrintGenTag/soi8/printPickingList",
       data: {},
     );
 
