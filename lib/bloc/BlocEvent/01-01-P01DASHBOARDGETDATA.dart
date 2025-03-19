@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:printing/printing.dart';
 import '../../data/dummydata2.dart';
 import '../../data/global.dart';
 import '../../page/P1DASHBOARD/P01DASHBOARDMAIN.dart';
@@ -122,16 +123,18 @@ class P01DASHBOARDGETDATA_Bloc
     FreeLoadingTan(P01DASHBOARDMAINcontext);
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    var input = dummydata2;
+    final response = await Dio().post(
+      "$PrintGenTag/02GENBARCODE/GenBarcodePDF2",
+      data: {},
+    );
 
-    List<P01DASHBOARDGETDATAclass> outputdata = input.map((dataActual) {
-      return P01DASHBOARDGETDATAclass(
-        ID: savenull(dataActual['Product_Name']),
-      );
-    }).toList();
+    String input = response.data;
+    print(input);
     Navigator.pop(P01DASHBOARDMAINcontext);
-    print('Test');
-    output = outputdata;
+
+    showPDF(input, P01DASHBOARDMAINcontext);
+    print('test');
+    output = [];
     emit(output);
   }
 
@@ -326,4 +329,87 @@ String savenull(input) {
     output = input.toString();
   }
   return output;
+}
+
+void showPDF(String pdf64, BuildContext context) {
+  showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      double width = MediaQuery.of(context).size.width;
+      double height = MediaQuery.of(context).size.height;
+
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // หัวข้อ
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  'Preview PDF',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey[800],
+                  ),
+                ),
+              ),
+
+              // แสดง PDF
+              Container(
+                width: width * 0.8,
+                height: height * 0.6,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: PdfPreview(
+                    padding: const EdgeInsets.all(8),
+                    actionBarTheme: PdfActionBarTheme(
+                      backgroundColor: Colors.blueGrey[800],
+                      iconColor: Colors.white,
+                    ),
+                    canChangePageFormat: false,
+                    canChangeOrientation: false,
+                    canDebug: false,
+                    useActions: true,
+                    build: (format) => base64Decode(pdf64),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // ปุ่มปิด
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.close, size: 20, color: Colors.red),
+                label: const Text('Close'),
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Colors.blueGrey[600],
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

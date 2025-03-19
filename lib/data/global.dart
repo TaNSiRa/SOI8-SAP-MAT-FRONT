@@ -37,6 +37,9 @@ String serverG = 'http://172.23.10.51:15152/';
 // String APIArsa = 'http://172.23.10.51:14014';
 // String APIArsa = 'http://172.20.43.221:14000';
 String APIArsa = 'http://172.18.40.201:14014';
+String PrintGenTag = 'http://127.0.0.1:7700';
 
 var now = DateTime.now();
 String formattedDate = DateFormat('dd-MMM-yy').format(now);
+
+late BuildContext contextBG;

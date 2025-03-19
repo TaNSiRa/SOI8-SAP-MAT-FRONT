@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:printing/printing.dart';
 import '../../bloc/BlocEvent/01-01-P01DASHBOARDGETDATA.dart';
 import '../../data/global.dart';
 import '../../widget/common/ComInputTextTan.dart';
@@ -227,28 +228,32 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            child: SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.8,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.8,
-                                              child: Page3(),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
+                                    context
+                                        .read<P01DASHBOARDGETDATA_Bloc>()
+                                        .add(P01DASHBOARDGETDATA_GET2());
+
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return Dialog(
+                                    //       child: ClipRRect(
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(20.0),
+                                    //         child: SizedBox(
+                                    //           height: MediaQuery.of(context)
+                                    //                   .size
+                                    //                   .height *
+                                    //               0.8,
+                                    //           width: MediaQuery.of(context)
+                                    //                   .size
+                                    //                   .width *
+                                    //               0.8,
+                                    //           child: Page3(),
+                                    //         ),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
@@ -752,7 +757,6 @@ Color _getStatusColor(String status) {
       return Colors.black;
   }
 }
-
 
 // void PATTERNSET(BuildContext contextin) {
 //   showDialog(
