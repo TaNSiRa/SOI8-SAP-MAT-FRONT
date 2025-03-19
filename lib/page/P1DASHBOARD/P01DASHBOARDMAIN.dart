@@ -29,7 +29,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
+    // context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
     P01DASHBOARDVAR.iscontrol = true;
     P01DASHBOARDVAR.SEARCH = '';
   }

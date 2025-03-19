@@ -120,7 +120,7 @@ class P01DASHBOARDGETDATA_Bloc
 
   Future<void> _P01DASHBOARDGETDATA_GET2(List<P01DASHBOARDGETDATAclass> toAdd,
       Emitter<List<P01DASHBOARDGETDATAclass>> emit) async {
-    FreeLoadingTan(P01DASHBOARDMAINcontext);
+    FreeLoadingTan(contextBG);
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     final response = await Dio().post(
@@ -130,9 +130,9 @@ class P01DASHBOARDGETDATA_Bloc
 
     String input = response.data;
     print(input);
-    Navigator.pop(P01DASHBOARDMAINcontext);
+    Navigator.pop(contextBG);
+    showPDF(input, contextBG);
 
-    showPDF(input, P01DASHBOARDMAINcontext);
     print('test');
     output = [];
     emit(output);
@@ -364,8 +364,8 @@ void showPDF(String pdf64, BuildContext context) {
 
               // แสดง PDF
               Container(
-                width: width * 0.8,
-                height: height * 0.6,
+                width: width * 0.45,
+                height: height * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.grey.shade300),
@@ -373,6 +373,7 @@ void showPDF(String pdf64, BuildContext context) {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: PdfPreview(
+                    maxPageWidth: width * 0.45,
                     padding: const EdgeInsets.all(8),
                     actionBarTheme: PdfActionBarTheme(
                       backgroundColor: Colors.blueGrey[800],
@@ -390,22 +391,22 @@ void showPDF(String pdf64, BuildContext context) {
               const SizedBox(height: 16),
 
               // ปุ่มปิด
-              ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.close, size: 20, color: Colors.red),
-                label: const Text('Close'),
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  backgroundColor: Colors.blueGrey[600],
-                  foregroundColor: Colors.white,
-                ),
-              ),
+              // ElevatedButton.icon(
+              //   onPressed: () {
+              //     Navigator.pop(context);
+              //   },
+              //   icon: const Icon(Icons.close, size: 20, color: Colors.red),
+              //   label: const Text('Close'),
+              //   style: ElevatedButton.styleFrom(
+              //     padding:
+              //         const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     backgroundColor: Colors.blueGrey[600],
+              //     foregroundColor: Colors.white,
+              //   ),
+              // ),
             ],
           ),
         ),
