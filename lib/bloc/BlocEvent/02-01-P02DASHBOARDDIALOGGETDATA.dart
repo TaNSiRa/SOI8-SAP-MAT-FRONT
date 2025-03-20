@@ -53,12 +53,22 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
         response = await Dio().post(
           "$APIArsa/soi8/compareSCADA",
           data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
+          options: Options(
+            validateStatus: (status) {
+              return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+            },
+          ),
         );
         print('Sent complete');
       } else {
         response = await Dio().post(
           "$APIArsa/soi8/orderDetail",
           data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
+          options: Options(
+            validateStatus: (status) {
+              return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+            },
+          ),
         );
         print('Sent complete');
       }

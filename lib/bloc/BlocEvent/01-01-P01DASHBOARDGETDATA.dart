@@ -50,7 +50,11 @@ class P01DASHBOARDGETDATA_Bloc
     try {
       final response = await Dio().get(
         "$APIArsa/soi8/fetchOrder",
-        data: {},
+        options: Options(
+          validateStatus: (status) {
+            return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+          },
+        ),
       );
 
       // final response = await Dio().post(
@@ -148,35 +152,40 @@ class P01DASHBOARDGETDATA_Bloc
 
   Future<void> _P01DASHBOARDGETDATA_GET2(List<P01DASHBOARDGETDATAclass> toAdd,
       Emitter<List<P01DASHBOARDGETDATAclass>> emit) async {
-    FreeLoadingTan(MainBodyContext);
-    List<P01DASHBOARDGETDATAclass> output = [];
+    FreeLoadingTan(P01DASHBOARDMAINcontext);
+    // List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     try {
       final response = await Dio().post(
         "$APIArsa/soi8/printPickingList",
         data: {},
+        options: Options(
+          validateStatus: (status) {
+            return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+          },
+        ),
       );
       if (response.statusCode == 200) {
         String input = response.data;
-        // print(input);
-        Navigator.pop(MainBodyContext);
+        print(response.statusCode);
+        Navigator.pop(P01DASHBOARDMAINcontext);
         showPDF(input, P01DASHBOARDMAINcontext);
 
-        output = [];
-        emit(output);
+        // output = [];
+        // emit(output);
       } else {
         print("where is my server");
-        Navigator.pop(MainBodyContext);
+        Navigator.pop(P01DASHBOARDMAINcontext);
         showErrorPopup(P01DASHBOARDMAINcontext, response.toString());
-        output = [];
-        emit(output);
+        // output = [];
+        // emit(output);
       }
     } catch (e) {
       print(e);
-      Navigator.pop(MainBodyContext);
+      Navigator.pop(P01DASHBOARDMAINcontext);
       showErrorPopup(P01DASHBOARDMAINcontext, e.toString());
-      output = [];
-      emit(output);
+      // output = [];
+      // emit(output);
     }
   }
 
