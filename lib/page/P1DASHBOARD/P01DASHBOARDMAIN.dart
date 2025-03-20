@@ -4,12 +4,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:printing/printing.dart';
 import '../../bloc/BlocEvent/01-01-P01DASHBOARDGETDATA.dart';
 import '../../data/global.dart';
 import '../../widget/common/ComInputTextTan.dart';
+import '../../widget/common/ErrorPopup.dart';
 import '../page2.dart';
-import '../page3.dart';
 import 'P01DASHBOARDVAR.dart';
 
 late BuildContext P01DASHBOARDMAINcontext;
@@ -29,7 +28,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
   @override
   void initState() {
     super.initState();
-    // context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
+    context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
     P01DASHBOARDVAR.iscontrol = true;
     P01DASHBOARDVAR.SEARCH = '';
   }
@@ -231,6 +230,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                     context
                                         .read<P01DASHBOARDGETDATA_Bloc>()
                                         .add(P01DASHBOARDGETDATA_GET2());
+
+                                    // showErrorPopup(context,
+                                    //     'เซิร์ฟเวอร์มีปัญหา กรุณาลองใหม่!');
 
                                     // showDialog(
                                     //   context: context,

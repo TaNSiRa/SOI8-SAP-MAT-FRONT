@@ -5,11 +5,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:printing/printing.dart';
-import '../../data/dummydata2.dart';
 import '../../data/global.dart';
+import '../../mainBody.dart';
 import '../../page/P1DASHBOARD/P01DASHBOARDMAIN.dart';
+import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/Loading.dart';
+import '../../widget/common/ShowPDF.dart';
 
 //-------------------------------------------------
 
@@ -46,73 +47,100 @@ class P01DASHBOARDGETDATA_Bloc
     FreeLoadingTan(P01DASHBOARDMAINcontext);
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    final response = await Dio().get(
-      "$APIArsa/soi8/fetchOrder",
-      data: {},
-    );
-    var input = [];
-    if (response.statusCode == 200) {
-      print(response.statusCode);
-      // print(response.data);
-      var databuff = response.data;
-      input = databuff;
+    try {
+      final response = await Dio().get(
+        "$APIArsa/soi8/fetchOrder",
+        data: {},
+      );
 
-      List<P01DASHBOARDGETDATAclass> outputdata = input.map((dataActual) {
-        return P01DASHBOARDGETDATAclass(
-          ID: savenull(dataActual['ID']),
-          MainOrder: savenull(dataActual['MainOrder']),
-          OrderNo: savenull(dataActual['OrderNo']),
-          Order_Start_DT: savenull(dataActual['Order_Start_DT']),
-          Order_Finish_DT: savenull(dataActual['Order_Finish_DT']),
-          Order_Status: savenull(dataActual['Order_Status']),
-          CP: savenull(dataActual['CP']),
-          ProductName: savenull(dataActual['ProductName']),
-          Tank: savenull(dataActual['Tank']),
-          Lot: savenull(dataActual['Lot']),
-          Quantity: savenull(dataActual['Quantity']),
-          UOM: savenull(dataActual['UOM']),
-          ST_Sep: savenull(dataActual['ST_Sep']),
-          Time_Gen: savenull(dataActual['Time_Gen']),
-          Mat_Count: savenull(dataActual['Mat_Count']),
-          Mat_CP: savenull(dataActual['Mat_CP']),
-          Mat_Name: savenull(dataActual['Mat_Name']),
-          Mat_Quantity: savenull(dataActual['Mat_Quantity']),
-          Mat_Quantity_Scada: savenull(dataActual['Mat_Quantity_Scada']),
-          Mat_Status: savenull(dataActual['Mat_Status']),
-          Mat_SAP_Lot1: savenull(dataActual['Mat_SAP_Lot1']),
-          Mat_SAP_QTY1: savenull(dataActual['Mat_SAP_QTY1']),
-          Mat_SAP_Lot2: savenull(dataActual['Mat_SAP_Lot2']),
-          Mat_SAP_QTY2: savenull(dataActual['Mat_SAP_QTY2']),
-          Mat_SAP_Lot3: savenull(dataActual['Mat_SAP_Lot3']),
-          Mat_SAP_QTY3: savenull(dataActual['Mat_SAP_QTY3']),
-          Mat_Full_SP: savenull(dataActual['Mat_Full_SP']),
-          Mat_Full_UOM: savenull(dataActual['Mat_Full_UOM']),
-          Mat_Sep_SP: savenull(dataActual['Mat_Sep_SP']),
-          Mat_Sep_UOM: savenull(dataActual['Mat_Sep_UOM']),
-          Mat_Full_Act_Lot: savenull(dataActual['Mat_Full_Act_Lot']),
-          Mat_Full_Act_Weight: savenull(dataActual['Mat_Full_Act_Weight']),
-          Mat_Full_Act_Tare_Weight:
-              savenull(dataActual['Mat_Full_Act_Tare_Weight']),
-          Mat_Sep_Act_Lot: savenull(dataActual['Mat_Sep_Act_Lot']),
-          Mat_Sep_Act_Weight: savenull(dataActual['Mat_Sep_Act_Weight']),
-          Mat_Sep_Act_Tare_Weight:
-              savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
-          User_Compare: savenull(dataActual['User_Compare']),
-          Time_Compare: savenull(dataActual['Time_Compare']),
-          Mat_Sep_Tag: savenull(dataActual['Mat_Sep_Tag']),
-          Mat_Sep_Tag2: savenull(dataActual['Mat_Sep_Tag2']),
-          Remark: savenull(dataActual['Remark']),
-          Recheck_User: savenull(dataActual['Recheck_User']),
-          Recheck_Status: savenull(dataActual['Recheck_Status']),
-          Recheck_Time: savenull(dataActual['Recheck_Time']),
-        );
-      }).toList();
+      // final response = await Dio().post(
+      //   "http://172.20.30.46:14090/DATAGW/PPI001GET",
+      //   data: {
+      //     "HEADER": {
+      //       "PLANT": "1000",
+      //       "ORD_ST_DATE_FR": "01.04.2025",
+      //       "ORD_ST_DATE_TO": "05.04.2025",
+      //       "ORDER_TYPE": "",
+      //       "PROD_SUP": ""
+      //     },
+      //     "PROC_ORD": [
+      //       {"PROCESS_ORDER": "", "MATERIAL": ""}
+      //     ]
+      //   },
+      // );
+
+      var input = [];
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(response.data);
+        var databuff = response.data;
+        input = databuff;
+
+        List<P01DASHBOARDGETDATAclass> outputdata = input.map((dataActual) {
+          return P01DASHBOARDGETDATAclass(
+            ID: savenull(dataActual['ID']),
+            MainOrder: savenull(dataActual['MainOrder']),
+            OrderNo: savenull(dataActual['OrderNo']),
+            Order_Start_DT: savenull(dataActual['Order_Start_DT']),
+            Order_Finish_DT: savenull(dataActual['Order_Finish_DT']),
+            Order_Status: savenull(dataActual['Order_Status']),
+            CP: savenull(dataActual['CP']),
+            ProductName: savenull(dataActual['ProductName']),
+            Tank: savenull(dataActual['Tank']),
+            Lot: savenull(dataActual['Lot']),
+            Quantity: savenull(dataActual['Quantity']),
+            UOM: savenull(dataActual['UOM']),
+            ST_Sep: savenull(dataActual['ST_Sep']),
+            Time_Gen: savenull(dataActual['Time_Gen']),
+            Mat_Count: savenull(dataActual['Mat_Count']),
+            Mat_CP: savenull(dataActual['Mat_CP']),
+            Mat_Name: savenull(dataActual['Mat_Name']),
+            Mat_Quantity: savenull(dataActual['Mat_Quantity']),
+            Mat_Quantity_Scada: savenull(dataActual['Mat_Quantity_Scada']),
+            Mat_Status: savenull(dataActual['Mat_Status']),
+            Mat_SAP_Lot1: savenull(dataActual['Mat_SAP_Lot1']),
+            Mat_SAP_QTY1: savenull(dataActual['Mat_SAP_QTY1']),
+            Mat_SAP_Lot2: savenull(dataActual['Mat_SAP_Lot2']),
+            Mat_SAP_QTY2: savenull(dataActual['Mat_SAP_QTY2']),
+            Mat_SAP_Lot3: savenull(dataActual['Mat_SAP_Lot3']),
+            Mat_SAP_QTY3: savenull(dataActual['Mat_SAP_QTY3']),
+            Mat_Full_SP: savenull(dataActual['Mat_Full_SP']),
+            Mat_Full_UOM: savenull(dataActual['Mat_Full_UOM']),
+            Mat_Sep_SP: savenull(dataActual['Mat_Sep_SP']),
+            Mat_Sep_UOM: savenull(dataActual['Mat_Sep_UOM']),
+            Mat_Full_Act_Lot: savenull(dataActual['Mat_Full_Act_Lot']),
+            Mat_Full_Act_Weight: savenull(dataActual['Mat_Full_Act_Weight']),
+            Mat_Full_Act_Tare_Weight:
+                savenull(dataActual['Mat_Full_Act_Tare_Weight']),
+            Mat_Sep_Act_Lot: savenull(dataActual['Mat_Sep_Act_Lot']),
+            Mat_Sep_Act_Weight: savenull(dataActual['Mat_Sep_Act_Weight']),
+            Mat_Sep_Act_Tare_Weight:
+                savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
+            User_Compare: savenull(dataActual['User_Compare']),
+            Time_Compare: savenull(dataActual['Time_Compare']),
+            Mat_Sep_Tag: savenull(dataActual['Mat_Sep_Tag']),
+            Mat_Sep_Tag2: savenull(dataActual['Mat_Sep_Tag2']),
+            Remark: savenull(dataActual['Remark']),
+            Recheck_User: savenull(dataActual['Recheck_User']),
+            Recheck_Status: savenull(dataActual['Recheck_Status']),
+            Recheck_Time: savenull(dataActual['Recheck_Time']),
+          );
+        }).toList();
+        Navigator.pop(P01DASHBOARDMAINcontext);
+
+        output = outputdata;
+        emit(output);
+      } else {
+        print("where is my server");
+        Navigator.pop(P01DASHBOARDMAINcontext);
+        showErrorPopup(P01DASHBOARDMAINcontext, response.toString());
+        output = [];
+        emit(output);
+      }
+    } catch (e) {
+      print(e);
       Navigator.pop(P01DASHBOARDMAINcontext);
-
-      output = outputdata;
-      emit(output);
-    } else {
-      print("where is my server");
+      showErrorPopup(P01DASHBOARDMAINcontext, e.toString());
       output = [];
       emit(output);
     }
@@ -120,22 +148,36 @@ class P01DASHBOARDGETDATA_Bloc
 
   Future<void> _P01DASHBOARDGETDATA_GET2(List<P01DASHBOARDGETDATAclass> toAdd,
       Emitter<List<P01DASHBOARDGETDATAclass>> emit) async {
-    FreeLoadingTan(contextBG);
+    FreeLoadingTan(MainBodyContext);
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    final response = await Dio().post(
-      "$APIArsa/soi8/printPickingList",
-      data: {},
-    );
+    try {
+      final response = await Dio().post(
+        "$APIArsa/soi8/printPickingList",
+        data: {},
+      );
+      if (response.statusCode == 200) {
+        String input = response.data;
+        // print(input);
+        Navigator.pop(MainBodyContext);
+        showPDF(input, P01DASHBOARDMAINcontext);
 
-    String input = response.data;
-    print(input);
-    Navigator.pop(contextBG);
-    showPDF(input, contextBG);
-
-    print('test');
-    output = [];
-    emit(output);
+        output = [];
+        emit(output);
+      } else {
+        print("where is my server");
+        Navigator.pop(MainBodyContext);
+        showErrorPopup(P01DASHBOARDMAINcontext, response.toString());
+        output = [];
+        emit(output);
+      }
+    } catch (e) {
+      print(e);
+      Navigator.pop(MainBodyContext);
+      showErrorPopup(P01DASHBOARDMAINcontext, e.toString());
+      output = [];
+      emit(output);
+    }
   }
 
   Future<void> _P01DASHBOARDGETDATA_GET3(List<P01DASHBOARDGETDATAclass> toAdd,
@@ -329,88 +371,4 @@ String savenull(input) {
     output = input.toString();
   }
   return output;
-}
-
-void showPDF(String pdf64, BuildContext context) {
-  showDialog(
-    barrierDismissible: true,
-    context: context,
-    builder: (context) {
-      double width = MediaQuery.of(context).size.width;
-      double height = MediaQuery.of(context).size.height;
-
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        backgroundColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // หัวข้อ
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  'Preview PDF',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey[800],
-                  ),
-                ),
-              ),
-
-              // แสดง PDF
-              Container(
-                width: width * 0.45,
-                height: height * 0.8,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey.shade300),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: PdfPreview(
-                    maxPageWidth: width * 0.45,
-                    padding: const EdgeInsets.all(8),
-                    actionBarTheme: PdfActionBarTheme(
-                      backgroundColor: Colors.blueGrey[800],
-                      iconColor: Colors.white,
-                    ),
-                    canChangePageFormat: false,
-                    canChangeOrientation: false,
-                    canDebug: false,
-                    useActions: true,
-                    build: (format) => base64Decode(pdf64),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // ปุ่มปิด
-              // ElevatedButton.icon(
-              //   onPressed: () {
-              //     Navigator.pop(context);
-              //   },
-              //   icon: const Icon(Icons.close, size: 20, color: Colors.red),
-              //   label: const Text('Close'),
-              //   style: ElevatedButton.styleFrom(
-              //     padding:
-              //         const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     backgroundColor: Colors.blueGrey[600],
-              //     foregroundColor: Colors.white,
-              //   ),
-              // ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
 }

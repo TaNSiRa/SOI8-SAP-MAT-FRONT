@@ -8,6 +8,7 @@ import 'package:newmaster/page/P1DASHBOARD/P01DASHBOARDVAR.dart';
 import '../../data/global.dart';
 import '../../page/P2DASHBOARDDIALOG/P02DASHBOARDDIALOGMAIN.dart';
 import '../../page/P2DASHBOARDDIALOG/P02DASHBOARDDIALOGVAR.dart';
+import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/Loading.dart';
 
 //-------------------------------------------------
@@ -46,88 +47,99 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
     List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
-    Response response;
-    if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
-      response = await Dio().post(
-        "$APIArsa/soi8/compareSCADA",
-        data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
-      );
-      print('Sent complete');
-    } else {
-      response = await Dio().post(
-        "$APIArsa/soi8/orderDetail",
-        data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
-      );
-      print('Sent complete');
-    }
-
-    // response = await Dio().post(
-    //   "$APIArsa/soi8/compareSCADA",
-    //   data: {'OrderNo': P01DASHBOARDVAR.SendAllDataToAPI},
-    // );
-    var input = [];
-    if (response.statusCode == 200) {
-      print(response.statusCode);
-      // print(response.data);
-      var databuff = response.data;
-      input = databuff;
-      // input = dummydata2;
-
-      List<P02DASHBOARDDIALOGGETDATAclass> outputdata = input.map((dataActual) {
-        return P02DASHBOARDDIALOGGETDATAclass(
-          ID: savenull(dataActual['ID']),
-          MainOrder: savenull(dataActual['MainOrder']),
-          OrderNo: savenull(dataActual['OrderNo']),
-          Order_Start_DT: savenull(dataActual['Order_Start_DT']),
-          Order_Finish_DT: savenull(dataActual['Order_Finish_DT']),
-          Order_Status: savenull(dataActual['Order_Status']),
-          CP: savenull(dataActual['CP']),
-          ProductName: savenull(dataActual['ProductName']),
-          Tank: savenull(dataActual['Tank']),
-          Lot: savenull(dataActual['Lot']),
-          Quantity: savenull(dataActual['Quantity']),
-          UOM: savenull(dataActual['UOM']),
-          ST_Sep: savenull(dataActual['ST_Sep']),
-          Time_Gen: savenull(dataActual['Time_Gen']),
-          Mat_Count: savenull(dataActual['Mat_Count']),
-          Mat_CP: savenull(dataActual['Mat_CP']),
-          Mat_Name: savenull(dataActual['Mat_Name']),
-          Mat_Quantity: savenull(dataActual['Mat_Quantity']),
-          Mat_Quantity_Scada: savenull(dataActual['Mat_Quantity_Scada']),
-          Mat_Status: savenull(dataActual['Mat_Status']),
-          Mat_SAP_Lot1: savenull(dataActual['Mat_SAP_Lot1']),
-          Mat_SAP_QTY1: savenull(dataActual['Mat_SAP_QTY1']),
-          Mat_SAP_Lot2: savenull(dataActual['Mat_SAP_Lot2']),
-          Mat_SAP_QTY2: savenull(dataActual['Mat_SAP_QTY2']),
-          Mat_SAP_Lot3: savenull(dataActual['Mat_SAP_Lot3']),
-          Mat_SAP_QTY3: savenull(dataActual['Mat_SAP_QTY3']),
-          Mat_Full_SP: savenull(dataActual['Mat_Full_SP']),
-          Mat_Full_UOM: savenull(dataActual['Mat_Full_UOM']),
-          Mat_Sep_SP: savenull(dataActual['Mat_Sep_SP']),
-          Mat_Sep_UOM: savenull(dataActual['Mat_Sep_UOM']),
-          Mat_Full_Act_Lot: savenull(dataActual['Mat_Full_Act_Lot']),
-          Mat_Full_Act_Weight: savenull(dataActual['Mat_Full_Act_Weight']),
-          Mat_Full_Act_Tare_Weight:
-              savenull(dataActual['Mat_Full_Act_Tare_Weight']),
-          Mat_Sep_Act_Lot: savenull(dataActual['Mat_Sep_Act_Lot']),
-          Mat_Sep_Act_Weight: savenull(dataActual['Mat_Sep_Act_Weight']),
-          Mat_Sep_Act_Tare_Weight:
-              savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
-          User_Compare: savenull(dataActual['User_Compare']),
-          Time_Compare: savenull(dataActual['Time_Compare']),
-          Mat_Sep_Tag: savenull(dataActual['Mat_Sep_Tag']),
-          Mat_Sep_Tag2: savenull(dataActual['Mat_Sep_Tag2']),
-          Remark: savenull(dataActual['Remark']),
-          Recheck_User: savenull(dataActual['Recheck_User']),
-          Recheck_Status: savenull(dataActual['Recheck_Status']),
-          Recheck_Time: savenull(dataActual['Recheck_Time']),
+    try {
+      Response response;
+      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
+        response = await Dio().post(
+          "$APIArsa/soi8/compareSCADA",
+          data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
         );
-      }).toList();
+        print('Sent complete');
+      } else {
+        response = await Dio().post(
+          "$APIArsa/soi8/orderDetail",
+          data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
+        );
+        print('Sent complete');
+      }
+
+      // response = await Dio().post(
+      //   "$APIArsa/soi8/compareSCADA",
+      //   data: {'OrderNo': P01DASHBOARDVAR.SendAllDataToAPI},
+      // );
+      var input = [];
+      if (response.statusCode == 200) {
+        print(response.statusCode);
+        // print(response.data);
+        var databuff = response.data;
+        input = databuff;
+        // input = dummydata2;
+
+        List<P02DASHBOARDDIALOGGETDATAclass> outputdata =
+            input.map((dataActual) {
+          return P02DASHBOARDDIALOGGETDATAclass(
+            ID: savenull(dataActual['ID']),
+            MainOrder: savenull(dataActual['MainOrder']),
+            OrderNo: savenull(dataActual['OrderNo']),
+            Order_Start_DT: savenull(dataActual['Order_Start_DT']),
+            Order_Finish_DT: savenull(dataActual['Order_Finish_DT']),
+            Order_Status: savenull(dataActual['Order_Status']),
+            CP: savenull(dataActual['CP']),
+            ProductName: savenull(dataActual['ProductName']),
+            Tank: savenull(dataActual['Tank']),
+            Lot: savenull(dataActual['Lot']),
+            Quantity: savenull(dataActual['Quantity']),
+            UOM: savenull(dataActual['UOM']),
+            ST_Sep: savenull(dataActual['ST_Sep']),
+            Time_Gen: savenull(dataActual['Time_Gen']),
+            Mat_Count: savenull(dataActual['Mat_Count']),
+            Mat_CP: savenull(dataActual['Mat_CP']),
+            Mat_Name: savenull(dataActual['Mat_Name']),
+            Mat_Quantity: savenull(dataActual['Mat_Quantity']),
+            Mat_Quantity_Scada: savenull(dataActual['Mat_Quantity_Scada']),
+            Mat_Status: savenull(dataActual['Mat_Status']),
+            Mat_SAP_Lot1: savenull(dataActual['Mat_SAP_Lot1']),
+            Mat_SAP_QTY1: savenull(dataActual['Mat_SAP_QTY1']),
+            Mat_SAP_Lot2: savenull(dataActual['Mat_SAP_Lot2']),
+            Mat_SAP_QTY2: savenull(dataActual['Mat_SAP_QTY2']),
+            Mat_SAP_Lot3: savenull(dataActual['Mat_SAP_Lot3']),
+            Mat_SAP_QTY3: savenull(dataActual['Mat_SAP_QTY3']),
+            Mat_Full_SP: savenull(dataActual['Mat_Full_SP']),
+            Mat_Full_UOM: savenull(dataActual['Mat_Full_UOM']),
+            Mat_Sep_SP: savenull(dataActual['Mat_Sep_SP']),
+            Mat_Sep_UOM: savenull(dataActual['Mat_Sep_UOM']),
+            Mat_Full_Act_Lot: savenull(dataActual['Mat_Full_Act_Lot']),
+            Mat_Full_Act_Weight: savenull(dataActual['Mat_Full_Act_Weight']),
+            Mat_Full_Act_Tare_Weight:
+                savenull(dataActual['Mat_Full_Act_Tare_Weight']),
+            Mat_Sep_Act_Lot: savenull(dataActual['Mat_Sep_Act_Lot']),
+            Mat_Sep_Act_Weight: savenull(dataActual['Mat_Sep_Act_Weight']),
+            Mat_Sep_Act_Tare_Weight:
+                savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
+            User_Compare: savenull(dataActual['User_Compare']),
+            Time_Compare: savenull(dataActual['Time_Compare']),
+            Mat_Sep_Tag: savenull(dataActual['Mat_Sep_Tag']),
+            Mat_Sep_Tag2: savenull(dataActual['Mat_Sep_Tag2']),
+            Remark: savenull(dataActual['Remark']),
+            Recheck_User: savenull(dataActual['Recheck_User']),
+            Recheck_Status: savenull(dataActual['Recheck_Status']),
+            Recheck_Time: savenull(dataActual['Recheck_Time']),
+          );
+        }).toList();
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        output = outputdata;
+        emit(output);
+      } else {
+        print("where is my server");
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+        output = [];
+        emit(output);
+      }
+    } catch (e) {
+      print(e);
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      output = outputdata;
-      emit(output);
-    } else {
-      print("where is my server");
+      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
       output = [];
       emit(output);
     }
@@ -139,21 +151,26 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     // List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     // var input = dummydatainput2;
-    Response response;
-    if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
-      response = await Dio().post(
-        "$APIArsa/soi8/createOrder",
-        data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
-      );
-      print('Sent complete');
-    } else {
-      response = await Dio().post(
-        "$APIArsa/soi8/sendOrderToSAP",
-        data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
-      );
-      print('Sent complete');
+    try {
+      Response response;
+      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
+        response = await Dio().post(
+          "$APIArsa/soi8/createOrder",
+          data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+        );
+        print('Sent complete');
+      } else {
+        response = await Dio().post(
+          "$APIArsa/soi8/sendOrderToSAP",
+          data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+        );
+        print('Sent complete');
+      }
+    } catch (e) {
+      print(e);
+      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
     }
-
     // List<P02DASHBOARDDIALOGGETDATAclass> outputdata = input
     //     .where((data) =>
     //         data['location'] == 'ESIE1' &&
