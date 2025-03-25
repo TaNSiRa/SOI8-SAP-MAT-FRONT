@@ -6,4 +6,5 @@ class P01DASHBOARDVAR {
   static bool isHoveredClear = false;
   static String OrderStatusForSwitchAPI = '';
   static String SendAllDataToAPI = '';
+  static String DropDownPlant = 'ALL';
 }

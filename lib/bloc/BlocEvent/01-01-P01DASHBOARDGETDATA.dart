@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/global.dart';
 import '../../mainBody.dart';
 import '../../page/P1DASHBOARD/P01DASHBOARDMAIN.dart';
+import '../../page/P1DASHBOARD/P01DASHBOARDVAR.dart';
 import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/Loading.dart';
 import '../../widget/common/ShowPDF.dart';
@@ -100,6 +101,7 @@ class P01DASHBOARDGETDATA_Bloc
             Mat_CP: savenull(dataActual['Mat_CP']),
             Mat_Name: savenull(dataActual['Mat_Name']),
             Mat_Quantity: savenull(dataActual['Mat_Quantity']),
+            Mat_UOM: savenull(dataActual['Mat_UOM']),
             Mat_Quantity_Scada: savenull(dataActual['Mat_Quantity_Scada']),
             Mat_Status: savenull(dataActual['Mat_Status']),
             Mat_SAP_Lot1: savenull(dataActual['Mat_SAP_Lot1']),
@@ -158,7 +160,9 @@ class P01DASHBOARDGETDATA_Bloc
     try {
       final response = await Dio().post(
         "$APIArsa/soi8/printPickingList",
-        data: {},
+        data: {
+          'plantSelect': P01DASHBOARDVAR.DropDownPlant,
+        },
         options: Options(
           validateStatus: (status) {
             return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
@@ -252,6 +256,7 @@ class P01DASHBOARDGETDATAclass {
     this.Mat_CP = '',
     this.Mat_Name = '',
     this.Mat_Quantity = '',
+    this.Mat_UOM = '',
     this.Mat_Quantity_Scada = '',
     this.Mat_Status = '',
     this.Mat_SAP_Lot1 = '',
@@ -298,6 +303,7 @@ class P01DASHBOARDGETDATAclass {
   String Mat_CP;
   String Mat_Name;
   String Mat_Quantity;
+  String Mat_UOM;
   String Mat_Quantity_Scada;
   String Mat_Status;
   String Mat_SAP_Lot1;
@@ -344,6 +350,7 @@ class P01DASHBOARDGETDATAclass {
       'Mat_CP': Mat_CP,
       'Mat_Name': Mat_Name,
       'Mat_Quantity': Mat_Quantity,
+      'Mat_UOM': Mat_UOM,
       'Mat_Quantity_Scada': Mat_Quantity_Scada,
       'Mat_Status': Mat_Status,
       'Mat_SAP_Lot1': Mat_SAP_Lot1,

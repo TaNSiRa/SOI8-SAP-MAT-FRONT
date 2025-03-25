@@ -10,4 +10,5 @@ class P02DASHBOARDDIALOGVAR {
   static double ColumnWidthProduction = 0.0;
   static double ColumnWidthProcessOrder = 0.0;
   static double ColumnWidthNo = 0.0;
+  static String switchPlant = '';
 }

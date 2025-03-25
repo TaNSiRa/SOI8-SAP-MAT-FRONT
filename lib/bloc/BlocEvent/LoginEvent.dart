@@ -51,7 +51,7 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
     //       "user or password have some problem", enumNotificationlist.Error);
     // }
     final response = await Dio().post(
-      serverG + "SAR/login",
+      APIArsa + "/soi8/login",
       data: {
         "UserName": logindata.userID,
         "Password": logindata.userPASS,
@@ -63,12 +63,17 @@ class Login_Bloc extends Bloc<LoginEvent, String> {
       print(databuff);
       if (databuff['return'] == 'OK') {
         token =
-            '{"ID":"${databuff['UserName'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['Roleid'].toString()}","Section":"${databuff['Section'].toString()}","Branch":"${databuff['Branch'].toString()}"}';
+            '{"ID":"${databuff['UserName'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['Roleid'].toString()}"}';
         USERDATA.ID = databuff['UserName'].toString();
         USERDATA.NAME = databuff['NAME'].toString();
         USERDATA.UserLV = int.parse(databuff['Roleid'].toString());
-        USERDATA.Section = databuff['Section'].toString();
-        USERDATA.Branch = databuff['Branch'].toString();
+        // token =
+        //     '{"ID":"${databuff['UserName'].toString()}","NAME":"${databuff['NAME'].toString()}","LV":"${databuff['Roleid'].toString()}","Section":"${databuff['Section'].toString()}","Branch":"${databuff['Branch'].toString()}"}';
+        // USERDATA.ID = databuff['UserName'].toString();
+        // USERDATA.NAME = databuff['NAME'].toString();
+        // USERDATA.UserLV = int.parse(databuff['Roleid'].toString());
+        // USERDATA.Section = databuff['Section'].toString();
+        // USERDATA.Branch = databuff['Branch'].toString();
       } else {
         token = (prefs.getString('tokenSP') ?? '');
         USERDATA.UserLV = 0;

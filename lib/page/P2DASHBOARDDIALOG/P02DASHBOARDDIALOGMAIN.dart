@@ -69,6 +69,17 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
       P02DASHBOARDDIALOGVAR.ColumnWidthNo = 275;
     }
 
+    Map<String, String> comparisonMap = {
+      "TT": "Titrating",
+      "PD": "Powder",
+      "LQ": "Liquid",
+      "NR": "Nox rust",
+    };
+    if (_datasearch.isNotEmpty) {
+      P02DASHBOARDDIALOGVAR.switchPlant =
+          comparisonMap[_datasearch[0].ST_Sep] ?? _datasearch[0].ST_Sep;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -164,7 +175,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                         ),
                         child: Center(
                           child: Text(
-                            'ผลิตเคมีผง (Powder Mixing)',
+                            P02DASHBOARDDIALOGVAR.switchPlant,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.black,
@@ -597,22 +608,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 ),
                               ),
                             ),
-                          if (_datasearch[0].Order_Status != 'SAP')
-                            TableCell(
-                              child: SizedBox(
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    'Production',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
                           const TableCell(
                             child: SizedBox(
                               height: 40,
@@ -628,22 +623,21 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
-                          if (_datasearch[0].Order_Status == 'SAP')
-                            const TableCell(
-                              child: SizedBox(
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    'Raw Mat Status',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          const TableCell(
+                            child: SizedBox(
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  'Raw Mat Status',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
+                          ),
                           if (_datasearch[0].Order_Status != 'SAP')
                             const TableCell(
                               child: SizedBox(
@@ -687,12 +681,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 height: 60,
                                 child: Center(
                                   child: Text(
-                                    double.tryParse(item.Mat_Quantity)
-                                            ?.toStringAsFixed(3)
-                                            .replaceAll(
-                                                RegExp(r'([.]*0+)(?!.*\d)'),
-                                                '') ??
-                                        item.Mat_Quantity,
+                                    '${double.tryParse(item.Mat_Quantity)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}',
                                     style: TextStyle(
                                       color: _datasearch[0].Order_Status !=
                                               'SAP'
@@ -718,12 +707,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   height: 60,
                                   child: Center(
                                     child: Text(
-                                      double.tryParse(item.Mat_Quantity_Scada)
-                                              ?.toStringAsFixed(3)
-                                              .replaceAll(
-                                                  RegExp(r'([.]*0+)(?!.*\d)'),
-                                                  '') ??
-                                          item.Mat_Quantity_Scada,
+                                      '${double.tryParse(item.Mat_Quantity_Scada)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}',
                                       style: TextStyle(
                                         color: double.tryParse(
                                                     item.Mat_Quantity) !=
@@ -741,7 +725,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               child: SizedBox(
                                 height: 60,
                                 child: Center(
-                                  child: Text(item.Mat_Quantity),
+                                  child: Text(
+                                      '${double.tryParse(item.Mat_Quantity)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}'),
                                 ),
                               ),
                             ),
@@ -846,30 +831,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   ],
                                 ),
                               ),
-                            if (_datasearch[0].Order_Status != 'SAP')
-                              TableCell(
-                                child: SizedBox(
-                                  height: 60,
-                                  child: Center(
-                                    child: TextFormField(
-                                      keyboardType:
-                                          TextInputType.numberWithOptions(
-                                              decimal: true),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'^\d*\.?\d*$')),
-                                      ],
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                      ),
-                                      style: TextStyle(fontSize: 14),
-                                      onChanged: (value) {},
-                                    ),
-                                  ),
-                                ),
-                              ),
                             TableCell(
                               child: Column(
                                 children: [
@@ -927,36 +888,35 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 ],
                               ),
                             ),
-                            if (_datasearch[0].Order_Status == 'SAP')
-                              TableCell(
-                                child: SizedBox(
-                                  height: 60,
-                                  child: Center(
-                                    child: AdvanceDropDown(
-                                      hint: "Status",
-                                      borderRaio: 0,
-                                      borderCO: Colors.transparent,
-                                      listdropdown: const [
-                                        MapEntry("UnFinish", "UnFinish"),
-                                        MapEntry("Auto", "Auto"),
-                                        MapEntry("All_Full", "All_Full"),
-                                        MapEntry("Finish", "Finish"),
-                                        MapEntry("Bypass", "Bypass"),
-                                        MapEntry("StandardWeightError",
-                                            "StandardWeightError"),
-                                      ],
-                                      onChangeinside: (d, k) {
-                                        setState(() {
-                                          item.Mat_Status = d;
-                                        });
-                                      },
-                                      value: item.Mat_Status,
-                                      height: 60,
-                                      width: 100,
-                                    ),
+                            TableCell(
+                              child: SizedBox(
+                                height: 60,
+                                child: Center(
+                                  child: AdvanceDropDown(
+                                    hint: "Status",
+                                    borderRaio: 0,
+                                    borderCO: Colors.transparent,
+                                    listdropdown: const [
+                                      MapEntry("UnFinish", "UnFinish"),
+                                      MapEntry("Auto", "Auto"),
+                                      MapEntry("All_Full", "All_Full"),
+                                      MapEntry("Finish", "Finish"),
+                                      MapEntry("Bypass", "Bypass"),
+                                      MapEntry("StandardWeightError",
+                                          "StandardWeightError"),
+                                    ],
+                                    onChangeinside: (d, k) {
+                                      setState(() {
+                                        item.Mat_Status = d;
+                                      });
+                                    },
+                                    value: item.Mat_Status,
+                                    height: 60,
+                                    width: 100,
                                   ),
                                 ),
                               ),
+                            ),
                             if (_datasearch[0].Order_Status != 'SAP')
                               TableCell(
                                 child: SizedBox(
