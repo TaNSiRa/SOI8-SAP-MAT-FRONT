@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 //------------------------------------
 
@@ -119,42 +120,63 @@ void FreeLoadingTan(BuildContext contextin) {
     context: contextin,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        backgroundColor: Colors.transparent, // ทำให้โปร่งแสง
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.6), // สีพื้นหลังโปร่งแสง
-            borderRadius: BorderRadius.circular(15.0),
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            'assets/lottie/loading.json',
+            fit: BoxFit.contain,
+            repeat: true,
+            height: 400,
+            width: 400,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              height: 100,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    "Loading...",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        ],
       );
     },
   );
 }
+
+// void FreeLoadingTan(BuildContext contextin) {
+//   showDialog(
+//     context: contextin,
+//     barrierDismissible: false,
+//     builder: (BuildContext context) {
+//       return Dialog(
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(15.0),
+//         ),
+//         backgroundColor: Colors.transparent, // ทำให้โปร่งแสง
+//         child: Container(
+//           padding: const EdgeInsets.all(16.0),
+//           decoration: BoxDecoration(
+//             color: Colors.white.withOpacity(0.6), // สีพื้นหลังโปร่งแสง
+//             borderRadius: BorderRadius.circular(15.0),
+//           ),
+//           child: Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: SizedBox(
+//               height: 100,
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   CircularProgressIndicator(
+//                     valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+//                   ),
+//                   SizedBox(height: 20),
+//                   Text(
+//                     "Loading...",
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                       color: Colors.black,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
