@@ -52,7 +52,10 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
         response = await Dio().post(
           "$APIArsa/soi8/compareSCADA",
-          data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
+          data: {
+            'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
+            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          },
           options: Options(
             validateStatus: (status) {
               return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
@@ -63,7 +66,10 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       } else {
         response = await Dio().post(
           "$APIArsa/soi8/orderDetail",
-          data: {'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI},
+          data: {
+            'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
+            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          },
           options: Options(
             validateStatus: (status) {
               return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
@@ -167,13 +173,19 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
         response = await Dio().post(
           "$APIArsa/soi8/createOrder",
-          data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+          data: {
+            'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
+            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          },
         );
         print('Sent complete');
       } else {
         response = await Dio().post(
           "$APIArsa/soi8/sendOrderToSAP",
-          data: {'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI},
+          data: {
+            'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
+            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          },
         );
         print('Sent complete');
       }

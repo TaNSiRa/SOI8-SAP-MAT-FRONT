@@ -51,6 +51,9 @@ class P01DASHBOARDGETDATA_Bloc
     try {
       final response = await Dio().get(
         "$APIArsa/soi8/fetchOrder",
+        data: {
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+        },
         options: Options(
           validateStatus: (status) {
             return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
@@ -162,6 +165,7 @@ class P01DASHBOARDGETDATA_Bloc
         "$APIArsa/soi8/printPickingList",
         data: {
           'plantSelect': P01DASHBOARDVAR.DropDownPlant,
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
         },
         options: Options(
           validateStatus: (status) {
