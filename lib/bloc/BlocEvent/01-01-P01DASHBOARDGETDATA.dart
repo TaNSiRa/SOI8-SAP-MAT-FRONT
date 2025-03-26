@@ -49,7 +49,7 @@ class P01DASHBOARDGETDATA_Bloc
     List<P01DASHBOARDGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     try {
-      final response = await Dio().get(
+      final response = await Dio().post(
         "$APIArsa/soi8/fetchOrder",
         data: {
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},

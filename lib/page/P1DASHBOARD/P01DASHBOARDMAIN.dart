@@ -66,7 +66,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                   end: Alignment.bottomRight,
                 ).createShader(bounds),
                 child: Text(
-                  'NEW SOI8',
+                  'SAP-SCADA',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,

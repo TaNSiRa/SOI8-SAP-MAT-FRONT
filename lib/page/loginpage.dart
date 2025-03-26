@@ -100,7 +100,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             end: Alignment.bottomRight,
                           ).createShader(bounds),
                           child: const Text(
-                            'NEW SOI8 : LOGIN',
+                            'SAP-SCADA : LOGIN',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,

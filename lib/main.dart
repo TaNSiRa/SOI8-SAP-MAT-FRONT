@@ -54,7 +54,7 @@ class MainContext extends MyApp {
     return BlocBuilder<BlocPageRebuild, bool>(
       builder: (_, e) {
         return MaterialApp(
-          title: 'NEW SOI8',
+          title: 'SAP-SCADA',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
