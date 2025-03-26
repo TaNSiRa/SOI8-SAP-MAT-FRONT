@@ -52,7 +52,7 @@ class P01DASHBOARDGETDATA_Bloc
       final response = await Dio().post(
         "$APIArsa/soi8/fetchOrder",
         data: {
-          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
         options: Options(
           validateStatus: (status) {
@@ -60,7 +60,7 @@ class P01DASHBOARDGETDATA_Bloc
           },
         ),
       );
-
+      print('12345');
       // final response = await Dio().post(
       //   "http://172.20.30.46:14090/DATAGW/PPI001GET",
       //   data: {
@@ -165,7 +165,7 @@ class P01DASHBOARDGETDATA_Bloc
         "$APIArsa/soi8/printPickingList",
         data: {
           'plantSelect': P01DASHBOARDVAR.DropDownPlant,
-          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
         options: Options(
           validateStatus: (status) {

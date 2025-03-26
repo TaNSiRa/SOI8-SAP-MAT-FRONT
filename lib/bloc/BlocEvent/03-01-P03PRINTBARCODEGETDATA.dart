@@ -90,7 +90,7 @@ class P03PRINTBARCODEGETDATA_Bloc extends Bloc<P03PRINTBARCODEGETDATA_Event,
       "http://127.0.0.1:7700/02GENBARCODE/GenBarcodePDF",
       data: {
         'Printdata': P03PRINTBARCODEVAR.jsonData,
-        'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+        'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
       },
     );
     Navigator.pop(P03PRINTBARCODEMAINcontext);

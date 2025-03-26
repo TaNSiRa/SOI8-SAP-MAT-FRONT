@@ -54,7 +54,8 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           "$APIArsa/soi8/compareSCADA",
           data: {
             'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
-            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+            'userData':
+                {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
           },
           options: Options(
             validateStatus: (status) {
@@ -68,7 +69,8 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           "$APIArsa/soi8/orderDetail",
           data: {
             'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
-            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+            'userData':
+                {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
           },
           options: Options(
             validateStatus: (status) {
@@ -175,7 +177,8 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           "$APIArsa/soi8/createOrder",
           data: {
             'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
-            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+            'userData':
+                {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
           },
         );
         print('Sent complete');
@@ -184,7 +187,8 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           "$APIArsa/soi8/sendOrderToSAP",
           data: {
             'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
-            'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV},
+            'userData':
+                {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
           },
         );
         print('Sent complete');
