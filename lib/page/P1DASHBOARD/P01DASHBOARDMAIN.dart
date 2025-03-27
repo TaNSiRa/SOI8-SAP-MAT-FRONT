@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, avoid_print
+// ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, avoid_print, deprecated_member_use
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -38,9 +38,43 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
   Widget build(BuildContext context) {
     P01DASHBOARDMAINcontext = context;
     List<P01DASHBOARDGETDATAclass> _datain = widget.data ?? [];
+
+    List<P01DASHBOARDGETDATAclass> filteredData = _datain.where((data) {
+      // เช็คว่า isCheckedX ตัวไหนเป็น true แล้วกรองข้อมูลตามนั้น
+      bool matchesCondition = false;
+
+      // เช็คตามเงื่อนไขของ isChecked
+      if (P01DASHBOARDVAR.isChecked1) {
+        matchesCondition = matchesCondition || data.Order_Status == 'SAP';
+      }
+      if (P01DASHBOARDVAR.isChecked2) {
+        matchesCondition = matchesCondition || data.Order_Status == 'GEN SEP';
+      }
+      if (P01DASHBOARDVAR.isChecked3) {
+        matchesCondition = matchesCondition || data.Order_Status == 'SEP';
+      }
+      if (P01DASHBOARDVAR.isChecked4) {
+        matchesCondition = matchesCondition || data.Order_Status == 'FULL';
+      }
+      if (P01DASHBOARDVAR.isChecked5) {
+        matchesCondition = matchesCondition || data.Order_Status == 'SEP/FULL';
+      }
+      if (P01DASHBOARDVAR.isChecked6) {
+        matchesCondition = matchesCondition || data.Order_Status == 'RECHECK';
+      }
+      if (P01DASHBOARDVAR.isChecked7) {
+        matchesCondition = matchesCondition || data.Order_Status == 'TITRATING';
+      }
+      if (P01DASHBOARDVAR.isChecked8) {
+        matchesCondition = matchesCondition || data.Order_Status == 'COMPLETE';
+      }
+      // print(matchesCondition);
+      return matchesCondition;
+    }).toList();
+
     List<P01DASHBOARDGETDATAclass> _datasearch = [];
     _datasearch.addAll(
-      _datain.where(
+      filteredData.where(
         (data) =>
             data.OrderNo.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
             data.ProductName.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
@@ -79,219 +113,663 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
             Expanded(
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      ComInputTextTan(
-                        sPlaceholder: "Search...",
-                        isSideIcon: true,
-                        height: 40,
-                        width: 400,
-                        isContr: P01DASHBOARDVAR.iscontrol,
-                        fnContr: (input) {
-                          P01DASHBOARDVAR.iscontrol = input;
-                        },
-                        sValue: P01DASHBOARDVAR.SEARCH,
-                        returnfunc: (String s) {
-                          setState(() {
-                            P01DASHBOARDVAR.SEARCH = s;
-                          });
-                        },
-                      ),
-                      MouseRegion(
-                        onEnter: (_) {
-                          setState(() {
-                            P01DASHBOARDVAR.isHoveredClear = true;
-                          });
-                        },
-                        onExit: (_) {
-                          setState(() {
-                            P01DASHBOARDVAR.isHoveredClear = false;
-                          });
-                        },
-                        child: InkWell(
-                          overlayColor:
-                              WidgetStateProperty.all(Colors.transparent),
-                          onTap: () {
-                            setState(() {
-                              P01DASHBOARDVAR.isHoveredClear = false;
-                              P01DASHBOARDVAR.iscontrol = true;
-                              P01DASHBOARDVAR.SEARCH = '';
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: P01DASHBOARDVAR.isHoveredClear
-                                    ? Colors.yellowAccent.shade700
-                                    : Colors.redAccent.shade700,
-                                width: 3.0,
-                              ),
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            padding: EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ShaderMask(
-                                  shaderCallback: (bounds) => LinearGradient(
-                                    colors: const [
-                                      Colors.white,
-                                      Colors.red,
-                                    ],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ).createShader(bounds),
-                                  child: TweenAnimationBuilder<double>(
-                                    tween: Tween<double>(
-                                      begin: P01DASHBOARDVAR.isHoveredClear
-                                          ? 15
-                                          : 17,
-                                      end: P01DASHBOARDVAR.isHoveredClear
-                                          ? 17
-                                          : 15,
-                                    ),
-                                    duration: Duration(milliseconds: 200),
-                                    builder: (context, size, child) {
-                                      return TweenAnimationBuilder<Color?>(
-                                        tween: ColorTween(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ComInputTextTan(
+                            sPlaceholder: "Search...",
+                            isSideIcon: true,
+                            height: 40,
+                            width: 400,
+                            isContr: P01DASHBOARDVAR.iscontrol,
+                            fnContr: (input) {
+                              P01DASHBOARDVAR.iscontrol = input;
+                            },
+                            sValue: P01DASHBOARDVAR.SEARCH,
+                            returnfunc: (String s) {
+                              setState(() {
+                                P01DASHBOARDVAR.SEARCH = s;
+                              });
+                            },
+                          ),
+                          MouseRegion(
+                            onEnter: (_) {
+                              setState(() {
+                                P01DASHBOARDVAR.isHoveredClear = true;
+                              });
+                            },
+                            onExit: (_) {
+                              setState(() {
+                                P01DASHBOARDVAR.isHoveredClear = false;
+                              });
+                            },
+                            child: InkWell(
+                              overlayColor:
+                                  WidgetStateProperty.all(Colors.transparent),
+                              onTap: () {
+                                setState(() {
+                                  P01DASHBOARDVAR.isHoveredClear = false;
+                                  P01DASHBOARDVAR.iscontrol = true;
+                                  P01DASHBOARDVAR.SEARCH = '';
+                                });
+                              },
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 200),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: P01DASHBOARDVAR.isHoveredClear
+                                        ? Colors.yellowAccent.shade700
+                                        : Colors.redAccent.shade700,
+                                    width: 3.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                padding: EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ShaderMask(
+                                      shaderCallback: (bounds) =>
+                                          LinearGradient(
+                                        colors: const [
+                                          Colors.white,
+                                          Colors.red,
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ).createShader(bounds),
+                                      child: TweenAnimationBuilder<double>(
+                                        tween: Tween<double>(
                                           begin: P01DASHBOARDVAR.isHoveredClear
-                                              ? Colors.redAccent.shade700
-                                              : Colors.yellowAccent.shade700,
+                                              ? 15
+                                              : 17,
                                           end: P01DASHBOARDVAR.isHoveredClear
-                                              ? Colors.yellowAccent.shade700
-                                              : Colors.redAccent.shade700,
+                                              ? 17
+                                              : 15,
                                         ),
                                         duration: Duration(milliseconds: 200),
-                                        builder: (context, color, child) {
-                                          return Text(
-                                            'CLEAR',
-                                            style: TextStyle(
-                                              fontSize: size,
-                                              color: color,
-                                              fontWeight: FontWeight.bold,
+                                        builder: (context, size, child) {
+                                          return TweenAnimationBuilder<Color?>(
+                                            tween: ColorTween(
+                                              begin: P01DASHBOARDVAR
+                                                      .isHoveredClear
+                                                  ? Colors.redAccent.shade700
+                                                  : Colors
+                                                      .yellowAccent.shade700,
+                                              end: P01DASHBOARDVAR
+                                                      .isHoveredClear
+                                                  ? Colors.yellowAccent.shade700
+                                                  : Colors.redAccent.shade700,
                                             ),
+                                            duration:
+                                                Duration(milliseconds: 200),
+                                            builder: (context, color, child) {
+                                              return Text(
+                                                'CLEAR',
+                                                style: TextStyle(
+                                                  fontSize: size,
+                                                  color: color,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          SizedBox(
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .read<P01DASHBOARDGETDATA_Bloc>()
+                                        .add(P01DASHBOARDGETDATA_GET());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    padding: const EdgeInsets.all(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.refresh_rounded,
+                                    color: Colors.blue,
+                                    size: 30,
                                   ),
                                 ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Refresh',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                )
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SizedBox(
-                        child: Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                context
-                                    .read<P01DASHBOARDGETDATA_Bloc>()
-                                    .add(P01DASHBOARDGETDATA_GET());
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                padding: const EdgeInsets.all(10),
-                              ),
-                              child: const Icon(
-                                Icons.refresh_rounded,
-                                color: Colors.blue,
-                                size: 30,
-                              ),
+                          AdvanceDropDown(
+                            hint: "PLANT",
+                            listdropdown: const [
+                              MapEntry("ALL", "ALL"),
+                              MapEntry("Titrating", "TT"),
+                              MapEntry("Powder", "PD"),
+                              MapEntry("Liquid", "LQ"),
+                              MapEntry("Nox rust", "NR"),
+                              MapEntry("SEP", "SEP")
+                            ],
+                            onChangeinside: (d, k) {
+                              setState(() {
+                                P01DASHBOARDVAR.DropDownPlant = d;
+                              });
+                            },
+                            value: P01DASHBOARDVAR.DropDownPlant,
+                            height: 50,
+                            width: 100,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          SizedBox(
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .read<P01DASHBOARDGETDATA_Bloc>()
+                                        .add(P01DASHBOARDGETDATA_GET2());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    padding: const EdgeInsets.all(10),
+                                  ),
+                                  child: const Icon(
+                                    Icons.print,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Print GEN SEP',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              'Refresh',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                      AdvanceDropDown(
-                        hint: "PLANT",
-                        listdropdown: const [
-                          MapEntry("ALL", "ALL"),
-                          MapEntry("Titrating", "TT"),
-                          MapEntry("Powder", "PD"),
-                          MapEntry("Liquid", "LQ"),
-                          MapEntry("Nox rust", "NR"),
-                          MapEntry("SEP", "SEP")
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      P01DASHBOARDVAR.DropCheck =
+                                          !P01DASHBOARDVAR.DropCheck;
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    padding: const EdgeInsets.all(10),
+                                  ),
+                                  child: Icon(
+                                    P01DASHBOARDVAR.DropCheck
+                                        ? Icons.filter_alt_off_rounded
+                                        : Icons.filter_alt_rounded,
+                                    color: P01DASHBOARDVAR.DropCheck
+                                        ? Colors.red
+                                        : Colors.blue,
+                                    size: 30,
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  'Filter Status',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
-                        onChangeinside: (d, k) {
-                          setState(() {
-                            P01DASHBOARDVAR.DropDownPlant = d;
-                          });
-                        },
-                        value: P01DASHBOARDVAR.DropDownPlant,
-                        height: 50,
-                        width: 100,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        child: Column(
+                      if (P01DASHBOARDVAR.DropCheck == true)
+                        SizedBox(
+                          height: 10,
+                        ),
+                      if (P01DASHBOARDVAR.DropCheck == true)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                context
-                                    .read<P01DASHBOARDGETDATA_Bloc>()
-                                    .add(P01DASHBOARDGETDATA_GET2());
-
-                                // showErrorPopup(context,
-                                //     'เซิร์ฟเวอร์มีปัญหา กรุณาลองใหม่!');
-
-                                // showDialog(
-                                //   context: context,
-                                //   builder: (BuildContext context) {
-                                //     return Dialog(
-                                //       child: ClipRRect(
-                                //         borderRadius:
-                                //             BorderRadius.circular(20.0),
-                                //         child: SizedBox(
-                                //           height: MediaQuery.of(context)
-                                //                   .size
-                                //                   .height *
-                                //               0.8,
-                                //           width: MediaQuery.of(context)
-                                //                   .size
-                                //                   .width *
-                                //               0.8,
-                                //           child: Page3(),
-                                //         ),
-                                //       ),
-                                //     );
-                                //   },
-                                // );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                padding: const EdgeInsets.all(10),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.yellow.shade700, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
                               ),
-                              child: const Icon(
-                                Icons.print,
-                                color: Colors.blue,
-                                size: 30,
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked1,
+                                      activeColor: Colors.yellow.shade700,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked1 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "SAP",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.yellow.shade700,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              'Print GEN SEP',
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            )
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.blueAccent, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked2,
+                                      activeColor: Colors.blueAccent,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked2 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "GEN SEP",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.blueAccent, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked3,
+                                      activeColor: Colors.blueAccent,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked3 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "SEP",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.blueAccent, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked4,
+                                      activeColor: Colors.blueAccent,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked4 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "FULL",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: Colors.blueAccent, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked5,
+                                      activeColor: Colors.blueAccent,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked5 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "SEP/FULL",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueAccent,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.orange, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked6,
+                                      activeColor: Colors.orange,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked6 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "RECHECK",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.orange, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked7,
+                                      activeColor: Colors.orange,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked7 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "TITRATING",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: Colors.green, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isChecked8,
+                                      activeColor: Colors.green,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isChecked8 =
+                                              value ?? false;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "COMPLETE",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
-                        ),
-                      ),
+                        )
                     ],
                   ),
                   SizedBox(height: 10),

@@ -7,4 +7,13 @@ class P01DASHBOARDVAR {
   static String OrderStatusForSwitchAPI = '';
   static String SendAllDataToAPI = '';
   static String DropDownPlant = 'ALL';
+  static bool DropCheck = false;
+  static bool isChecked1 = true;
+  static bool isChecked2 = true;
+  static bool isChecked3 = true;
+  static bool isChecked4 = true;
+  static bool isChecked5 = true;
+  static bool isChecked6 = true;
+  static bool isChecked7 = true;
+  static bool isChecked8 = true;
 }
