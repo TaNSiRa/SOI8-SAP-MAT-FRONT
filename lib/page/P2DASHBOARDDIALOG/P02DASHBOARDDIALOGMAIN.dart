@@ -726,7 +726,10 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     height: 30,
                                     child: Center(
                                       child: Text(
-                                        '${double.tryParse(item.Mat_Full_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Full_SP} ${item.Mat_Full_UOM}',
+                                        item.Mat_Full_SP != null &&
+                                                item.Mat_Full_SP.isNotEmpty
+                                            ? '${double.tryParse(item.Mat_Full_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Full_SP} ${item.Mat_Full_UOM}'
+                                            : '',
                                       ),
                                     ),
                                   ),
@@ -741,7 +744,10 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       height: 30,
                                       child: Center(
                                         child: Text(
-                                          '${double.tryParse(item.Mat_Sep_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Sep_SP} ${item.Mat_Sep_UOM}',
+                                          item.Mat_Sep_SP != null &&
+                                                  item.Mat_Sep_SP.isNotEmpty
+                                              ? '${double.tryParse(item.Mat_Sep_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Sep_SP} ${item.Mat_Sep_UOM}'
+                                              : '',
                                         ),
                                       ),
                                     ),
@@ -757,8 +763,13 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       height: 30,
                                       child: TextFormField(
                                         textAlign: TextAlign.center,
-                                        initialValue:
-                                            '${item.Mat_Full_Act_Weight} ${item.Mat_Full_UOM}',
+                                        initialValue: (item
+                                                        .Mat_Full_Act_Weight !=
+                                                    null &&
+                                                item.Mat_Full_Act_Weight
+                                                    .isNotEmpty)
+                                            ? '${item.Mat_Full_Act_Weight} ${item.Mat_Full_UOM}'
+                                            : '',
                                         keyboardType:
                                             TextInputType.numberWithOptions(
                                                 decimal: true),
@@ -788,8 +799,13 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                         height: 30,
                                         child: TextFormField(
                                           textAlign: TextAlign.center,
-                                          initialValue:
-                                              '${item.Mat_Sep_Act_Weight} ${item.Mat_Sep_UOM}',
+                                          initialValue: (item
+                                                          .Mat_Sep_Act_Weight !=
+                                                      null &&
+                                                  item.Mat_Sep_Act_Weight
+                                                      .isNotEmpty)
+                                              ? '${item.Mat_Sep_Act_Weight} ${item.Mat_Sep_UOM}'
+                                              : '',
                                           keyboardType:
                                               TextInputType.numberWithOptions(
                                                   decimal: true),
