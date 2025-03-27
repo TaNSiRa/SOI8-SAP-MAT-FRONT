@@ -756,11 +756,12 @@ Color _getStatusColor(String status) {
     case 'SEP/FULL':
       return Colors.blue;
     case 'RECHECK':
+    case 'TITRATING':
       return Colors.orange;
     case 'COMPLETE':
       return Colors.green;
     default:
-      return Colors.black;
+      return Colors.red;
   }
 }
 

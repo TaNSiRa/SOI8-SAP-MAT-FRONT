@@ -56,17 +56,17 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
       ),
     );
     if (_datasearch.isNotEmpty && _datasearch[0].Order_Status == 'SAP') {
-      P02DASHBOARDDIALOGVAR.ColumnWidth4 = 100.0;
-      P02DASHBOARDDIALOGVAR.ColumnWidth5 = 200.0;
-      P02DASHBOARDDIALOGVAR.ColumnWidthProduction = 950;
+      P02DASHBOARDDIALOGVAR.ColumnWidth3 = 100.0;
+      P02DASHBOARDDIALOGVAR.ColumnWidth4 = 200.0;
+      P02DASHBOARDDIALOGVAR.ColumnWidthProduction = 850;
       P02DASHBOARDDIALOGVAR.ColumnWidthProcessOrder = 225;
       P02DASHBOARDDIALOGVAR.ColumnWidthNo = 225;
     } else {
-      P02DASHBOARDDIALOGVAR.ColumnWidth4 = 200.0;
-      P02DASHBOARDDIALOGVAR.ColumnWidth5 = 100.0;
+      P02DASHBOARDDIALOGVAR.ColumnWidth3 = 200.0;
+      P02DASHBOARDDIALOGVAR.ColumnWidth4 = 100.0;
       P02DASHBOARDDIALOGVAR.ColumnWidthProduction = 1050;
-      P02DASHBOARDDIALOGVAR.ColumnWidthProcessOrder = 275;
-      P02DASHBOARDDIALOGVAR.ColumnWidthNo = 275;
+      P02DASHBOARDDIALOGVAR.ColumnWidthProcessOrder = 325;
+      P02DASHBOARDDIALOGVAR.ColumnWidthNo = 325;
     }
 
     Map<String, String> comparisonMap = {
@@ -155,7 +155,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                     children: [
                       Container(
                         height: 20,
-                        width: 500,
+                        width: 400,
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           border: Border(
@@ -206,7 +206,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                           1: FixedColumnWidth(100.0),
                           2: FixedColumnWidth(100.0),
                           3: FixedColumnWidth(100.0),
-                          4: FixedColumnWidth(100.0),
                         },
                         children: [
                           TableRow(
@@ -238,17 +237,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   height: 40,
                                   child: Center(
                                     child: Text(
-                                      'T.Batch',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: SizedBox(
-                                  height: 40,
-                                  child: Center(
-                                    child: Text(
                                       'Lot. No',
                                       style: TextStyle(color: Colors.black),
                                     ),
@@ -260,7 +248,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   height: 40,
                                   child: Center(
                                     child: Text(
-                                      'Batch',
+                                      'Status',
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   ),
@@ -291,14 +279,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 child: SizedBox(
                                   height: 30,
                                   child: Center(
-                                    child: Text(''),
-                                  ),
-                                ),
-                              ),
-                              TableCell(
-                                child: SizedBox(
-                                  height: 30,
-                                  child: Center(
                                     child: Text(_datasearch[0].Lot),
                                   ),
                                 ),
@@ -307,7 +287,14 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 child: SizedBox(
                                   height: 30,
                                   child: Center(
-                                    child: Text(''),
+                                    child: Text(
+                                      _datasearch[0].Order_Status,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: _getStatusColor(
+                                            _datasearch[0].Order_Status),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -446,9 +433,9 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                       0: FixedColumnWidth(50.0),
                       1: FixedColumnWidth(100.0),
                       2: FixedColumnWidth(100.0),
-                      3: FixedColumnWidth(100.0),
+                      3: FixedColumnWidth(P02DASHBOARDDIALOGVAR.ColumnWidth3),
                       4: FixedColumnWidth(P02DASHBOARDDIALOGVAR.ColumnWidth4),
-                      5: FixedColumnWidth(P02DASHBOARDDIALOGVAR.ColumnWidth5),
+                      5: FixedColumnWidth(100.0),
                       6: FixedColumnWidth(100.0),
                       7: FixedColumnWidth(100.0),
                       8: FixedColumnWidth(100.0),
@@ -553,20 +540,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               height: 40,
                               child: Center(
                                 child: Text(
-                                  'Per Batch',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const TableCell(
-                            child: SizedBox(
-                              height: 40,
-                              child: Center(
-                                child: Text(
                                   'Std Accept\n±2%',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -623,6 +596,21 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
+                          if (_datasearch[0].Order_Status != 'SAP')
+                            TableCell(
+                              child: SizedBox(
+                                height: 40,
+                                child: Center(
+                                  child: Text(
+                                    'Lot. Actual',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
                           const TableCell(
                             child: SizedBox(
                               height: 40,
@@ -721,15 +709,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   ),
                                 ),
                               ),
-                            TableCell(
-                              child: SizedBox(
-                                height: 60,
-                                child: Center(
-                                  child: Text(
-                                      '${double.tryParse(item.Mat_Quantity)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}'),
-                                ),
-                              ),
-                            ),
                             TableCell(
                               child: SizedBox(
                                 height: 60,
@@ -888,6 +867,67 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 ],
                               ),
                             ),
+                            if (_datasearch[0].Order_Status != 'SAP')
+                              TableCell(
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 30,
+                                      child: TextFormField(
+                                        textAlign: TextAlign.center,
+                                        initialValue: item.Mat_Full_Act_Lot,
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*$')),
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                        ),
+                                        style: TextStyle(fontSize: 14),
+                                        onChanged: (value) {
+                                          item.Mat_Full_Act_Lot = value;
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                              color: Colors.black, width: 1),
+                                        ),
+                                      ),
+                                      child: SizedBox(
+                                        height: 30,
+                                        child: TextFormField(
+                                          textAlign: TextAlign.center,
+                                          initialValue: item.Mat_Sep_Act_Lot,
+                                          keyboardType:
+                                              TextInputType.numberWithOptions(
+                                                  decimal: true),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'^\d*\.?\d*$')),
+                                          ],
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                          ),
+                                          style: TextStyle(fontSize: 14),
+                                          onChanged: (value) {
+                                            item.Mat_Sep_Act_Lot = value;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             TableCell(
                               child: SizedBox(
                                 height: 60,
@@ -1033,90 +1073,313 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                 ),
               ),
             if (_datasearch.isNotEmpty && _datasearch[0].Order_Status != 'SAP')
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          title: Row(
-                            children: const [
-                              Icon(Icons.check_circle, color: Colors.green),
-                              SizedBox(width: 8),
-                              Text('Confirmation'),
-                            ],
-                          ),
-                          content: Text(
-                            'Are you sure you want to confirm this comparison?',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel',
-                                  style: TextStyle(color: Colors.red)),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
-                                    jsonEncode(_datasearch
-                                        .map((e) => e.toJson())
-                                        .toList());
-                                print(P02DASHBOARDDIALOGVAR
-                                    .SendAllDataToAPI.length);
-                                P02DASHBOARDDIALOGMAINcontext.read<
-                                        P02DASHBOARDDIALOGGETDATA_Bloc>()
-                                    .add(P02DASHBOARDDIALOGGETDATA_GET2());
-                                print('Sent complete');
-                                Navigator.of(context).pop();
-                                Navigator.of(P02DASHBOARDDIALOGMAINcontext)
-                                    .pop();
-                                P01DASHBOARDMAINcontext.read<
-                                        P01DASHBOARDGETDATA_Bloc>()
-                                    .add(P01DASHBOARDGETDATA_GET());
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              child: Text('Confirm',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                          ],
+                              title: Row(
+                                children: const [
+                                  Icon(Icons.save, color: Colors.orange),
+                                  SizedBox(width: 8),
+                                  Text('Update manual data?'),
+                                ],
+                              ),
+                              content: Text(
+                                'Are you sure you want to update manual data to SAP?',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Cancel',
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
+                                        jsonEncode(_datasearch
+                                            .map((e) => e.toJson())
+                                            .toList());
+                                    print(P02DASHBOARDDIALOGVAR
+                                        .SendAllDataToAPI.length);
+                                    P02DASHBOARDDIALOGMAINcontext.read<
+                                            P02DASHBOARDDIALOGGETDATA_Bloc>()
+                                        .add(P02DASHBOARDDIALOGGETDATA_GET3());
+                                    print('Update manual data complete');
+                                    Navigator.of(context).pop();
+                                    Navigator.of(P02DASHBOARDDIALOGMAINcontext)
+                                        .pop();
+                                    // P01DASHBOARDMAINcontext.read<
+                                    //         P01DASHBOARDGETDATA_Bloc>()
+                                    //     .add(P01DASHBOARDGETDATA_GET());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.orange,
+                                  ),
+                                  child: Text('Confirm',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.blue,
-                    shadowColor: Colors.blueAccent,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.blue, width: 2),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.orange,
+                        shadowColor: Colors.orangeAccent,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(color: Colors.orange, width: 2),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      child: Row(
+                        children: const [
+                          Text(
+                            'Update manual data',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.save,
+                            color: Colors.orange,
+                          ),
+                        ],
+                      ),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   ),
-                  child: Text(
-                    'Send to SAP',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              title: Row(
+                                children: const [
+                                  Icon(Icons.task_alt_rounded,
+                                      color: Colors.blue),
+                                  SizedBox(width: 8),
+                                  Text('Update Lot.?'),
+                                ],
+                              ),
+                              content: Text(
+                                'Are you sure you want to update lot data to SAP?',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Cancel',
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
+                                        jsonEncode(_datasearch
+                                            .map((e) => e.toJson())
+                                            .toList());
+                                    print(P02DASHBOARDDIALOGVAR
+                                        .SendAllDataToAPI.length);
+                                    P02DASHBOARDDIALOGMAINcontext.read<
+                                            P02DASHBOARDDIALOGGETDATA_Bloc>()
+                                        .add(P02DASHBOARDDIALOGGETDATA_GET4());
+                                    print('Update lot datacomplete');
+                                    Navigator.of(context).pop();
+                                    Navigator.of(P02DASHBOARDDIALOGMAINcontext)
+                                        .pop();
+                                    // P01DASHBOARDMAINcontext.read<
+                                    //         P01DASHBOARDGETDATA_Bloc>()
+                                    //     .add(P01DASHBOARDGETDATA_GET());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                  ),
+                                  child: Text('Confirm',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.blue,
+                        shadowColor: Colors.blueAccent,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      child: Row(
+                        children: const [
+                          Text(
+                            'Update Lot.',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.task_alt_rounded,
+                            color: Colors.blue,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              title: Row(
+                                children: const [
+                                  Icon(Icons.send, color: Colors.green),
+                                  SizedBox(width: 8),
+                                  Text('Send to SAP?'),
+                                ],
+                              ),
+                              content: Text(
+                                'Are you sure you want to send data to SAP?',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Cancel',
+                                      style: TextStyle(color: Colors.red)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
+                                        jsonEncode(_datasearch
+                                            .map((e) => e.toJson())
+                                            .toList());
+                                    print(P02DASHBOARDDIALOGVAR
+                                        .SendAllDataToAPI.length);
+                                    P02DASHBOARDDIALOGMAINcontext.read<
+                                            P02DASHBOARDDIALOGGETDATA_Bloc>()
+                                        .add(P02DASHBOARDDIALOGGETDATA_GET2());
+                                    print('Sent complete');
+                                    Navigator.of(context).pop();
+                                    Navigator.of(P02DASHBOARDDIALOGMAINcontext)
+                                        .pop();
+                                    P01DASHBOARDMAINcontext.read<
+                                            P01DASHBOARDGETDATA_Bloc>()
+                                        .add(P01DASHBOARDGETDATA_GET());
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                  ),
+                                  child: Text('Confirm',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.green,
+                        shadowColor: Colors.greenAccent,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(color: Colors.green, width: 2),
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      child: Row(
+                        children: const [
+                          Text(
+                            'Send to SAP',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.send,
+                            color: Colors.green,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
           ],
         ),
       ),
     );
+  }
+}
+
+Color _getStatusColor(String status) {
+  switch (status) {
+    case 'SAP':
+      return Colors.yellow.shade700;
+    case 'GEN SEP':
+    case 'SEP':
+    case 'FULL':
+    case 'SEP/FULL':
+      return Colors.blue;
+    case 'RECHECK':
+    case 'TITRATING':
+      return Colors.orange;
+    case 'COMPLETE':
+      return Colors.green;
+    default:
+      return Colors.red;
   }
 }

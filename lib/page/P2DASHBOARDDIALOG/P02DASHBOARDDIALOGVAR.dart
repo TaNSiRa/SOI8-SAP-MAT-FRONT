@@ -5,8 +5,8 @@ class P02DASHBOARDDIALOGVAR {
   static String SEARCH = '';
   static bool isHoveredClear = false;
   static String SendAllDataToAPI = '';
-  static double ColumnWidth5 = 0.0;
   static double ColumnWidth4 = 0.0;
+  static double ColumnWidth3 = 0.0;
   static double ColumnWidthProduction = 0.0;
   static double ColumnWidthProcessOrder = 0.0;
   static double ColumnWidthNo = 0.0;

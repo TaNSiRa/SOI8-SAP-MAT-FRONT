@@ -52,7 +52,18 @@ Future<String> capture(
         pageFormat: PdfPageFormat.a4,
         margin: pw.EdgeInsets.all(4),
         build: (pw.Context context) => pw.Center(
-          child: pw.Column(children: [pw.Image(imagePDF)]),
+          child: pw.Column(
+            children: [
+              pw.Container(
+                height: PdfPageFormat.a4.height / 3,
+                width: PdfPageFormat.a4.height / 3,
+                child: pw.Image(
+                  imagePDF,
+                  fit: pw.BoxFit.fitHeight,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

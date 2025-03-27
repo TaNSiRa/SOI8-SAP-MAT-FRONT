@@ -21,6 +21,8 @@ class P02DASHBOARDDIALOGGETDATA_GET2 extends P02DASHBOARDDIALOGGETDATA_Event {}
 
 class P02DASHBOARDDIALOGGETDATA_GET3 extends P02DASHBOARDDIALOGGETDATA_Event {}
 
+class P02DASHBOARDDIALOGGETDATA_GET4 extends P02DASHBOARDDIALOGGETDATA_Event {}
+
 class P02DASHBOARDDIALOGGETDATA_FLUSH extends P02DASHBOARDDIALOGGETDATA_Event {}
 
 class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
@@ -35,6 +37,9 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     });
     on<P02DASHBOARDDIALOGGETDATA_GET3>((event, emit) {
       return _P02DASHBOARDDIALOGGETDATA_GET3([], emit);
+    });
+    on<P02DASHBOARDDIALOGGETDATA_GET4>((event, emit) {
+      return _P02DASHBOARDDIALOGGETDATA_GET4([], emit);
     });
     on<P02DASHBOARDDIALOGGETDATA_FLUSH>((event, emit) {
       return _P02DASHBOARDDIALOGGETDATA_FLUSH([], emit);
@@ -167,9 +172,6 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
   Future<void> _P02DASHBOARDDIALOGGETDATA_GET2(
       List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    // List<P02DASHBOARDDIALOGGETDATAclass> output = [];
-    //-------------------------------------------------------------------------------------
-    // var input = dummydatainput2;
     try {
       Response response;
       if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
@@ -198,69 +200,56 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
       showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
     }
-    // List<P02DASHBOARDDIALOGGETDATAclass> outputdata = input
-    //     .where((data) =>
-    //         data['location'] == 'ESIE1' &&
-    //         data['plant'] == 'YES' &&
-    //         data['step01'] == 'YES')
-    //     .map((data) {
-    //   return P02DASHBOARDDIALOGGETDATAclass(
-    //     PLANT: savenull(data['plant']),
-    //     ORDER: savenull(data['order']),
-    //     MAT: savenull(data['mat']),
-    //     LOCATION: savenull(data['location']),
-    //     LOT: savenull(data['lot']),
-    //     CUSTOMER: savenull(data['customer']),
-    //     PARTNO: savenull(data['partno']),
-    //     PARTNAME: savenull(data['partname']),
-    //     STEP01: savenull(data['step1']),
-    //     STEP02: savenull(data['step2']),
-    //     STEP03: savenull(data['step3']),
-    //     STEP04: savenull(data['step4']),
-    //     STEP05: savenull(data['step5']),
-    //     STEP06: savenull(data['step6']),
-    //     STEP07: savenull(data['step7']),
-    //     STEP08: savenull(data['step8']),
-    //     STEP09: savenull(data['step9']),
-    //   );
-    // }).toList();
-
-    // output = outputdata;
-    // emit(output);
   }
 
   Future<void> _P02DASHBOARDDIALOGGETDATA_GET3(
       List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    // List<P02DASHBOARDDIALOGGETDATAclass> output = [];
-    //-------------------------------------------------------------------------------------
-    // List<P02DASHBOARDDIALOGGETDATAclass> datadummy = [
-    //   P02DASHBOARDDIALOGGETDATAclass(
-    //     PLANT: "PH PO:1234",
-    //     STEP01: "YES",
-    //     STEP02: "YES",
-    //     STEP03: "YES",
-    //   ),
-    //   P02DASHBOARDDIALOGGETDATAclass(
-    //     PLANT: "PH PO:5555",
-    //     STEP01: "YES",
-    //     STEP02: "YES",
-    //     STEP03: "YES",
-    //     STEP04: "YES",
-    //   ),
-    //   P02DASHBOARDDIALOGGETDATAclass(
-    //     PLANT: "PH PO:5556",
-    //     STEP01: "YES",
-    //     STEP02: "YES",
-    //   ),
-    //   P02DASHBOARDDIALOGGETDATAclass(
-    //     PLANT: "PH PO:9999",
-    //   ),
-    // ];
+    try {
+      final response = await Dio().post(
+        "$APIArsa/soi8/",
+        data: {
+          'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        print('Sent complete');
+      } else {
+        print("where is my server");
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      }
+    } catch (e) {
+      print(e);
+      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
+    }
+  }
 
-    // //-------------------------------------------------------------------------------------
-    // output = datadummy;
-    // emit(output);
+  Future<void> _P02DASHBOARDDIALOGGETDATA_GET4(
+      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
+      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
+    try {
+      final response = await Dio().post(
+        "$APIArsa/soi8/",
+        data: {
+          'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
+          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
+        },
+      );
+      if (response.statusCode == 200) {
+        print('Sent complete');
+      } else {
+        print("where is my server");
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      }
+    } catch (e) {
+      print(e);
+      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
+    }
   }
 
   Future<void> _P02DASHBOARDDIALOGGETDATA_FLUSH(
