@@ -90,16 +90,16 @@ class Data_Menu_mainmenu extends StatelessWidget {
           page: Page1(),
           Lv: 1,
         ),
-        menu_normal(
-          name: "INSPECTION",
-          page: Page2(),
-          Lv: 1,
-        ),
-        menu_normal(
-          name: "PRINTBARCODE",
-          page: Page3(),
-          Lv: 1,
-        ),
+        // menu_normal(
+        //   name: "INSPECTION",
+        //   page: Page2(),
+        //   Lv: 1,
+        // ),
+        // menu_normal(
+        //   name: "PRINTBARCODE",
+        //   page: Page3(),
+        //   Lv: 1,
+        // ),
         // menu_normal(
         //   name: "Report Over KPI",
         //   page: Page2(),
