@@ -757,7 +757,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       height: 30,
                                       child: TextFormField(
                                         textAlign: TextAlign.center,
-                                        initialValue: item.Mat_Full_Act_Weight,
+                                        initialValue:
+                                            '${item.Mat_Full_Act_Weight} ${item.Mat_Full_UOM}',
                                         keyboardType:
                                             TextInputType.numberWithOptions(
                                                 decimal: true),
@@ -787,7 +788,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                         height: 30,
                                         child: TextFormField(
                                           textAlign: TextAlign.center,
-                                          initialValue: item.Mat_Sep_Act_Weight,
+                                          initialValue:
+                                              '${item.Mat_Sep_Act_Weight} ${item.Mat_Sep_UOM}',
                                           keyboardType:
                                               TextInputType.numberWithOptions(
                                                   decimal: true),

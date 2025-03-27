@@ -77,8 +77,8 @@ class _pre_loginState extends State<pre_login> {
   @override
   Widget build(BuildContext context) {
     LoginContext = context;
-    if (token != '') {
-      // if (true) {
+    // if (token != '') {
+    if (true) {
       return BlocProvider(
           create: (_) => ChangePage_Bloc(),
           child: BlocBuilder<ChangePage_Bloc, Widget>(

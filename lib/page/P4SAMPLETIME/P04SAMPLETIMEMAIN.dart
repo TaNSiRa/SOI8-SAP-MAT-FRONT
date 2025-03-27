@@ -49,54 +49,53 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
             child: Center(
               child: Container(
                 width: 250,
-                height: 400,
-                padding: EdgeInsets.all(12),
+                height: 380,
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.black, width: 2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // แถบสีน้ำเงิน + โลโก้
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      color: Colors.blue,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // โลโก้บริษัท
-                          Image.asset(
-                            'assets/images/logo_tpk.png', // เปลี่ยนเป็นโลโก้ของบริษัท
-                            height: 30,
-                          ),
-                          SizedBox(width: 8),
-                          // ชื่อบริษัท
-                          Text(
-                            "Thai Parkerizing",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                    ClipPath(
+                      clipper: WaveClipper(),
+                      child: Container(
+                        height: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.blue.shade900,
+                        ),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 5,
+                              left: 0,
+                              child: Text(
+                                "Remain product",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-
-                    // หัวข้อ
-                    Text(
-                      "Data Remain",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Image.asset(
+                                'assets/images/logo_tpk.png',
+                                height: 30,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 8),
-
-                    // QR Code
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1),
@@ -110,21 +109,11 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
                       ),
                     ),
                     SizedBox(height: 10),
-
-                    // ข้อมูลสินค้า
                     buildInfoRow("Order", "1010000055"),
                     buildInfoRow("Lot", "2504012"),
                     buildInfoRow("Mat", "LN-5223 | SM"),
                     buildInfoRow("Remain", "1500 KG"),
-
                     SizedBox(height: 10),
-
-                    // แถบสีน้ำเงินด้านล่าง (Footer)
-                    Container(
-                      width: double.infinity,
-                      height: 20,
-                      color: Colors.blue,
-                    ),
                   ],
                 ),
               ),
@@ -158,7 +147,7 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
               child: Text(
                 'Export to PDF',
                 style: TextStyle(
-                  color: Colors.white, // กำหนดสีตัวหนังสือให้ชัดเจน
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -171,7 +160,7 @@ class _P04SAMPLETIMEMAINState extends State<P04SAMPLETIMEMAIN> {
 
 Widget buildInfoRow(String label, String value) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 2),
+    padding: const EdgeInsets.only(right: 20, left: 20),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -183,4 +172,30 @@ Widget buildInfoRow(String label, String value) {
       ],
     ),
   );
+}
+
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 10);
+
+    var firstControlPoint = Offset(size.width * 0.25, size.height);
+    var firstEndPoint = Offset(size.width * 0.5, size.height - 10);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+
+    var secondControlPoint = Offset(size.width * 0.75, size.height - 20);
+    var secondEndPoint = Offset(size.width, size.height - 10);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
