@@ -768,6 +768,74 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.red, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.3,
+                                    child: Checkbox(
+                                      value: P01DASHBOARDVAR.isCheckedALL,
+                                      activeColor: Colors.red,
+                                      checkColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          P01DASHBOARDVAR.isCheckedALL =
+                                              value ?? false;
+
+                                          P01DASHBOARDVAR.isChecked1 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked2 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked3 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked4 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked5 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked6 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked7 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                          P01DASHBOARDVAR.isChecked8 =
+                                              P01DASHBOARDVAR.isCheckedALL;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "ALL",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         )
                     ],
