@@ -206,8 +206,9 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
     try {
+      print("in ManualUpdateOrder");
       final response = await Dio().post(
-        "$APIArsa/soi8/",
+        "$APIArsa/soi8/ManualUpdateOrder",
         data: {
           'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
@@ -232,7 +233,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
     try {
       final response = await Dio().post(
-        "$APIArsa/soi8/",
+        "$APIArsa/soi8/updateLotSAP",
         data: {
           'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),

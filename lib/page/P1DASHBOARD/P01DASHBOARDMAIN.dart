@@ -83,7 +83,8 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
             data.Lot.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
             data.Order_Start_DT.toLowerCase()
                 .contains(P01DASHBOARDVAR.SEARCH) ||
-            data.Order_Status.toLowerCase().contains(P01DASHBOARDVAR.SEARCH),
+            data.Order_Status.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
+            data.ST_Sep.toLowerCase().contains(P01DASHBOARDVAR.SEARCH),
       ),
     );
     return Scaffold(
