@@ -785,7 +785,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                         style: TextStyle(fontSize: 14),
                                         onChanged: (value) {
                                           item.Mat_Full_Act_Weight = value;
-                                          item.isEdit = true;
+                                          item.isEdit = 'true';
                                           print(item.isEdit);
                                         },
                                       ),
@@ -823,7 +823,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                           style: TextStyle(fontSize: 14),
                                           onChanged: (value) {
                                             item.Mat_Sep_Act_Weight = value;
-                                            item.isEdit = true;
+                                            item.isEdit = 'true';
                                             print(item.isEdit);
                                           },
                                         ),
@@ -913,7 +913,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                         style: TextStyle(fontSize: 14),
                                         onChanged: (value) {
                                           item.Mat_Full_Act_Lot = value;
-                                          item.isEdit = true;
+                                          item.isEdit = 'true';
                                           print(item.isEdit);
                                         },
                                       ),
@@ -945,7 +945,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                           style: TextStyle(fontSize: 14),
                                           onChanged: (value) {
                                             item.Mat_Sep_Act_Lot = value;
-                                            item.isEdit = true;
+                                            item.isEdit = 'true';
                                             print(item.isEdit);
                                           },
                                         ),
@@ -974,7 +974,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     onChangeinside: (d, k) {
                                       setState(() {
                                         item.Mat_Status = d;
-                                        item.isEdit = true;
+                                        item.isEdit = 'true';
                                         print(item.isEdit);
                                       });
                                     },
@@ -1006,7 +1006,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       ],
                                       onChanged: (value) {
                                         item.Remark = value;
-                                        item.isEdit = true;
+                                        item.isEdit = 'true';
                                         print(item.isEdit);
                                       },
                                     ),

@@ -148,6 +148,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
             Recheck_User: savenull(dataActual['Recheck_User']),
             Recheck_Status: savenull(dataActual['Recheck_Status']),
             Recheck_Time: savenull(dataActual['Recheck_Time']),
+            isEdit: savenull(dataActual['isEdit']),
           );
         }).toList();
         Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
@@ -172,7 +173,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
   Future<void> _P02DASHBOARDDIALOGGETDATA_GET2(
       List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
+    // FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
     List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     try {
       Response response;
@@ -198,11 +199,11 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       }
 
       if (response.statusCode == 200) {
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
         print('Sent complete');
       } else {
         print("where is my server");
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
         showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
       }
     } catch (e) {
@@ -223,13 +224,13 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
       );
-      if (response.statusCode == 200) {
-        print('Sent complete');
-      } else {
-        print("where is my server");
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      }
+      // if (response.statusCode == 200) {
+      //   print('Sent complete');
+      // } else {
+      //   print("where is my server");
+      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      //   showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      // }
     } catch (e) {
       print(e);
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
@@ -248,14 +249,14 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
       );
-      if (response.statusCode == 200) {
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        print('Sent complete');
-      } else {
-        print("where is my server");
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      }
+      // if (response.statusCode == 200) {
+      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      //   print('Sent complete');
+      // } else {
+      //   print("where is my server");
+      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+      //   showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      // }
     } catch (e) {
       print(e);
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
@@ -318,7 +319,7 @@ class P02DASHBOARDDIALOGGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
-    this.isEdit = false,
+    this.isEdit = '',
   });
 
   String ID;
@@ -366,7 +367,7 @@ class P02DASHBOARDDIALOGGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
-  bool isEdit;
+  String isEdit;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,

@@ -133,6 +133,7 @@ class P01DASHBOARDGETDATA_Bloc
             Recheck_User: savenull(dataActual['Recheck_User']),
             Recheck_Status: savenull(dataActual['Recheck_Status']),
             Recheck_Time: savenull(dataActual['Recheck_Time']),
+            isEdit: savenull(dataActual['isEdit']),
           );
         }).toList();
         Navigator.pop(P01DASHBOARDMAINcontext);
@@ -287,7 +288,7 @@ class P01DASHBOARDGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
-    this.isEdit = false,
+    this.isEdit = '',
   });
 
   String ID;
@@ -335,7 +336,7 @@ class P01DASHBOARDGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
-  bool isEdit;
+  String isEdit;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,
