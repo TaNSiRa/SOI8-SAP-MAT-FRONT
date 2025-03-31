@@ -172,6 +172,8 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
   Future<void> _P02DASHBOARDDIALOGGETDATA_GET2(
       List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
+    FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
+    List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     try {
       Response response;
       if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
@@ -193,7 +195,15 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
                 {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
           },
         );
+      }
+
+      if (response.statusCode == 200) {
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
         print('Sent complete');
+      } else {
+        print("where is my server");
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
       }
     } catch (e) {
       print(e);
@@ -207,7 +217,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
     try {
       final response = await Dio().post(
-        "$APIArsa/soi8/",
+        "$APIArsa/soi8/ManualUpdateOrder",
         data: {
           'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
@@ -232,13 +242,14 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
       Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
     try {
       final response = await Dio().post(
-        "$APIArsa/soi8/",
+        "$APIArsa/soi8/updateLotSAP",
         data: {
           'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
       );
       if (response.statusCode == 200) {
+        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
         print('Sent complete');
       } else {
         print("where is my server");
@@ -307,6 +318,7 @@ class P02DASHBOARDDIALOGGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
+    this.isEdit = false,
   });
 
   String ID;
@@ -354,6 +366,7 @@ class P02DASHBOARDDIALOGGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
+  bool isEdit;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,
@@ -401,6 +414,7 @@ class P02DASHBOARDDIALOGGETDATAclass {
       'Recheck_User': Recheck_User,
       'Recheck_Status': Recheck_Status,
       'Recheck_Time': Recheck_Time,
+      'isEdit': isEdit
     };
   }
 }

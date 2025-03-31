@@ -287,6 +287,7 @@ class P01DASHBOARDGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
+    this.isEdit = false,
   });
 
   String ID;
@@ -334,6 +335,7 @@ class P01DASHBOARDGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
+  bool isEdit;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,
@@ -381,6 +383,7 @@ class P01DASHBOARDGETDATAclass {
       'Recheck_User': Recheck_User,
       'Recheck_Status': Recheck_Status,
       'Recheck_Time': Recheck_Time,
+      'isEdit': isEdit
     };
   }
 }
