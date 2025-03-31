@@ -224,13 +224,14 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
       );
-      // if (response.statusCode == 200) {
-      //   print('Sent complete');
-      // } else {
-      //   print("where is my server");
-      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      //   showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      // }
+      if (response.statusCode == 200) {
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        print('Sent complete');
+      } else {
+        print("where is my server");
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      }
     } catch (e) {
       print(e);
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
@@ -249,14 +250,14 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
           'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
         },
       );
-      // if (response.statusCode == 200) {
-      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      //   print('Sent complete');
-      // } else {
-      //   print("where is my server");
-      //   Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      //   showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      // }
+      if (response.statusCode == 200) {
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        print('Sent complete');
+      } else {
+        print("where is my server");
+        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+      }
     } catch (e) {
       print(e);
       Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
