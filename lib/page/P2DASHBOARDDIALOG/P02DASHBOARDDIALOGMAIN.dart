@@ -695,7 +695,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   height: 60,
                                   child: Center(
                                     child: Text(
-                                      '${double.tryParse(item.Mat_Quantity_Scada)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}',
+                                      '${double.tryParse(item.Mat_Quantity_Scada)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_Sep_UOM}',
                                       style: TextStyle(
                                         color: double.tryParse(
                                                     item.Mat_Quantity) !=
@@ -903,7 +903,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                 decimal: true),
                                         inputFormatters: [
                                           FilteringTextInputFormatter.allow(
-                                              RegExp(r'^\d*\.?\d*$')),
+                                            RegExp(r'^[a-zA-Z0-9.]*$'),
+                                          ),
                                         ],
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -935,7 +936,8 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                   decimal: true),
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
-                                                RegExp(r'^\d*\.?\d*$')),
+                                              RegExp(r'^[a-zA-Z0-9.]*$'),
+                                            ),
                                           ],
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
