@@ -1108,193 +1108,193 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              title: Row(
-                                children: const [
-                                  Icon(Icons.save, color: Colors.orange),
-                                  SizedBox(width: 8),
-                                  Text('Update manual data?'),
-                                ],
-                              ),
-                              content: Text(
-                                'Are you sure you want to update manual data to SAP?',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('Cancel',
-                                      style: TextStyle(color: Colors.red)),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
-                                        jsonEncode(_datasearch
-                                            .map((e) => e.toJson())
-                                            .toList());
-                                    print(P02DASHBOARDDIALOGVAR
-                                        .SendAllDataToAPI.length);
-                                    P02DASHBOARDDIALOGMAINcontext.read<
-                                            P02DASHBOARDDIALOGGETDATA_Bloc>()
-                                        .add(P02DASHBOARDDIALOGGETDATA_GET3());
-                                    print('Update manual data complete');
-                                    Navigator.of(context).pop();
-                                    Navigator.of(P02DASHBOARDDIALOGMAINcontext)
-                                        .pop();
-                                    // P01DASHBOARDMAINcontext.read<
-                                    //         P01DASHBOARDGETDATA_Bloc>()
-                                    //     .add(P01DASHBOARDGETDATA_GET());
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange,
-                                  ),
-                                  child: Text('Confirm',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.orange,
-                        shadowColor: Colors.orangeAccent,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: BorderSide(color: Colors.orange, width: 2),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      ),
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Update manual data',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.save,
-                            color: Colors.orange,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              title: Row(
-                                children: const [
-                                  Icon(Icons.task_alt_rounded,
-                                      color: Colors.blue),
-                                  SizedBox(width: 8),
-                                  Text('Update Lot.?'),
-                                ],
-                              ),
-                              content: Text(
-                                'Are you sure you want to update lot data to SAP?',
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('Cancel',
-                                      style: TextStyle(color: Colors.red)),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
-                                        jsonEncode(_datasearch
-                                            .map((e) => e.toJson())
-                                            .toList());
-                                    print(P02DASHBOARDDIALOGVAR
-                                        .SendAllDataToAPI.length);
-                                    P02DASHBOARDDIALOGMAINcontext.read<
-                                            P02DASHBOARDDIALOGGETDATA_Bloc>()
-                                        .add(P02DASHBOARDDIALOGGETDATA_GET4());
-                                    print('Update lot datacomplete');
-                                    Navigator.of(context).pop();
-                                    Navigator.of(P02DASHBOARDDIALOGMAINcontext)
-                                        .pop();
-                                    // P01DASHBOARDMAINcontext.read<
-                                    //         P01DASHBOARDGETDATA_Bloc>()
-                                    //     .add(P01DASHBOARDGETDATA_GET());
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue,
-                                  ),
-                                  child: Text('Confirm',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.blue,
-                        shadowColor: Colors.blueAccent,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: BorderSide(color: Colors.blue, width: 2),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      ),
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Update Lot.',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.task_alt_rounded,
-                            color: Colors.blue,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       showDialog(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return AlertDialog(
+                  //             backgroundColor: Colors.white,
+                  //             shape: RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(15),
+                  //             ),
+                  //             title: Row(
+                  //               children: const [
+                  //                 Icon(Icons.save, color: Colors.orange),
+                  //                 SizedBox(width: 8),
+                  //                 Text('Update manual data?'),
+                  //               ],
+                  //             ),
+                  //             content: Text(
+                  //               'Are you sure you want to update manual data to SAP?',
+                  //               style: TextStyle(fontSize: 14),
+                  //             ),
+                  //             actions: [
+                  //               TextButton(
+                  //                 onPressed: () {
+                  //                   Navigator.of(context).pop();
+                  //                 },
+                  //                 child: Text('Cancel',
+                  //                     style: TextStyle(color: Colors.red)),
+                  //               ),
+                  //               ElevatedButton(
+                  //                 onPressed: () async {
+                  //                   P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
+                  //                       jsonEncode(_datasearch
+                  //                           .map((e) => e.toJson())
+                  //                           .toList());
+                  //                   print(P02DASHBOARDDIALOGVAR
+                  //                       .SendAllDataToAPI.length);
+                  //                   P02DASHBOARDDIALOGMAINcontext.read<
+                  //                           P02DASHBOARDDIALOGGETDATA_Bloc>()
+                  //                       .add(P02DASHBOARDDIALOGGETDATA_GET3());
+                  //                   print('Update manual data complete');
+                  //                   Navigator.of(context).pop();
+                  //                   Navigator.of(P02DASHBOARDDIALOGMAINcontext)
+                  //                       .pop();
+                  //                   // P01DASHBOARDMAINcontext.read<
+                  //                   //         P01DASHBOARDGETDATA_Bloc>()
+                  //                   //     .add(P01DASHBOARDGETDATA_GET());
+                  //                 },
+                  //                 style: ElevatedButton.styleFrom(
+                  //                   backgroundColor: Colors.orange,
+                  //                 ),
+                  //                 child: Text('Confirm',
+                  //                     style: TextStyle(color: Colors.white)),
+                  //               ),
+                  //             ],
+                  //           );
+                  //         },
+                  //       );
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.white,
+                  //       foregroundColor: Colors.orange,
+                  //       shadowColor: Colors.orangeAccent,
+                  //       elevation: 5,
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         side: BorderSide(color: Colors.orange, width: 2),
+                  //       ),
+                  //       padding:
+                  //           EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  //     ),
+                  //     child: Row(
+                  //       children: const [
+                  //         Text(
+                  //           'Update manual data',
+                  //           style: TextStyle(
+                  //             fontSize: 14,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 5,
+                  //         ),
+                  //         Icon(
+                  //           Icons.save,
+                  //           color: Colors.orange,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       showDialog(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return AlertDialog(
+                  //             backgroundColor: Colors.white,
+                  //             shape: RoundedRectangleBorder(
+                  //               borderRadius: BorderRadius.circular(15),
+                  //             ),
+                  //             title: Row(
+                  //               children: const [
+                  //                 Icon(Icons.task_alt_rounded,
+                  //                     color: Colors.blue),
+                  //                 SizedBox(width: 8),
+                  //                 Text('Update Lot.?'),
+                  //               ],
+                  //             ),
+                  //             content: Text(
+                  //               'Are you sure you want to update lot data to SAP?',
+                  //               style: TextStyle(fontSize: 14),
+                  //             ),
+                  //             actions: [
+                  //               TextButton(
+                  //                 onPressed: () {
+                  //                   Navigator.of(context).pop();
+                  //                 },
+                  //                 child: Text('Cancel',
+                  //                     style: TextStyle(color: Colors.red)),
+                  //               ),
+                  //               ElevatedButton(
+                  //                 onPressed: () async {
+                  //                   P02DASHBOARDDIALOGVAR.SendAllDataToAPI =
+                  //                       jsonEncode(_datasearch
+                  //                           .map((e) => e.toJson())
+                  //                           .toList());
+                  //                   print(P02DASHBOARDDIALOGVAR
+                  //                       .SendAllDataToAPI.length);
+                  //                   P02DASHBOARDDIALOGMAINcontext.read<
+                  //                           P02DASHBOARDDIALOGGETDATA_Bloc>()
+                  //                       .add(P02DASHBOARDDIALOGGETDATA_GET4());
+                  //                   print('Update lot datacomplete');
+                  //                   Navigator.of(context).pop();
+                  //                   Navigator.of(P02DASHBOARDDIALOGMAINcontext)
+                  //                       .pop();
+                  //                   // P01DASHBOARDMAINcontext.read<
+                  //                   //         P01DASHBOARDGETDATA_Bloc>()
+                  //                   //     .add(P01DASHBOARDGETDATA_GET());
+                  //                 },
+                  //                 style: ElevatedButton.styleFrom(
+                  //                   backgroundColor: Colors.blue,
+                  //                 ),
+                  //                 child: Text('Confirm',
+                  //                     style: TextStyle(color: Colors.white)),
+                  //               ),
+                  //             ],
+                  //           );
+                  //         },
+                  //       );
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.white,
+                  //       foregroundColor: Colors.blue,
+                  //       shadowColor: Colors.blueAccent,
+                  //       elevation: 5,
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //         side: BorderSide(color: Colors.blue, width: 2),
+                  //       ),
+                  //       padding:
+                  //           EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  //     ),
+                  //     child: Row(
+                  //       children: const [
+                  //         Text(
+                  //           'Update Lot.',
+                  //           style: TextStyle(
+                  //             fontSize: 14,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: 5,
+                  //         ),
+                  //         Icon(
+                  //           Icons.task_alt_rounded,
+                  //           color: Colors.blue,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
