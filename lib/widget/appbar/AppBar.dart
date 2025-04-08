@@ -155,6 +155,7 @@ class Icon_profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return new InkWell(
       onTap: () {
+        logindata.isLoggedIn = false;
         LoginContext.read<Login_Bloc>().add(Logout());
       },
       child: Icon(

@@ -13,10 +13,15 @@ import 'package:path_provider/path_provider.dart';
 import 'bloc/Observe/appBlocObserver.dart';
 import 'bloc/cubit/Rebuild.dart';
 import 'mainBody.dart';
+import 'dart:html' as html;
 
 //--------------------------------------
-
+Map<String, String>? initialQueryParameters;
+String hashs = '';
 Future<void> main() async {
+  hashs = html.window.location.toString();
+  print("1111");
+  print(hashs);
   // WidgetsFlutterBinding.ensureInitialized();
   // ByteData data = await PlatformAssetBundle().load('assets/ca/mindmillo.pem');
   // SecurityContext.defaultContext
@@ -59,7 +64,24 @@ class MainContext extends MyApp {
             primarySwatch: Colors.blue,
           ),
           debugShowCheckedModeBanner: false,
-          home: const MainBlocRebuild(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) {
+              List<String> dataout = [];
+              String out = '';
+              if (hashs.contains("/#/")) {
+                dataout = hashs.split("/#/");
+              }
+              if (dataout.length > 0) {
+                out = dataout[1];
+              }
+              print(out);
+              return MainBlocRebuild(
+                login: out,
+              );
+            },
+          },
+          // home: MainBlocRebuild(),
         );
       },
     );
