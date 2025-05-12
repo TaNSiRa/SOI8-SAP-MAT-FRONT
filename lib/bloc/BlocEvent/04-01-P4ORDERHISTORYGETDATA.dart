@@ -1,110 +1,78 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_print, use_build_context_synchronously, file_names
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:newmaster/page/P1DASHBOARD/P01DASHBOARDVAR.dart';
 import '../../data/global.dart';
-import '../../page/P2DASHBOARDDIALOG/P02DASHBOARDDIALOGMAIN.dart';
-import '../../page/P2DASHBOARDDIALOG/P02DASHBOARDDIALOGVAR.dart';
+import '../../mainBody.dart';
+import '../../page/P4ORDERHISTORY/P4ORDERHISTORYMAIN.dart';
+import '../../page/P4ORDERHISTORY/P4ORDERHISTORYVAR.dart';
 import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/Loading.dart';
+import '../../widget/common/ShowPDF.dart';
 
 //-------------------------------------------------
 
-abstract class P02DASHBOARDDIALOGGETDATA_Event {}
+abstract class P4ORDERHISTORYGETDATA_Event {}
 
-class P02DASHBOARDDIALOGGETDATA_GET extends P02DASHBOARDDIALOGGETDATA_Event {}
+class P4ORDERHISTORYGETDATA_GET extends P4ORDERHISTORYGETDATA_Event {}
 
-class P02DASHBOARDDIALOGGETDATA_GET2 extends P02DASHBOARDDIALOGGETDATA_Event {}
+class P4ORDERHISTORYGETDATA_GET2 extends P4ORDERHISTORYGETDATA_Event {}
 
-class P02DASHBOARDDIALOGGETDATA_GET3 extends P02DASHBOARDDIALOGGETDATA_Event {}
+class P4ORDERHISTORYGETDATA_GET3 extends P4ORDERHISTORYGETDATA_Event {}
 
-class P02DASHBOARDDIALOGGETDATA_GET4 extends P02DASHBOARDDIALOGGETDATA_Event {}
+class P4ORDERHISTORYGETDATA_FLUSH extends P4ORDERHISTORYGETDATA_Event {}
 
-class P02DASHBOARDDIALOGGETDATA_FLUSH extends P02DASHBOARDDIALOGGETDATA_Event {}
-
-class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
-    P02DASHBOARDDIALOGGETDATA_Event, List<P02DASHBOARDDIALOGGETDATAclass>> {
-  P02DASHBOARDDIALOGGETDATA_Bloc() : super([]) {
-    on<P02DASHBOARDDIALOGGETDATA_GET>((event, emit) {
-      return _P02DASHBOARDDIALOGGETDATA_GET([], emit);
+class P4ORDERHISTORYGETDATA_Bloc
+    extends Bloc<P4ORDERHISTORYGETDATA_Event, List<P4ORDERHISTORYGETDATAclass>> {
+  P4ORDERHISTORYGETDATA_Bloc() : super([]) {
+    on<P4ORDERHISTORYGETDATA_GET>((event, emit) {
+      return _P4ORDERHISTORYGETDATA_GET([], emit);
     });
 
-    on<P02DASHBOARDDIALOGGETDATA_GET2>((event, emit) {
-      return _P02DASHBOARDDIALOGGETDATA_GET2([], emit);
+    on<P4ORDERHISTORYGETDATA_GET2>((event, emit) {
+      return _P4ORDERHISTORYGETDATA_GET2([], emit);
     });
-    on<P02DASHBOARDDIALOGGETDATA_GET3>((event, emit) {
-      return _P02DASHBOARDDIALOGGETDATA_GET3([], emit);
+    on<P4ORDERHISTORYGETDATA_GET3>((event, emit) {
+      return _P4ORDERHISTORYGETDATA_GET3([], emit);
     });
-    on<P02DASHBOARDDIALOGGETDATA_GET4>((event, emit) {
-      return _P02DASHBOARDDIALOGGETDATA_GET4([], emit);
-    });
-    on<P02DASHBOARDDIALOGGETDATA_FLUSH>((event, emit) {
-      return _P02DASHBOARDDIALOGGETDATA_FLUSH([], emit);
+    on<P4ORDERHISTORYGETDATA_FLUSH>((event, emit) {
+      return _P4ORDERHISTORYGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P02DASHBOARDDIALOGGETDATA_GET(
-      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
-      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
-    List<P02DASHBOARDDIALOGGETDATAclass> output = [];
+  Future<void> _P4ORDERHISTORYGETDATA_GET(List<P4ORDERHISTORYGETDATAclass> toAdd,
+      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
+    FreeLoadingTan(P4ORDERHISTORYMAINcontext);
+    List<P4ORDERHISTORYGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     try {
-      Response response;
-      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
-        response = await Dio().post(
-          "$APIArsa/soi8/compareSCADA",
-          data: {
-            'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
-            'userData': {
+      final response = await Dio().post(
+        "$APIArsa/soi8/fetchOrder",
+        data: {
+          'userData': {
               'Id': USERDATA.ID,
               'Name': USERDATA.NAME,
             },
+        },
+        options: Options(
+          validateStatus: (status) {
+            return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
           },
-          options: Options(
-            validateStatus: (status) {
-              return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
-            },
-          ),
-        );
-        print('Sent complete');
-      } else {
-        response = await Dio().post(
-          "$APIArsa/soi8/orderDetail",
-          data: {
-            'dataOrder': P01DASHBOARDVAR.SendAllDataToAPI,
-            'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
-          },
-          options: Options(
-            validateStatus: (status) {
-              return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
-            },
-          ),
-        );
-        print('Sent complete');
-      }
+        ),
+      );
 
-      // response = await Dio().post(
-      //   "$APIArsa/soi8/compareSCADA",
-      //   data: {'OrderNo': P01DASHBOARDVAR.SendAllDataToAPI},
-      // );
       var input = [];
       if (response.statusCode == 200) {
         print(response.statusCode);
         // print(response.data);
         var databuff = response.data;
         input = databuff;
-        // input = dummydata2;
 
-        List<P02DASHBOARDDIALOGGETDATAclass> outputdata =
-            input.map((dataActual) {
-          return P02DASHBOARDDIALOGGETDATAclass(
+        List<P4ORDERHISTORYGETDATAclass> outputdata = input.map((dataActual) {
+          return P4ORDERHISTORYGETDATAclass(
             ID: savenull(dataActual['ID']),
             MainOrder: savenull(dataActual['MainOrder']),
             OrderNo: savenull(dataActual['OrderNo']),
@@ -155,140 +123,115 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
             isEdit: savenull(dataActual['isEdit']),
           );
         }).toList();
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
+        Navigator.pop(P4ORDERHISTORYMAINcontext);
         output = outputdata;
         emit(output);
       } else {
         print("where is my server");
-        Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+        Navigator.pop(P4ORDERHISTORYMAINcontext);
+        showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
         output = [];
         emit(output);
       }
     } catch (e) {
       print(e);
-      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
+      Navigator.pop(P4ORDERHISTORYMAINcontext);
+      showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
       output = [];
       emit(output);
     }
   }
 
-  Future<void> _P02DASHBOARDDIALOGGETDATA_GET2(
-      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
-      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    // FreeLoadingTan(P02DASHBOARDDIALOGMAINcontext);
-    List<P02DASHBOARDDIALOGGETDATAclass> output = [];
-    try {
-      Response response;
-      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
-        response = await Dio().post(
-          "$APIArsa/soi8/createOrder",
-          data: {
-            'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
-            'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
-          },
-        );
-        print('Sent complete');
-      } else {
-        response = await Dio().post(
-          "$APIArsa/soi8/sendOrderToSAP",
-          data: {
-            'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
-            'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
-          },
-        );
-      }
-
-      if (response.statusCode == 200) {
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        print('Sent complete');
-      } else {
-        print("where is my server");
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      }
-    } catch (e) {
-      print(e);
-      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
-    }
-  }
-
-  Future<void> _P02DASHBOARDDIALOGGETDATA_GET3(
-      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
-      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
+  Future<void> _P4ORDERHISTORYGETDATA_GET2(List<P4ORDERHISTORYGETDATAclass> toAdd,
+      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
+    FreeLoadingTan(P4ORDERHISTORYMAINcontext);
+    // List<P4ORDERHISTORYGETDATAclass> output = [];
+    //-------------------------------------------------------------------------------------
     try {
       final response = await Dio().post(
-        "$APIArsa/soi8/ManualUpdateOrder",
+        "$APIArsa/soi8/printPickingList",
         data: {
-          'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
+          'plantSelect': P4ORDERHISTORYVAR.DropDownPlant,
           'userData': {
               'Id': USERDATA.ID,
               'Name': USERDATA.NAME,
             },
         },
+        options: Options(
+          validateStatus: (status) {
+            return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+          },
+        ),
       );
       if (response.statusCode == 200) {
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        print('Sent complete');
+        String input = response.data;
+        print(response.statusCode);
+        Navigator.pop(P4ORDERHISTORYMAINcontext);
+        showPDF(input, P4ORDERHISTORYMAINcontext);
+
+        // output = [];
+        // emit(output);
       } else {
         print("where is my server");
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
+        Navigator.pop(P4ORDERHISTORYMAINcontext);
+        showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
+        // output = [];
+        // emit(output);
       }
     } catch (e) {
       print(e);
-      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
+      Navigator.pop(P4ORDERHISTORYMAINcontext);
+      showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
+      // output = [];
+      // emit(output);
     }
   }
 
-  Future<void> _P02DASHBOARDDIALOGGETDATA_GET4(
-      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
-      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    try {
-      final response = await Dio().post(
-        "$APIArsa/soi8/updateLotSAP",
-        data: {
-          'dataOrder': P02DASHBOARDDIALOGVAR.SendAllDataToAPI,
-          'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
-        },
-      );
-      if (response.statusCode == 200) {
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        print('Sent complete');
-      } else {
-        print("where is my server");
-        // Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-        showErrorPopup(P02DASHBOARDDIALOGMAINcontext, response.toString());
-      }
-    } catch (e) {
-      print(e);
-      Navigator.pop(P02DASHBOARDDIALOGMAINcontext);
-      showErrorPopup(P02DASHBOARDDIALOGMAINcontext, e.toString());
-    }
+  Future<void> _P4ORDERHISTORYGETDATA_GET3(List<P4ORDERHISTORYGETDATAclass> toAdd,
+      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
+    // List<P4ORDERHISTORYGETDATAclass> output = [];
+    //-------------------------------------------------------------------------------------
+    // List<P4ORDERHISTORYGETDATAclass> datadummy = [
+    //   P4ORDERHISTORYGETDATAclass(
+    //     PLANT: "PH PO:1234",
+    //     STEP01: "YES",
+    //     STEP02: "YES",
+    //     STEP03: "YES",
+    //   ),
+    //   P4ORDERHISTORYGETDATAclass(
+    //     PLANT: "PH PO:5555",
+    //     STEP01: "YES",
+    //     STEP02: "YES",
+    //     STEP03: "YES",
+    //     STEP04: "YES",
+    //   ),
+    //   P4ORDERHISTORYGETDATAclass(
+    //     PLANT: "PH PO:5556",
+    //     STEP01: "YES",
+    //     STEP02: "YES",
+    //   ),
+    //   P4ORDERHISTORYGETDATAclass(
+    //     PLANT: "PH PO:9999",
+    //   ),
+    // ];
+
+    // //-------------------------------------------------------------------------------------
+    // output = datadummy;
+    // emit(output);
   }
 
-  Future<void> _P02DASHBOARDDIALOGGETDATA_FLUSH(
-      List<P02DASHBOARDDIALOGGETDATAclass> toAdd,
-      Emitter<List<P02DASHBOARDDIALOGGETDATAclass>> emit) async {
-    List<P02DASHBOARDDIALOGGETDATAclass> output = [];
+  Future<void> _P4ORDERHISTORYGETDATA_FLUSH(List<P4ORDERHISTORYGETDATAclass> toAdd,
+      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
+    List<P4ORDERHISTORYGETDATAclass> output = [];
     emit(output);
   }
 }
 
-class P02DASHBOARDDIALOGGETDATAclass {
-  P02DASHBOARDDIALOGGETDATAclass({
+String modelFullRequestDataToJson(List<P4ORDERHISTORYGETDATAclass> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class P4ORDERHISTORYGETDATAclass {
+  P4ORDERHISTORYGETDATAclass({
     this.ID = '',
     this.MainOrder = '',
     this.OrderNo = '',
@@ -436,21 +379,9 @@ class P02DASHBOARDDIALOGGETDATAclass {
 }
 
 String savenull(input) {
-  String output = '';
+  String output = '-';
   if (input != null) {
     output = input.toString();
   }
   return output;
-}
-
-String formatDate(String? date) {
-  if (date == null || date.isEmpty) return '';
-  if (date == 'CLOSE LINE') return 'CLOSE LINE';
-  try {
-    // print(date);
-    DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(date);
-    return DateFormat('dd/MM/yyyy').format(parsedDate);
-  } catch (e) {
-    return '';
-  }
 }

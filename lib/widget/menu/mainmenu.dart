@@ -9,7 +9,6 @@ import '../../page/page3.dart';
 import '../../page/page4.dart';
 import '../../page/page5.dart';
 import '../../page/page6.dart';
-import '../../page/page7.dart';
 import 'sub_widget.dart';
 
 late BuildContext MenuContext;
@@ -91,8 +90,8 @@ class Data_Menu_mainmenu extends StatelessWidget {
           Lv: 1,
         ),
         // menu_normal(
-        //   name: "INSPECTION",
-        //   page: Page2(),
+        //   name: "ORDER HISTORY",
+        //   page: Page4(),
         //   Lv: 1,
         // ),
         // menu_normal(

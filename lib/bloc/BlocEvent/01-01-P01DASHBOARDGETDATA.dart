@@ -52,7 +52,10 @@ class P01DASHBOARDGETDATA_Bloc
       final response = await Dio().post(
         "$APIArsa/soi8/fetchOrder",
         data: {
-          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
+          'userData': {
+              'Id': USERDATA.ID,
+              'Name': USERDATA.NAME,
+            },
         },
         options: Options(
           validateStatus: (status) {
@@ -166,7 +169,10 @@ class P01DASHBOARDGETDATA_Bloc
         "$APIArsa/soi8/printPickingList",
         data: {
           'plantSelect': P01DASHBOARDVAR.DropDownPlant,
-          'userData': {USERDATA.ID, USERDATA.NAME, USERDATA.UserLV}.toString(),
+          'userData': {
+              'Id': USERDATA.ID,
+              'Name': USERDATA.NAME,
+            },
         },
         options: Options(
           validateStatus: (status) {
