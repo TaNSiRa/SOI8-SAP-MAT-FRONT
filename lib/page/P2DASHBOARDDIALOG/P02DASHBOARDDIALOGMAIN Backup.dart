@@ -55,9 +55,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                 .contains(P02DASHBOARDDIALOGVAR.SEARCH),
       ),
     );
-    if (_datasearch.isNotEmpty &&
-        (_datasearch[0].Order_Status == 'SAP' ||
-            _datasearch[0].Order_Status == 'UNSUGGEST')) {
+    if (_datasearch.isNotEmpty && (_datasearch[0].Order_Status == 'SAP' || _datasearch[0].Order_Status == 'UNSUGGEST') ) {
       P02DASHBOARDDIALOGVAR.ColumnWidth3 = 100.0;
       P02DASHBOARDDIALOGVAR.ColumnWidth4 = 200.0;
       P02DASHBOARDDIALOGVAR.ColumnWidthProduction = 850;
@@ -506,8 +504,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
-                          if (_datasearch[0].Order_Status == 'SAP' ||
-                              _datasearch[0].Order_Status == 'UNSUGGEST')
+                          if (_datasearch[0].Order_Status == 'SAP' || _datasearch[0].Order_Status == 'UNSUGGEST')
                             TableCell(
                               child: SizedBox(
                                 height: 40,
@@ -568,8 +565,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
-                          if (_datasearch[0].Order_Status != 'SAP' &&
-                              _datasearch[0].Order_Status != 'UNSUGGEST')
+                          if (_datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST')
                             TableCell(
                               child: SizedBox(
                                 height: 40,
@@ -600,8 +596,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
-                          if (_datasearch[0].Order_Status != 'SAP' &&
-                              _datasearch[0].Order_Status != 'UNSUGGEST')
+                          if (_datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST')
                             TableCell(
                               child: SizedBox(
                                 height: 40,
@@ -631,8 +626,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                               ),
                             ),
                           ),
-                          if (_datasearch[0].Order_Status != 'SAP' &&
-                              _datasearch[0].Order_Status != 'UNSUGGEST')
+                          if (_datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST')
                             const TableCell(
                               child: SizedBox(
                                 height: 40,
@@ -678,9 +672,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     '${double.tryParse(item.Mat_Quantity)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '')} ${item.Mat_UOM}',
                                     style: TextStyle(
                                       color: _datasearch[0].Order_Status !=
-                                                  'SAP' &&
-                                              _datasearch[0].Order_Status !=
-                                                  'UNSUGGEST'
+                                              'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST'
                                           ? Colors.black
                                           : (double.tryParse(
                                                       item.Mat_Quantity) !=
@@ -688,19 +680,16 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                                       item.Mat_Quantity_Scada)
                                               ? Colors.red
                                               : Colors.green),
-                                      fontWeight: _datasearch[0].Order_Status !=
-                                                  'SAP' &&
-                                              _datasearch[0].Order_Status !=
-                                                  'UNSUGGEST'
-                                          ? FontWeight.normal
-                                          : FontWeight.bold,
+                                      fontWeight:
+                                          _datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST'
+                                              ? FontWeight.normal
+                                              : FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            if (_datasearch[0].Order_Status == 'SAP' ||
-                                _datasearch[0].Order_Status == 'UNSUGGEST')
+                            if (_datasearch[0].Order_Status == 'SAP' || _datasearch[0].Order_Status == 'UNSUGGEST')
                               TableCell(
                                 child: SizedBox(
                                   height: 60,
@@ -736,34 +725,12 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                   SizedBox(
                                     height: 30,
                                     child: Center(
-                                      child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          initialValue:
-                                              (item.Mat_Full_SP != null)
-                                                  ? item.Mat_Full_SP
-                                                  : '',
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  decimal: true),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'^\d*\.?\d*$')),
-                                          ],
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 8),
-                                            isDense: true,
-                                          ),
-                                          style: TextStyle(fontSize: 14),
-                                          onChanged: (value) {
-                                            item.Mat_Full_SP = value;
-                                            item.isEdit = 'true';
-                                          },
-                                        ),
+                                      child: Text(
+                                        item.Mat_Full_SP != null &&
+                                                item.Mat_Full_SP.isNotEmpty
+                                            ? '${double.tryParse(item.Mat_Full_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Full_SP} ${item.Mat_Full_UOM}'
+                                            : '',
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -776,42 +743,19 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     child: SizedBox(
                                       height: 30,
                                       child: Center(
-                                        child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          initialValue:
-                                              (item.Mat_Sep_SP != null)
-                                                  ? item.Mat_Sep_SP
-                                                  : '',
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  decimal: true),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'^\d*\.?\d*$')),
-                                          ],
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 8),
-                                            isDense: true,
-                                          ),
-                                          style: TextStyle(fontSize: 14),
-                                          onChanged: (value) {
-                                            item.Mat_Sep_SP = value;
-                                            item.isEdit = 'true';
-                                          },
-                                        ), 
+                                        child: Text(
+                                          item.Mat_Sep_SP != null &&
+                                                  item.Mat_Sep_SP.isNotEmpty
+                                              ? '${double.tryParse(item.Mat_Sep_SP)?.toStringAsFixed(3).replaceAll(RegExp(r'([.]*0+)(?!.*\d)'), '') ?? item.Mat_Sep_SP} ${item.Mat_Sep_UOM}'
+                                              : '',
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            if (_datasearch[0].Order_Status != 'SAP' &&
-                                _datasearch[0].Order_Status != 'UNSUGGEST')
+                            if (_datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST') 
                               TableCell(
                                 child: Column(
                                   children: [
@@ -837,9 +781,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                           border: InputBorder.none,
                                           filled: true,
                                           fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 8),
-                                          isDense: true,
                                         ),
                                         style: TextStyle(fontSize: 14),
                                         onChanged: (value) {
@@ -878,15 +819,12 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                             border: InputBorder.none,
                                             filled: true,
                                             fillColor: Colors.white,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 8),
-                                            isDense: true,
                                           ),
                                           style: TextStyle(fontSize: 14),
                                           onChanged: (value) {
                                             item.Mat_Sep_Act_Weight = value;
                                             item.isEdit = 'true';
+                                            print(item.isEdit);
                                           },
                                         ),
                                       ),
@@ -904,35 +842,9 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                             ? 30
                                             : 60,
                                     child: Center(
-                                      child: TextFormField(
-                                        textAlign: TextAlign.center,
-                                        initialValue: item.Mat_SAP_Lot1,
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                decimal: true),
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                            RegExp(r'^[a-zA-Z0-9.]*$'),
-                                          ),
-                                        ],
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          // Add content padding to ensure proper centering
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 0),
-                                          // Remove default dense padding
-                                          isDense: true,
-                                        ),
-                                        style: TextStyle(fontSize: 14),
-                                        // Add text align for cursor positioning
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        onChanged: (value) {
-                                          item.Mat_SAP_Lot1 = value;
-                                          item.isEdit = 'true';
-                                        },
+                                      child: Text(
+                                        item.Mat_SAP_Lot1,
+                                        style: TextStyle(fontSize: 10),
                                       ),
                                     ),
                                   ),
@@ -949,34 +861,9 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                             ? 20
                                             : 30,
                                         child: Center(
-                                          child: TextFormField(
-                                            textAlign: TextAlign.center,
-                                            initialValue: item.Mat_SAP_Lot2,
-                                            keyboardType:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: true),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                RegExp(r'^[a-zA-Z0-9.]*$'),
-                                              ),
-                                            ],
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 0),
-                                              isDense: true,
-                                            ),
-                                            style: TextStyle(fontSize: 14),
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            onChanged: (value) {
-                                              item.Mat_SAP_Lot2 = value;
-                                              item.isEdit = 'true';
-                                            },
+                                          child: Text(
+                                            item.Mat_SAP_Lot2,
+                                            style: TextStyle(fontSize: 10),
                                           ),
                                         ),
                                       ),
@@ -992,34 +879,9 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                       child: SizedBox(
                                         height: 20,
                                         child: Center(
-                                          child: TextFormField(
-                                            textAlign: TextAlign.center,
-                                            initialValue: item.Mat_SAP_Lot3,
-                                            keyboardType:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: true),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                RegExp(r'^[a-zA-Z0-9.]*$'),
-                                              ),
-                                            ],
-                                            decoration: InputDecoration(
-                                              border: InputBorder.none,
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 0),
-                                              isDense: true,
-                                            ),
-                                            style: TextStyle(fontSize: 14),
-                                            textAlignVertical:
-                                                TextAlignVertical.center,
-                                            onChanged: (value) {
-                                              item.Mat_SAP_Lot3 = value;
-                                              item.isEdit = 'true';
-                                            },
+                                          child: Text(
+                                            item.Mat_SAP_Lot3,
+                                            style: TextStyle(fontSize: 10),
                                           ),
                                         ),
                                       ),
@@ -1027,8 +889,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 ],
                               ),
                             ),
-                            if (_datasearch[0].Order_Status != 'SAP' &&
-                                _datasearch[0].Order_Status != 'UNSUGGEST')
+                            if (_datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST')
                               TableCell(
                                 child: Column(
                                   children: [
@@ -1049,9 +910,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                           border: InputBorder.none,
                                           filled: true,
                                           fillColor: Colors.white,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 8),
-                                          isDense: true,
                                         ),
                                         style: TextStyle(fontSize: 14),
                                         onChanged: (value) {
@@ -1085,10 +943,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                             border: InputBorder.none,
                                             filled: true,
                                             fillColor: Colors.white,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 8),
-                                            isDense: true,
                                           ),
                                           style: TextStyle(fontSize: 14),
                                           onChanged: (value) {
@@ -1133,8 +987,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 ),
                               ),
                             ),
-                            if (_datasearch[0].Order_Status != 'SAP' &&
-                                _datasearch[0].Order_Status != 'UNSUGGEST')
+                            if (_datasearch[0].Order_Status != 'SAP'&& _datasearch[0].Order_Status != 'UNSUGGEST')
                               TableCell(
                                 child: SizedBox(
                                   height: 60,
@@ -1145,9 +998,6 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                         border: InputBorder.none,
                                         filled: true,
                                         fillColor: Colors.white,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 8),
-                                        isDense: true,
                                       ),
                                       style: TextStyle(fontSize: 14),
                                       maxLines: null,
@@ -1172,9 +1022,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                   ),
                 ],
               ),
-            if (_datasearch.isNotEmpty &&
-                (_datasearch[0].Order_Status == 'SAP' ||
-                    _datasearch[0].Order_Status == 'UNSUGGEST'))
+            if (_datasearch.isNotEmpty && (_datasearch[0].Order_Status == 'SAP' ||  _datasearch[0].Order_Status == 'UNSUGGEST'))
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
@@ -1256,9 +1104,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                   ),
                 ),
               ),
-            if (_datasearch.isNotEmpty &&
-                _datasearch[0].Order_Status != 'SAP' &&
-                _datasearch[0].Order_Status != 'UNSUGGEST')
+            if (_datasearch.isNotEmpty && _datasearch[0].Order_Status != 'SAP' && _datasearch[0].Order_Status != 'UNSUGGEST')
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

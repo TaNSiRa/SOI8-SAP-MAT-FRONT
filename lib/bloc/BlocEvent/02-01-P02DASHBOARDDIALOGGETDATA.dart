@@ -54,7 +54,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     //-------------------------------------------------------------------------------------
     try {
       Response response;
-      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
+      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP' || P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'UNSUGGEST') {
         response = await Dio().post(
           "$APIArsa/soi8/compareSCADA",
           data: {
@@ -181,7 +181,7 @@ class P02DASHBOARDDIALOGGETDATA_Bloc extends Bloc<
     List<P02DASHBOARDDIALOGGETDATAclass> output = [];
     try {
       Response response;
-      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP') {
+      if (P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'SAP' || P01DASHBOARDVAR.OrderStatusForSwitchAPI == 'UNSUGGEST') {
         response = await Dio().post(
           "$APIArsa/soi8/createOrder",
           data: {

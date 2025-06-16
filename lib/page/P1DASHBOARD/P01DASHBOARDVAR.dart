@@ -16,5 +16,6 @@ class P01DASHBOARDVAR {
   static bool isChecked6 = true;
   static bool isChecked7 = true;
   static bool isChecked8 = true;
+  static bool isChecked9 = false;
   static bool isCheckedALL = true;
 }

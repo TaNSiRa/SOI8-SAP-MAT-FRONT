@@ -13,6 +13,7 @@ class ChangePage_Bloc extends Cubit<Widget> {
 
   Future<void> ChangePage_nodrower(String name, Widget CuPagein) async {
     // String output = input;
+    print(CuPagein);
     if (USERDATA.UserLV >= CuPageLV) {
       print(name);
       selectpage = name;
@@ -27,6 +28,7 @@ class ChangePage_Bloc extends Cubit<Widget> {
 
   Future<void> ChangePage(String name, Widget CuPagein) async {
     // String output = input;
+    print(CuPagein);
     if (USERDATA.UserLV >= CuPageLV) {
       print(name);
       selectpage = name;

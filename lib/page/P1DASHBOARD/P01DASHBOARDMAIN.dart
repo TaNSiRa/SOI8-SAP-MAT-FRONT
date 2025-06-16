@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/BlocEvent/01-01-P01DASHBOARDGETDATA.dart';
@@ -32,6 +33,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
     context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
     P01DASHBOARDVAR.iscontrol = true;
     P01DASHBOARDVAR.SEARCH = '';
+    print(widget.data);
   }
 
   @override
@@ -67,6 +69,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
       }
       if (P01DASHBOARDVAR.isChecked8) {
         matchesCondition = matchesCondition || data.Order_Status == 'COMPLETE';
+      }
+      if (P01DASHBOARDVAR.isChecked9) {
+        matchesCondition = matchesCondition || data.Order_Status == 'UNSUGGEST';
       }
       // print(matchesCondition);
       return matchesCondition;
@@ -360,701 +365,808 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked1 =
-                                                  !P01DASHBOARDVAR.isChecked1;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.yellow.shade700,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked1,
-                                                    activeColor:
-                                                        Colors.yellow.shade700,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked1 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "SAP",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    //physics: ,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked1 =
+                                                    !P01DASHBOARDVAR.isChecked1;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color:
                                                         Colors.yellow.shade700,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked1,
+                                                      activeColor: Colors
+                                                          .yellow.shade700,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked1 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "SAP",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors
+                                                          .yellow.shade700,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked2 =
-                                                  !P01DASHBOARDVAR.isChecked2;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.blueAccent,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked2,
-                                                    activeColor:
-                                                        Colors.blueAccent,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked2 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "GEN SEP",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked2 =
+                                                    !P01DASHBOARDVAR.isChecked2;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.blueAccent,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked2,
+                                                      activeColor:
+                                                          Colors.blueAccent,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked2 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "GEN SEP",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blueAccent,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked3 =
-                                                  !P01DASHBOARDVAR.isChecked3;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.blueAccent,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked3,
-                                                    activeColor:
-                                                        Colors.blueAccent,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked3 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "SEP",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked3 =
+                                                    !P01DASHBOARDVAR.isChecked3;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.blueAccent,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked3,
+                                                      activeColor:
+                                                          Colors.blueAccent,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked3 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "SEP",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blueAccent,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked4 =
-                                                  !P01DASHBOARDVAR.isChecked4;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.blueAccent,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked4,
-                                                    activeColor:
-                                                        Colors.blueAccent,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked4 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "FULL",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked4 =
+                                                    !P01DASHBOARDVAR.isChecked4;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.blueAccent,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked4,
+                                                      activeColor:
+                                                          Colors.blueAccent,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked4 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "FULL",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blueAccent,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked5 =
-                                                  !P01DASHBOARDVAR.isChecked5;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.blueAccent,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked5,
-                                                    activeColor:
-                                                        Colors.blueAccent,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked5 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "SEP/FULL",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked5 =
+                                                    !P01DASHBOARDVAR.isChecked5;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.blueAccent,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked5,
+                                                      activeColor:
+                                                          Colors.blueAccent,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked5 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "SEP/FULL",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blueAccent,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked6 =
-                                                  !P01DASHBOARDVAR.isChecked6;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.orange,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked6,
-                                                    activeColor: Colors.orange,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked6 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "RECHECK",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked6 =
+                                                    !P01DASHBOARDVAR.isChecked6;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.orange,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked6,
+                                                      activeColor:
+                                                          Colors.orange,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked6 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "RECHECK",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.orange,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked7 =
-                                                  !P01DASHBOARDVAR.isChecked7;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.orange,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked7,
-                                                    activeColor: Colors.orange,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked7 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "TITRATING",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked7 =
+                                                    !P01DASHBOARDVAR.isChecked7;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.orange,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked7,
+                                                      activeColor:
+                                                          Colors.orange,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked7 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "TITRATING",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.orange,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isChecked8 =
-                                                  !P01DASHBOARDVAR.isChecked8;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.green,
-                                                  width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isChecked8,
-                                                    activeColor: Colors.green,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                    ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isChecked8 =
-                                                            value ?? false;
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "COMPLETE",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked8 =
+                                                    !P01DASHBOARDVAR.isChecked8;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                     color: Colors.green,
-                                                    letterSpacing: 1.2,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              P01DASHBOARDVAR.isCheckedALL =
-                                                  !P01DASHBOARDVAR.isCheckedALL;
-
-                                              P01DASHBOARDVAR.isChecked1 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked2 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked3 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked4 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked5 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked6 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked7 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                              P01DASHBOARDVAR.isChecked8 =
-                                                  P01DASHBOARDVAR.isCheckedALL;
-                                            });
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                  color: Colors.red, width: 2),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.3),
-                                                  spreadRadius: 2,
-                                                  blurRadius: 5,
-                                                  offset: Offset(0, 3),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: P01DASHBOARDVAR
-                                                        .isCheckedALL,
-                                                    activeColor: Colors.red,
-                                                    checkColor: Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked8,
+                                                      activeColor: Colors.green,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked8 =
+                                                              value ?? false;
+                                                        });
+                                                      },
                                                     ),
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        P01DASHBOARDVAR
-                                                                .isCheckedALL =
-                                                            value ?? false;
-
-                                                        P01DASHBOARDVAR
-                                                                .isChecked1 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked2 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked3 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked4 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked5 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked6 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked7 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                        P01DASHBOARDVAR
-                                                                .isChecked8 =
-                                                            P01DASHBOARDVAR
-                                                                .isCheckedALL;
-                                                      });
-                                                    },
                                                   ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "ALL",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red,
-                                                    letterSpacing: 1.2,
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "COMPLETE",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.green,
+                                                      letterSpacing: 1.2,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        //
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isChecked9 =
+                                                    !P01DASHBOARDVAR.isChecked9;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: Colors.orange,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isChecked9,
+                                                      activeColor: Colors.orange,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked9 =
+                                                              value ?? false;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "UNSUGGESTED",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.orange,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                P01DASHBOARDVAR.isCheckedALL =
+                                                    !P01DASHBOARDVAR
+                                                        .isCheckedALL;
+
+                                                P01DASHBOARDVAR.isChecked1 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked2 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked3 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked4 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked5 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked6 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked7 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked8 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                                P01DASHBOARDVAR.isChecked9 =
+                                                    P01DASHBOARDVAR
+                                                        .isCheckedALL;
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: Colors.red,
+                                                    width: 2),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
+                                                    spreadRadius: 2,
+                                                    blurRadius: 5,
+                                                    offset: Offset(0, 3),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                      value: P01DASHBOARDVAR
+                                                          .isCheckedALL,
+                                                      activeColor: Colors.red,
+                                                      checkColor: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          P01DASHBOARDVAR
+                                                                  .isCheckedALL =
+                                                              value ?? false;
+
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked1 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked2 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked3 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked4 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked5 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked6 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked7 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked8 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                          P01DASHBOARDVAR
+                                                                  .isChecked9 =
+                                                              P01DASHBOARDVAR
+                                                                  .isCheckedALL;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "ALL",
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.red,
+                                                      letterSpacing: 1.2,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               )
@@ -1519,6 +1631,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
 Color _getStatusColor(String status) {
   switch (status) {
     case 'SAP':
+    case 'UNSUGGEST':
       return Colors.yellow.shade700;
     case 'GEN SEP':
     case 'SEP':

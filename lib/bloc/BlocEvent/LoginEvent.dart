@@ -1,12 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import '../../data/global.dart';
-
 import '../../data/global.dart';
 import '../../mainBody.dart';
 import '../cubit/NotificationEvent.dart';

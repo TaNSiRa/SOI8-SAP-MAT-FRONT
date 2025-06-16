@@ -109,7 +109,7 @@ class MainBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MainBodyContext = context;
-
+    print(page);
     return Scaffold(
         appBar: AppBar(
           shadowColor: Colors.transparent,

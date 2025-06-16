@@ -2,6 +2,8 @@
 // import 'package:flutter/services.dart';
 //---------------------------------------------
 
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,6 +61,7 @@ class MainContext extends MyApp {
     return BlocBuilder<BlocPageRebuild, bool>(
       builder: (_, e) {
         return MaterialApp(
+          scrollBehavior: MyCustomScrollBehavior(),
           title: 'SAP-SCADA',
           theme: ThemeData(
             primarySwatch: Colors.blue,
@@ -86,4 +89,14 @@ class MainContext extends MyApp {
       },
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        // etc.
+      };
 }
