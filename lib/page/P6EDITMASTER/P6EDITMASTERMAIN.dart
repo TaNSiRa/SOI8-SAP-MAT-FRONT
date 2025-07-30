@@ -796,7 +796,16 @@ class _P6EDITMASTERMAINState extends State<P6EDITMASTERMAIN>
                               labelText: 'Station Sep',
                               border: OutlineInputBorder(),
                             ),
-                            items: ['LQ', 'PD', 'NR']
+                            items: [
+                              'LQ',
+                              'PD',
+                              'NR',
+                              'RP',
+                              'Coil',
+                              'KNG',
+                              '',
+                              'KG',
+                            ]
                                 .map((station) => DropdownMenuItem(
                                       value: station,
                                       child: Text(station),
