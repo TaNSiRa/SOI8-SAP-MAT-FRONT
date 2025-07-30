@@ -47,6 +47,7 @@ class ComInputTextTan extends StatefulWidget {
     this.sLabelCO,
     this.sLabelFS,
     required this.returnfunc,
+    this.onSubmitted,
     this.maxline,
     this.keyboardtype,
   }) : super(key: key);
@@ -71,6 +72,7 @@ class ComInputTextTan extends StatefulWidget {
   final bool? isEnabled;
   final Function? fnContr;
   Function returnfunc;
+  Function? onSubmitted;
 
   final bool? isSideIcon;
   final bool? isContr;
@@ -267,6 +269,9 @@ class _ComInputTextTanState extends State<ComInputTextTan> {
           controller: _controller,
           onChanged: (s) {
             widget.returnfunc(s);
+          },
+          onFieldSubmitted: (s) {
+            widget.onSubmitted!(s);
           },
           focusNode: _focusNode,
           cursorColor: Colors.blue.shade900,

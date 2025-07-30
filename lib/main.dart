@@ -22,7 +22,6 @@ Map<String, String>? initialQueryParameters;
 String hashs = '';
 Future<void> main() async {
   hashs = html.window.location.toString();
-  print("1111");
   print(hashs);
   // WidgetsFlutterBinding.ensureInitialized();
   // ByteData data = await PlatformAssetBundle().load('assets/ca/mindmillo.pem');

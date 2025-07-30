@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import '../../data/global.dart';
 import '../../mainBody.dart';
 import '../../page/P1DASHBOARD/P01DASHBOARDMAIN.dart';
@@ -53,9 +54,9 @@ class P01DASHBOARDGETDATA_Bloc
         "$APIArsa/soi8/fetchOrder",
         data: {
           'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
+            'Id': USERDATA.ID,
+            'Name': USERDATA.NAME,
+          },
         },
         options: Options(
           validateStatus: (status) {
@@ -83,13 +84,12 @@ class P01DASHBOARDGETDATA_Bloc
       var input = [];
       if (response.statusCode == 200) {
         print(response.statusCode);
-        //lprint(response.data);
         var databuff = response.data;
         input = databuff;
 
         List<P01DASHBOARDGETDATAclass> outputdata = input.map((dataActual) {
           return P01DASHBOARDGETDATAclass(
-             ID: savenull(dataActual['ID']),
+            ID: savenull(dataActual['ID']),
             MainOrder: savenull(dataActual['MainOrder']),
             OrderNo: savenull(dataActual['OrderNo']),
             Order_Start_DT: savenull(dataActual['Order_Start_DT']),
@@ -136,7 +136,8 @@ class P01DASHBOARDGETDATA_Bloc
             Recheck_User: savenull(dataActual['Recheck_User']),
             Recheck_Status: savenull(dataActual['Recheck_Status']),
             Recheck_Time: savenull(dataActual['Recheck_Time']),
-            isEdit: savenull(dataActual['isEdit']),
+            Order_Picking_DT: formatDate(dataActual['Order_Picking_DT']),
+            isSelected: false,
           );
         }).toList();
         Navigator.pop(P01DASHBOARDMAINcontext);
@@ -170,9 +171,9 @@ class P01DASHBOARDGETDATA_Bloc
         data: {
           'plantSelect': P01DASHBOARDVAR.DropDownPlant,
           'userData': {
-              'Id': USERDATA.ID,
-              'Name': USERDATA.NAME,
-            },
+            'Id': USERDATA.ID,
+            'Name': USERDATA.NAME,
+          },
         },
         options: Options(
           validateStatus: (status) {
@@ -240,7 +241,51 @@ class P01DASHBOARDGETDATA_Bloc
   Future<void> _P01DASHBOARDGETDATA_FLUSH(List<P01DASHBOARDGETDATAclass> toAdd,
       Emitter<List<P01DASHBOARDGETDATAclass>> emit) async {
     List<P01DASHBOARDGETDATAclass> output = [];
-    emit(output);
+    emit(state.toList());
+  }
+}
+
+Future<void> addPickingDate(
+    DateTime date, List<P01DASHBOARDGETDATAclass> input) async {
+  FreeLoadingTan(P01DASHBOARDMAINcontext);
+  String formattedDate = date.toIso8601String().split('T')[0];
+  
+  List<Map<String, dynamic>> output = input.where((data) {
+    if (data.isSelected) {
+      return true;
+    } else {
+      return false;
+    }
+  }).map((data) {
+    return {'OrderNo': data.OrderNo};
+  }).toList();
+
+  try {
+    final response = await Dio().post(
+      "$APIArsa/soi8/addPickingDate",
+      data: {
+        'OrderNo': output,
+        'date': formattedDate,
+      },
+      options: Options(
+        validateStatus: (status) {
+          return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      String input = response.data;
+      print(response.statusCode);
+      Navigator.pop(P01DASHBOARDMAINcontext);
+    } else {
+      print("where is my server");
+      Navigator.pop(P01DASHBOARDMAINcontext);
+      showErrorPopup(P01DASHBOARDMAINcontext, response.toString());
+    }
+  } catch (e) {
+    print(e);
+    Navigator.pop(P01DASHBOARDMAINcontext);
+    showErrorPopup(P01DASHBOARDMAINcontext, e.toString());
   }
 }
 
@@ -294,7 +339,8 @@ class P01DASHBOARDGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
-    this.isEdit = '',
+    this.Order_Picking_DT = '',
+    this.isSelected = false,
   });
 
   String ID;
@@ -342,7 +388,8 @@ class P01DASHBOARDGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
-  String isEdit;
+  String Order_Picking_DT;
+  bool isSelected;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,
@@ -390,15 +437,31 @@ class P01DASHBOARDGETDATAclass {
       'Recheck_User': Recheck_User,
       'Recheck_Status': Recheck_Status,
       'Recheck_Time': Recheck_Time,
-      'isEdit': isEdit
+      'Order_Picking_DT': Order_Picking_DT,
+      'isSelected': isSelected
     };
   }
 }
 
-String  savenull(input) {
+String savenull(input) {
   String output = '-';
   if (input != null) {
     output = input.toString();
   }
   return output;
+}
+
+String formatDate(String? date) {
+  if (date == null || date.isEmpty) return '';
+  try {
+    // Parse the ISO string to DateTime
+    DateTime dateTime = DateTime.parse(date);
+    // Create formatter for DD.MM.YYYY format
+    DateFormat formatter = DateFormat('dd.MM.yyyy');
+    // Format the date
+    String formattedDate = formatter.format(dateTime);
+    return formattedDate;
+  } catch (e) {
+    return '';
+  }
 }

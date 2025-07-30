@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newmaster/data/global.dart';
+import 'package:newmaster/page/page4.dart';
 
 import '../../bloc/BlocEvent/LoginEvent.dart';
 import '../../mainBody.dart';
 import '../../page/page1.dart';
-import '../../page/page2.dart';
-import '../../page/page3.dart';
-import '../../page/page4.dart';
-import '../../page/page5.dart';
-import '../../page/page6.dart';
+// import '../../page/page2.dart';
+// import '../../page/page3.dart';
+// import '../../page/page4.dart';
+import '../../page/page5_PickingList.dart';
+import '../../page/page6_EditMaster.dart';
 import 'sub_widget.dart';
 
 late BuildContext MenuContext;
@@ -31,7 +33,7 @@ class _MainMenuState extends State<MainMenu> {
       width: 200,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20.0),
           bottomRight: Radius.circular(20.0),
         ),
@@ -83,42 +85,27 @@ class Data_Menu_mainmenu extends StatelessWidget {
                     ),
                   ),
                 ))),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         menu_normal(
           name: "DASHBOARD TABLE",
-          page: Page1(),
+          page: const Page1(),
           Lv: 1,
         ),
-        // menu_normal(
-        //   name: "ORDER HISTORY",
-        //   page: Page4(),
-        //   Lv: 1,
-        // ),
-        // menu_normal(
-        //   name: "PRINTBARCODE",
-        //   page: Page3(),
-        //   Lv: 1,
-        // ),
-        // menu_normal(
-        //   name: "Report Over KPI",
-        //   page: Page2(),
-        //   Lv: 1,
-        // ),
-        // menu_normal(
-        //   name: "Achieved Customer",
-        //   page: Page3(),
-        //   Lv: 1,
-        // ),
-        // menu_normal(
-        //   name: "Sample time",
-        //   page: Page4(),
-        //   Lv: 1,
-        // ),
-        // menu_normal(
-        //   name: "Export 3 graph",
-        //   page: Page7(),
-        //   Lv: 1,
-        // ),
+        menu_normal(
+          name: "PICKING LIST",
+          page: const Page5(),
+          Lv: 1,
+        ),
+        menu_normal(
+          name: "ORDER HISTORY",
+          page: const Page4(),
+          Lv: 1,
+        ),
+        if(USERDATA.UserLV > 5) menu_normal(
+          name: "EDIT MASTER",
+          page: const Page6(),
+          Lv: 1,
+        ),
         menu_logout(
           name: "Logout",
         ),
@@ -132,7 +119,7 @@ class Data_Menu_mainmenu extends StatelessWidget {
 }
 
 class Logomenu extends StatelessWidget {
-  const Logomenu({Key? key}) : super(key: key);
+  const Logomenu({super.key});
 
   @override
   Widget build(BuildContext context) {

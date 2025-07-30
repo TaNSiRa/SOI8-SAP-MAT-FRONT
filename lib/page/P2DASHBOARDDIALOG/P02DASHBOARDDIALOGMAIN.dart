@@ -83,7 +83,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -273,7 +273,26 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                 child: SizedBox(
                                   height: 30,
                                   child: Center(
-                                    child: Text(_datasearch[0].Tank),
+                                    child: TextFormField(
+                                      textAlign: TextAlign.center,
+                                      initialValue: _datasearch[0].Tank,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 8),
+                                        isDense: true,
+                                      ),
+                                      style: TextStyle(fontSize: 14),
+                                      onChanged: (value) {
+                                        for (var i = 0;
+                                            i < _datasearch.length;
+                                            i++) {
+                                          _datasearch[i].Tank = value;
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -737,33 +756,31 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                     height: 30,
                                     child: Center(
                                       child: TextFormField(
-                                          textAlign: TextAlign.center,
-                                          initialValue:
-                                              (item.Mat_Full_SP != null)
-                                                  ? item.Mat_Full_SP
-                                                  : '',
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  decimal: true),
-                                          inputFormatters: [
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'^\d*\.?\d*$')),
-                                          ],
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 8),
-                                            isDense: true,
-                                          ),
-                                          style: TextStyle(fontSize: 14),
-                                          onChanged: (value) {
-                                            item.Mat_Full_SP = value;
-                                            item.isEdit = 'true';
-                                          },
+                                        textAlign: TextAlign.center,
+                                        initialValue: (item.Mat_Full_SP != null)
+                                            ? item.Mat_Full_SP
+                                            : '',
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: true),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d*\.?\d*$')),
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 8),
+                                          isDense: true,
                                         ),
+                                        style: TextStyle(fontSize: 14),
+                                        onChanged: (value) {
+                                          item.Mat_Full_SP = value;
+                                          item.isEdit = 'true';
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Container(
@@ -803,7 +820,7 @@ class _P02DASHBOARDDIALOGMAINState extends State<P02DASHBOARDDIALOGMAIN> {
                                             item.Mat_Sep_SP = value;
                                             item.isEdit = 'true';
                                           },
-                                        ), 
+                                        ),
                                       ),
                                     ),
                                   ),

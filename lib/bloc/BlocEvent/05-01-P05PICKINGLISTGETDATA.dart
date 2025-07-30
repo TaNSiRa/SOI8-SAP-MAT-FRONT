@@ -7,60 +7,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../data/global.dart';
-import '../../page/P4ORDERHISTORY/P4ORDERHISTORYMAIN.dart';
-import '../../page/P4ORDERHISTORY/P4ORDERHISTORYVAR.dart';
+import '../../mainBody.dart';
+import '../../page/P5PICKINGLIST/P05PICKINGLISTMAIN.dart';
+import '../../page/P5PICKINGLIST/P05PICKINGLISTVAR.dart';
 import '../../widget/common/ErrorPopup.dart';
 import '../../widget/common/Loading.dart';
 import '../../widget/common/ShowPDF.dart';
 
 //-------------------------------------------------
 
-abstract class P4ORDERHISTORYGETDATA_Event {}
+abstract class P05PICKINGLISTGETDATA_Event {}
 
-class P4ORDERHISTORYGETDATA_GET extends P4ORDERHISTORYGETDATA_Event {}
+class P05PICKINGLISTGETDATA_GET extends P05PICKINGLISTGETDATA_Event {}
 
-class P4ORDERHISTORYGETDATA_GET2 extends P4ORDERHISTORYGETDATA_Event {}
+class P05PICKINGLISTGETDATA_GET2 extends P05PICKINGLISTGETDATA_Event {}
 
-class P4ORDERHISTORYGETDATA_GET3 extends P4ORDERHISTORYGETDATA_Event {}
+class P05PICKINGLISTGETDATA_GET3 extends P05PICKINGLISTGETDATA_Event {}
 
-class P4ORDERHISTORYGETDATA_FLUSH extends P4ORDERHISTORYGETDATA_Event {}
+class P05PICKINGLISTGETDATA_FLUSH extends P05PICKINGLISTGETDATA_Event {}
 
-class P4ORDERHISTORYGETDATA_Bloc extends Bloc<P4ORDERHISTORYGETDATA_Event,
-    List<P4ORDERHISTORYGETDATAclass>> {
-  P4ORDERHISTORYGETDATA_Bloc() : super([]) {
-    on<P4ORDERHISTORYGETDATA_GET>((event, emit) {
-      return _P4ORDERHISTORYGETDATA_GET([], emit);
+class P05PICKINGLISTGETDATA_Bloc
+    extends Bloc<P05PICKINGLISTGETDATA_Event, List<P05PICKINGLISTGETDATAclass>> {
+  P05PICKINGLISTGETDATA_Bloc() : super([]) {
+    on<P05PICKINGLISTGETDATA_GET>((event, emit) {
+      return _P05PICKINGLISTGETDATA_GET([], emit);
     });
 
-    on<P4ORDERHISTORYGETDATA_GET2>((event, emit) {
-      return _P4ORDERHISTORYGETDATA_GET2([], emit);
+    on<P05PICKINGLISTGETDATA_GET2>((event, emit) {
+      return _P05PICKINGLISTGETDATA_GET2([], emit);
     });
-    on<P4ORDERHISTORYGETDATA_GET3>((event, emit) {
-      return _P4ORDERHISTORYGETDATA_GET3([], emit);
+    on<P05PICKINGLISTGETDATA_GET3>((event, emit) {
+      return _P05PICKINGLISTGETDATA_GET3([], emit);
     });
-    on<P4ORDERHISTORYGETDATA_FLUSH>((event, emit) {
-      return _P4ORDERHISTORYGETDATA_FLUSH([], emit);
+    on<P05PICKINGLISTGETDATA_FLUSH>((event, emit) {
+      return _P05PICKINGLISTGETDATA_FLUSH([], emit);
     });
   }
 
-  Future<void> _P4ORDERHISTORYGETDATA_GET(
-      List<P4ORDERHISTORYGETDATAclass> toAdd,
-      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
-    FreeLoadingTan(P4ORDERHISTORYMAINcontext);
-    List<P4ORDERHISTORYGETDATAclass> output = [];
+  Future<void> _P05PICKINGLISTGETDATA_GET(List<P05PICKINGLISTGETDATAclass> toAdd,
+      Emitter<List<P05PICKINGLISTGETDATAclass>> emit) async {
+    FreeLoadingTan(P05PICKINGLISTMAINcontext);
+    List<P05PICKINGLISTGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     try {
       final response = await Dio().post(
-        "$APIArsa/soi8/OrderHistory/fetchOrder",
+        "$APIArsa/soi8/picking/fetchOrder",
         data: {
           'userData': {
             'Id': USERDATA.ID,
             'Name': USERDATA.NAME,
           },
-          'OrderNo': P4ORDERHISTORYVAR.OrderNo,
-          'search': P4ORDERHISTORYVAR.SEARCH,
-          'searchDateSTA': P4ORDERHISTORYVAR.searchDateSTA,
-          'searchDateEND': P4ORDERHISTORYVAR.searchDateEND,
         },
         options: Options(
           validateStatus: (status) {
@@ -71,16 +67,16 @@ class P4ORDERHISTORYGETDATA_Bloc extends Bloc<P4ORDERHISTORYGETDATA_Event,
 
       var input = [];
       if (response.statusCode == 200) {
+        print(response.statusCode);
         var databuff = response.data;
         input = databuff;
-
-        List<P4ORDERHISTORYGETDATAclass> outputdata = input.map((dataActual) {
-          return P4ORDERHISTORYGETDATAclass(
+        List<P05PICKINGLISTGETDATAclass> outputdata = input.map((dataActual) {
+          return P05PICKINGLISTGETDATAclass(
             ID: savenull(dataActual['ID']),
             MainOrder: savenull(dataActual['MainOrder']),
             OrderNo: savenull(dataActual['OrderNo']),
-            Order_Start_DT: savenull(dataActual['Order_Start_DT']),
-            Order_Finish_DT: savenull(dataActual['Order_Finish_DT']),
+            Order_Start_DT: formatDate(dataActual['Order_Start_DT']),
+            Order_Finish_DT: formatDate(dataActual['Order_Finish_DT']),
             Order_Status: savenull(dataActual['Order_Status']),
             CP: savenull(dataActual['CP']),
             ProductName: savenull(dataActual['ProductName']),
@@ -109,12 +105,11 @@ class P4ORDERHISTORYGETDATA_Bloc extends Bloc<P4ORDERHISTORYGETDATA_Event,
             Mat_Sep_UOM: savenull(dataActual['Mat_Sep_UOM']),
             Mat_Full_Act_Lot: savenull(dataActual['Mat_Full_Act_Lot']),
             Mat_Full_Act_Weight: savenull(dataActual['Mat_Full_Act_Weight']),
-            Mat_Full_Act_Tare_Weight:
+            Mat_Full_Act_Tare_Weight :
                 savenull(dataActual['Mat_Full_Act_Tare_Weight']),
-            Mat_Sep_Act_Lot: savenull(dataActual['Mat_Sep_Act_Lot']),
-            Mat_Sep_Act_Weight: savenull(dataActual['Mat_Sep_Act_Weight']),
-            Mat_Sep_Act_Tare_Weight:
-                savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
+            Mat_Sep_Act_Lot : savenull(dataActual['Mat_Sep_Act_Lot']),
+            Mat_Sep_Act_Weight : savenull(dataActual['Mat_Sep_Act_Weight']),
+            Mat_Sep_Act_Tare_Weight : savenull(dataActual['Mat_Sep_Act_Tare_Weight']),
             User_Compare: savenull(dataActual['User_Compare']),
             Time_Compare: savenull(dataActual['Time_Compare']),
             Mat_Sep_Tag: savenull(dataActual['Mat_Sep_Tag']),
@@ -123,40 +118,41 @@ class P4ORDERHISTORYGETDATA_Bloc extends Bloc<P4ORDERHISTORYGETDATA_Event,
             Recheck_User: savenull(dataActual['Recheck_User']),
             Recheck_Status: savenull(dataActual['Recheck_Status']),
             Recheck_Time: savenull(dataActual['Recheck_Time']),
-            isEdit: savenull(dataActual['isEdit']),
-            Complete_Time: savenull(dataActual['Complete_Time']),
+            Order_Picking_DT: formatDate(dataActual['Order_Picking_DT']),
+            isSelected: false,
           );
         }).toList();
-        Navigator.pop(P4ORDERHISTORYMAINcontext);
+        Navigator.pop(P05PICKINGLISTMAINcontext);
+
         output = outputdata;
         emit(output);
       } else {
         print("where is my server");
-        Navigator.pop(P4ORDERHISTORYMAINcontext);
-        showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
+        Navigator.pop(P05PICKINGLISTMAINcontext);
+        showErrorPopup(P05PICKINGLISTMAINcontext, response.toString());
         output = [];
         emit(output);
       }
     } catch (e) {
       print(e);
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
+      Navigator.pop(P05PICKINGLISTMAINcontext);
+      showErrorPopup(P05PICKINGLISTMAINcontext, e.toString());
       output = [];
       emit(output);
     }
   }
 
-  Future<void> _P4ORDERHISTORYGETDATA_GET2(
-      List<P4ORDERHISTORYGETDATAclass> toAdd,
-      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
-    FreeLoadingTan(P4ORDERHISTORYMAINcontext);
-    // List<P4ORDERHISTORYGETDATAclass> output = [];
+  Future<void> _P05PICKINGLISTGETDATA_GET2(List<P05PICKINGLISTGETDATAclass> toAdd,
+      Emitter<List<P05PICKINGLISTGETDATAclass>> emit) async {
+    FreeLoadingTan(P05PICKINGLISTMAINcontext);
+    // List<P05PICKINGLISTGETDATAclass> output = [];
     //-------------------------------------------------------------------------------------
     try {
+      print('/soi8/picking/summaryPickingList');
       final response = await Dio().post(
-        "$APIArsa/soi8/printPickingList",
+        "$APIArsa/soi8/picking/summaryPickingList",
         data: {
-          'plantSelect': P4ORDERHISTORYVAR.DropDownPlant,
+          'plantSelect': P05PICKINGLISTVAR.DropDownPlant,
           'userData': {
             'Id': USERDATA.ID,
             'Name': USERDATA.NAME,
@@ -171,42 +167,87 @@ class P4ORDERHISTORYGETDATA_Bloc extends Bloc<P4ORDERHISTORYGETDATA_Event,
       if (response.statusCode == 200) {
         String input = response.data;
         print(response.statusCode);
-        Navigator.pop(P4ORDERHISTORYMAINcontext);
-        showPDF(input, P4ORDERHISTORYMAINcontext);
+        Navigator.pop(P05PICKINGLISTMAINcontext);
+        showPDF(input, P05PICKINGLISTMAINcontext);
 
         // output = [];
         // emit(output);
       } else {
         print("where is my server");
-        Navigator.pop(P4ORDERHISTORYMAINcontext);
-        showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
+        Navigator.pop(P05PICKINGLISTMAINcontext);
+        showErrorPopup(P05PICKINGLISTMAINcontext, response.toString());
         // output = [];
         // emit(output);
       }
     } catch (e) {
       print(e);
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
+      Navigator.pop(P05PICKINGLISTMAINcontext);
+      showErrorPopup(P05PICKINGLISTMAINcontext, e.toString());
       // output = [];
       // emit(output);
     }
   }
 
-  Future<void> _P4ORDERHISTORYGETDATA_GET3(
-      List<P4ORDERHISTORYGETDATAclass> toAdd,
-      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {}
+  Future<void> _P05PICKINGLISTGETDATA_GET3(List<P05PICKINGLISTGETDATAclass> toAdd,
+      Emitter<List<P05PICKINGLISTGETDATAclass>> emit) async {
+  }
 
-  Future<void> _P4ORDERHISTORYGETDATA_FLUSH(
-      List<P4ORDERHISTORYGETDATAclass> toAdd,
-      Emitter<List<P4ORDERHISTORYGETDATAclass>> emit) async {
-    List<P4ORDERHISTORYGETDATAclass> output = [];
-    emit(output);
+  Future<void> _P05PICKINGLISTGETDATA_FLUSH(List<P05PICKINGLISTGETDATAclass> toAdd,
+      Emitter<List<P05PICKINGLISTGETDATAclass>> emit) async {
+    List<P05PICKINGLISTGETDATAclass> output = [];
+    emit(state.toList());
   }
 }
 
+Future<void> addPickingDate(
+    DateTime date, List<P05PICKINGLISTGETDATAclass> input) async {
+  FreeLoadingTan(P05PICKINGLISTMAINcontext);
+  String formattedDate = date.toIso8601String().split('T')[0];
+  
+  List<Map<String, dynamic>> output = input.where((data) {
+    if (data.isSelected) {
+      return true;
+    } else {
+      return false;
+    }
+  }).map((data) {
+    return {'OrderNo': data.OrderNo};
+  }).toList();
 
-class P4ORDERHISTORYGETDATAclass {
-  P4ORDERHISTORYGETDATAclass({
+  try {
+    final response = await Dio().post(
+      "$APIArsa/soi8/addPickingDate",
+      data: {
+        'OrderNo': output,
+        'date': formattedDate,
+      },
+      options: Options(
+        validateStatus: (status) {
+          return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      String input = response.data;
+      print(response.statusCode);
+      Navigator.pop(P05PICKINGLISTMAINcontext);
+    } else {
+      print("where is my server");
+      Navigator.pop(P05PICKINGLISTMAINcontext);
+      showErrorPopup(P05PICKINGLISTMAINcontext, response.toString());
+    }
+  } catch (e) {
+    print(e);
+    Navigator.pop(P05PICKINGLISTMAINcontext);
+    showErrorPopup(P05PICKINGLISTMAINcontext, e.toString());
+  }
+}
+
+String modelFullRequestDataToJson(List<P05PICKINGLISTGETDATAclass> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class P05PICKINGLISTGETDATAclass {
+  P05PICKINGLISTGETDATAclass({
     this.ID = '',
     this.MainOrder = '',
     this.OrderNo = '',
@@ -252,8 +293,8 @@ class P4ORDERHISTORYGETDATAclass {
     this.Recheck_User = '',
     this.Recheck_Status = '',
     this.Recheck_Time = '',
-    this.isEdit = '',
-    this.Complete_Time = '',
+    this.Order_Picking_DT = '',
+    this.isSelected = false,
   });
 
   String ID;
@@ -301,8 +342,8 @@ class P4ORDERHISTORYGETDATAclass {
   String Recheck_User;
   String Recheck_Status;
   String Recheck_Time;
-  String isEdit;
-  String Complete_Time;
+  String Order_Picking_DT;
+  bool isSelected;
   Map<String, dynamic> toJson() {
     return {
       'ID': ID,
@@ -350,84 +391,9 @@ class P4ORDERHISTORYGETDATAclass {
       'Recheck_User': Recheck_User,
       'Recheck_Status': Recheck_Status,
       'Recheck_Time': Recheck_Time,
-      'isEdit': isEdit,
-      'Complete_Time': Complete_Time
+      'Order_Picking_DT': Order_Picking_DT,
+      'isSelected': isSelected
     };
-  }
-}
-
-Future SearchDataOrderHistory(String OrderNo) async {
-  print('SearchDataOrderHistory');
-  FreeLoadingTan(P4ORDERHISTORYMAINcontext);
-  try {
-    final response = await Dio().post(
-      "$APIArsa/soi8/OrderHistory/searchOrderData",
-      data: {
-        'OrderNo': OrderNo,
-        'userData': {
-          'Id': USERDATA.ID,
-          'Name': USERDATA.NAME,
-        },
-      },
-      options: Options(
-        validateStatus: (status) {
-          return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
-        },
-      ),
-    );
-    List<dynamic> input = [];
-    if (response.statusCode == 200) {
-      input = response.data;
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      return input;
-    } else {
-      print("where is my server");
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
-      return [];
-    }
-  } catch (e) {
-    print(e);
-    Navigator.pop(P4ORDERHISTORYMAINcontext);
-    showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
-  }
-}
-
-
-Future SearchDataOrderEdit(String OrderNo) async {
-  print('SearchDataOrderEdit');
-  FreeLoadingTan(P4ORDERHISTORYMAINcontext);
-  try {
-    final response = await Dio().post(
-      "$APIArsa/soi8/OrderEdit/searchOrderData",
-      data: {
-        'OrderNo': OrderNo,
-        'userData': {
-          'Id': USERDATA.ID,
-          'Name': USERDATA.NAME,
-        },
-      },
-      options: Options(
-        validateStatus: (status) {
-          return true; // ให้ Dio ไม่โยน exception แม้จะไม่ใช่ 200
-        },
-      ),
-    );
-    List<dynamic> input = [];
-    if (response.statusCode == 200) {
-      input = response.data;
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      return input;
-    } else {
-      print("where is my server");
-      Navigator.pop(P4ORDERHISTORYMAINcontext);
-      showErrorPopup(P4ORDERHISTORYMAINcontext, response.toString());
-      return [];
-    }
-  } catch (e) {
-    print(e);
-    Navigator.pop(P4ORDERHISTORYMAINcontext);
-    showErrorPopup(P4ORDERHISTORYMAINcontext, e.toString());
   }
 }
 
@@ -446,21 +412,6 @@ String formatDate(String? date) {
     DateTime dateTime = DateTime.parse(date);
     // Create formatter for DD.MM.YYYY format
     DateFormat formatter = DateFormat('dd.MM.yyyy');
-    // Format the date
-    String formattedDate = formatter.format(dateTime);
-    return formattedDate;
-  } catch (e) {
-    return '';
-  }
-}
-
-String formatDateTime(String? date) {
-  if (date == null || date.isEmpty) return '';
-  try {
-    // Parse the ISO string to DateTime
-    DateTime dateTime = DateTime.parse(date);
-    // Create formatter for dd.MM.yyyy HH:mm:ss format
-    DateFormat formatter = DateFormat('dd.MM.yyyy HH:mm:ss');
     // Format the date
     String formattedDate = formatter.format(dateTime);
     return formattedDate;

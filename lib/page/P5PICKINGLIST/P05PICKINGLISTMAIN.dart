@@ -1,129 +1,63 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, non_constant_identifier_names, file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, avoid_print, deprecated_member_use
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/BlocEvent/01-01-P01DASHBOARDGETDATA.dart';
-import '../../data/global.dart';
+import 'package:newmaster/page/page5_1_PickingListDetail.dart';
+import 'package:newmaster/page/page5_2_PickingListDetailSum.dart';
+import '../../bloc/BlocEvent/05-01-P05PICKINGLISTGETDATA.dart';
 import '../../widget/common/Advancedropdown.dart';
-import '../../widget/common/ComInputTextTan.dart';
-import '../page2.dart';
-import 'P01DASHBOARDVAR.dart';
+import 'P05PICKINGLISTVAR.dart';
 
-late BuildContext P01DASHBOARDMAINcontext;
+late BuildContext P05PICKINGLISTMAINcontext;
 
-class P01DASHBOARDMAIN extends StatefulWidget {
-  P01DASHBOARDMAIN({
+class P05PICKINGLISTMAIN extends StatefulWidget {
+  P05PICKINGLISTMAIN({
     super.key,
     this.data,
   });
-  List<P01DASHBOARDGETDATAclass>? data;
+  List<P05PICKINGLISTGETDATAclass>? data;
 
   @override
-  State<P01DASHBOARDMAIN> createState() => _P01DASHBOARDMAINState();
+  State<P05PICKINGLISTMAIN> createState() => _P05PICKINGLISTMAINState();
 }
 
-class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
+class _P05PICKINGLISTMAINState extends State<P05PICKINGLISTMAIN> {
   @override
   void initState() {
     super.initState();
-    context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET());
-    P01DASHBOARDVAR.iscontrol = true;
-    P01DASHBOARDVAR.SEARCH = '';
+    context.read<P05PICKINGLISTGETDATA_Bloc>().add(P05PICKINGLISTGETDATA_GET());
+    P05PICKINGLISTVAR.iscontrol = true;
+    P05PICKINGLISTVAR.SEARCH = '';
+    P05PICKINGLISTVAR.DropDownPlant = 'SEP';
+    P05PICKINGLISTVAR.searchDate = '';
   }
 
-  DateTime? selectedDate;
   bool isLoading = false;
   String? responseMessage;
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2024),
-      lastDate: DateTime(2200),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.blue,
-              onPrimary: Colors.white,
-              surface: Colors.white,
-              onSurface: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-/*     if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-      // Automatically send data after date selection
-      
-    } */
-    await addPickingDate(picked!, widget.data!);
-      P01DASHBOARDMAINcontext.read<P01DASHBOARDGETDATA_Bloc>()
-          .add(P01DASHBOARDGETDATA_GET());
-  }
-
-
   @override
   Widget build(BuildContext context) {
-    P01DASHBOARDMAINcontext = context;
-    List<P01DASHBOARDGETDATAclass> _datain = widget.data ?? [];
+    P05PICKINGLISTMAINcontext = context;
+    List<P05PICKINGLISTGETDATAclass> _datain = widget.data ?? [];
 
-    List<P01DASHBOARDGETDATAclass> filteredData = _datain.where((data) {
-      // เช็คว่า isCheckedX ตัวไหนเป็น true แล้วกรองข้อมูลตามนั้น
-      bool matchesCondition = false;
+    List<P05PICKINGLISTGETDATAclass> filteredData = _datain.where((data) => 
+    ( P05PICKINGLISTVAR.searchDate == data.Order_Picking_DT || P05PICKINGLISTVAR.searchDate == '' ) &&
+    ( P05PICKINGLISTVAR.DropDownPlant == data.ST_Sep || P05PICKINGLISTVAR.DropDownPlant == 'SEP' )
+    ).toList();
 
-      // เช็คตามเงื่อนไขของ isChecked
-      if (P01DASHBOARDVAR.isChecked1) {
-        matchesCondition = matchesCondition || data.Order_Status == 'SAP';
-      }
-      if (P01DASHBOARDVAR.isChecked2) {
-        matchesCondition = matchesCondition || data.Order_Status == 'GEN SEP';
-      }
-      if (P01DASHBOARDVAR.isChecked3) {
-        matchesCondition = matchesCondition || data.Order_Status == 'SEP';
-      }
-      if (P01DASHBOARDVAR.isChecked4) {
-        matchesCondition = matchesCondition || data.Order_Status == 'FULL';
-      }
-      if (P01DASHBOARDVAR.isChecked5) {
-        matchesCondition = matchesCondition || data.Order_Status == 'SEP/FULL';
-      }
-      if (P01DASHBOARDVAR.isChecked6) {
-        matchesCondition = matchesCondition || data.Order_Status == 'RECHECK';
-      }
-      if (P01DASHBOARDVAR.isChecked7) {
-        matchesCondition = matchesCondition || data.Order_Status == 'TITRATING';
-      }
-      if (P01DASHBOARDVAR.isChecked8) {
-        matchesCondition = matchesCondition || data.Order_Status == 'COMPLETE';
-      }
-      if (P01DASHBOARDVAR.isChecked9) {
-        matchesCondition = matchesCondition || data.Order_Status == 'UNSUGGEST';
-      }
-      // print(matchesCondition);
-      return matchesCondition;
-    }).toList();
 
-    List<P01DASHBOARDGETDATAclass> _datasearch = [];
+    List<P05PICKINGLISTGETDATAclass> _datasearch = [];
     _datasearch.addAll(
       filteredData.where(
         (data) =>
-            data.OrderNo.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
-            data.ProductName.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
-            data.Quantity.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
-            data.Tank.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
-            data.Lot.toLowerCase().contains(P01DASHBOARDVAR.SEARCH) ||
+            data.OrderNo.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH) ||
+            data.ProductName.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH) ||
+            data.Quantity.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH) ||
+            data.Tank.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH) ||
+            data.Lot.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH) ||
             data.Order_Start_DT.toLowerCase()
-                .contains(P01DASHBOARDVAR.SEARCH) ||
-            data.Order_Status.toLowerCase().contains(P01DASHBOARDVAR.SEARCH),
+                .contains(P05PICKINGLISTVAR.SEARCH) ||
+            data.Order_Status.toLowerCase().contains(P05PICKINGLISTVAR.SEARCH),
       ),
     );
     return Scaffold(
@@ -140,7 +74,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                   end: Alignment.bottomRight,
                 ).createShader(bounds),
                 child: Text(
-                  'SAP-SCADA',
+                  'SAP-SCADA (PICKING LIST)',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
@@ -158,31 +92,69 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ComInputTextTan(
-                            sPlaceholder: "Search...",
-                            isSideIcon: true,
+                          Container(
                             height: 40,
-                            width: 400,
-                            isContr: P01DASHBOARDVAR.iscontrol,
-                            fnContr: (input) {
-                              P01DASHBOARDVAR.iscontrol = input;
-                            },
-                            sValue: P01DASHBOARDVAR.SEARCH,
-                            returnfunc: (String s) {
-                              setState(() {
-                                P01DASHBOARDVAR.SEARCH = s;
-                              });
-                            },
+                            width: 200,
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context:
+                                        context, // ใช้ context นี้แทน global
+                                    /* initialDate: P05PICKINGLISTVAR.searchDate, */
+                                    firstDate: DateTime(2024),
+                                    lastDate: DateTime(2200),
+                                  );
+                                  if (pickedDate != null) {
+                                    P05PICKINGLISTVAR.searchDate =
+                                        formatDate(pickedDate.toString());
+                                    setState(() {});
+                                  }
+                                },
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      child: Column(
+                                        children: const [
+                                          Icon(
+                                            Icons.edit_calendar,
+                                            color: Colors.blue,
+                                            size: 25,
+                                          ),
+                                          Text(
+                                            'Picking Date',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(width: 15),
+                                    Expanded(
+                                      child: Text(
+                                        P05PICKINGLISTVAR.searchDate.toString(),
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 16),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           MouseRegion(
                             onEnter: (_) {
                               setState(() {
-                                P01DASHBOARDVAR.isHoveredClear = true;
+                                P05PICKINGLISTVAR.isHoveredClear = true;
                               });
                             },
                             onExit: (_) {
                               setState(() {
-                                P01DASHBOARDVAR.isHoveredClear = false;
+                                P05PICKINGLISTVAR.isHoveredClear = false;
                               });
                             },
                             child: InkWell(
@@ -190,16 +162,18 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                   WidgetStateProperty.all(Colors.transparent),
                               onTap: () {
                                 setState(() {
-                                  P01DASHBOARDVAR.isHoveredClear = false;
-                                  P01DASHBOARDVAR.iscontrol = true;
-                                  P01DASHBOARDVAR.SEARCH = '';
+                                  P05PICKINGLISTVAR.isHoveredClear = false;
+                                  P05PICKINGLISTVAR.iscontrol = true;
+                                  P05PICKINGLISTVAR.SEARCH = '';
+                                  P05PICKINGLISTVAR.DropDownPlant = 'SEP';
+                                  P05PICKINGLISTVAR.searchDate = '';
                                 });
                               },
                               child: AnimatedContainer(
                                 duration: Duration(milliseconds: 200),
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: P01DASHBOARDVAR.isHoveredClear
+                                    color: P05PICKINGLISTVAR.isHoveredClear
                                         ? Colors.yellowAccent.shade700
                                         : Colors.redAccent.shade700,
                                     width: 3.0,
@@ -222,10 +196,11 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                       ).createShader(bounds),
                                       child: TweenAnimationBuilder<double>(
                                         tween: Tween<double>(
-                                          begin: P01DASHBOARDVAR.isHoveredClear
-                                              ? 15
-                                              : 17,
-                                          end: P01DASHBOARDVAR.isHoveredClear
+                                          begin:
+                                              P05PICKINGLISTVAR.isHoveredClear
+                                                  ? 15
+                                                  : 17,
+                                          end: P05PICKINGLISTVAR.isHoveredClear
                                               ? 17
                                               : 15,
                                         ),
@@ -233,12 +208,12 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                         builder: (context, size, child) {
                                           return TweenAnimationBuilder<Color?>(
                                             tween: ColorTween(
-                                              begin: P01DASHBOARDVAR
+                                              begin: P05PICKINGLISTVAR
                                                       .isHoveredClear
                                                   ? Colors.redAccent.shade700
                                                   : Colors
                                                       .yellowAccent.shade700,
-                                              end: P01DASHBOARDVAR
+                                              end: P05PICKINGLISTVAR
                                                       .isHoveredClear
                                                   ? Colors.yellowAccent.shade700
                                                   : Colors.redAccent.shade700,
@@ -271,8 +246,8 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                 ElevatedButton(
                                   onPressed: () {
                                     context
-                                        .read<P01DASHBOARDGETDATA_Bloc>()
-                                        .add(P01DASHBOARDGETDATA_GET());
+                                        .read<P05PICKINGLISTGETDATA_Bloc>()
+                                        .add(P05PICKINGLISTGETDATA_GET());
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
@@ -307,10 +282,10 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                             ],
                             onChangeinside: (d, k) {
                               setState(() {
-                                P01DASHBOARDVAR.DropDownPlant = d;
+                                P05PICKINGLISTVAR.DropDownPlant = d;
                               });
                             },
-                            value: P01DASHBOARDVAR.DropDownPlant,
+                            value: P05PICKINGLISTVAR.DropDownPlant,
                             height: 50,
                             width: 100,
                           ),
@@ -322,9 +297,28 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    context
-                                        .read<P01DASHBOARDGETDATA_Bloc>()
-                                        .add(P01DASHBOARDGETDATA_GET2());
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                            child: SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.8,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              child: Page5_2(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
@@ -338,7 +332,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                 ),
                                 SizedBox(height: 5),
                                 Text(
-                                  'Print GEN SEP',
+                                  'PICKING LIST',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: Colors.black,
@@ -356,8 +350,8 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                 ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      P01DASHBOARDVAR.DropCheck =
-                                          !P01DASHBOARDVAR.DropCheck;
+                                      P05PICKINGLISTVAR.DropCheck =
+                                          !P05PICKINGLISTVAR.DropCheck;
                                     });
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -365,10 +359,10 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                     padding: const EdgeInsets.all(10),
                                   ),
                                   child: Icon(
-                                    P01DASHBOARDVAR.DropCheck
+                                    P05PICKINGLISTVAR.DropCheck
                                         ? Icons.filter_alt_off_rounded
                                         : Icons.filter_alt_rounded,
-                                    color: P01DASHBOARDVAR.DropCheck
+                                    color: P05PICKINGLISTVAR.DropCheck
                                         ? Colors.red
                                         : Colors.blue,
                                     size: 30,
@@ -377,38 +371,6 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                 SizedBox(height: 5),
                                 Text(
                                   'Filter Status',
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          SizedBox(
-                            child: Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _selectDate(context);
-                                    /* showDialog(context: context, builder: builder); */
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const CircleBorder(),
-                                    padding: const EdgeInsets.all(10),
-                                  ),
-                                  child: Icon(
-                                    Icons.edit_calendar,
-                                    color: Colors.blue,
-                                    size: 30,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  'Assign Picking',
                                   style: TextStyle(
                                       fontSize: 10,
                                       color: Colors.black,
@@ -426,7 +388,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                           return FadeTransition(
                               opacity: animation, child: child);
                         },
-                        child: P01DASHBOARDVAR.DropCheck
+                        child: P05PICKINGLISTVAR.DropCheck
                             ? Column(
                                 children: [
                                   SizedBox(
@@ -444,8 +406,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked1 =
-                                                    !P01DASHBOARDVAR.isChecked1;
+                                                P05PICKINGLISTVAR.isChecked1 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked1;
                                               });
                                             },
                                             child: Container(
@@ -474,7 +437,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked1,
                                                       activeColor: Colors
                                                           .yellow.shade700,
@@ -487,7 +450,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked1 =
                                                               value ?? false;
                                                         });
@@ -519,8 +482,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked2 =
-                                                    !P01DASHBOARDVAR.isChecked2;
+                                                P05PICKINGLISTVAR.isChecked2 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked2;
                                               });
                                             },
                                             child: Container(
@@ -548,7 +512,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked2,
                                                       activeColor:
                                                           Colors.blueAccent,
@@ -561,7 +525,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked2 =
                                                               value ?? false;
                                                         });
@@ -592,8 +556,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked3 =
-                                                    !P01DASHBOARDVAR.isChecked3;
+                                                P05PICKINGLISTVAR.isChecked3 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked3;
                                               });
                                             },
                                             child: Container(
@@ -621,7 +586,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked3,
                                                       activeColor:
                                                           Colors.blueAccent,
@@ -634,7 +599,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked3 =
                                                               value ?? false;
                                                         });
@@ -665,8 +630,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked4 =
-                                                    !P01DASHBOARDVAR.isChecked4;
+                                                P05PICKINGLISTVAR.isChecked4 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked4;
                                               });
                                             },
                                             child: Container(
@@ -694,7 +660,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked4,
                                                       activeColor:
                                                           Colors.blueAccent,
@@ -707,7 +673,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked4 =
                                                               value ?? false;
                                                         });
@@ -738,8 +704,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked5 =
-                                                    !P01DASHBOARDVAR.isChecked5;
+                                                P05PICKINGLISTVAR.isChecked5 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked5;
                                               });
                                             },
                                             child: Container(
@@ -767,7 +734,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked5,
                                                       activeColor:
                                                           Colors.blueAccent,
@@ -780,7 +747,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked5 =
                                                               value ?? false;
                                                         });
@@ -811,8 +778,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked6 =
-                                                    !P01DASHBOARDVAR.isChecked6;
+                                                P05PICKINGLISTVAR.isChecked6 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked6;
                                               });
                                             },
                                             child: Container(
@@ -840,7 +808,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked6,
                                                       activeColor:
                                                           Colors.orange,
@@ -853,7 +821,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked6 =
                                                               value ?? false;
                                                         });
@@ -884,8 +852,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked7 =
-                                                    !P01DASHBOARDVAR.isChecked7;
+                                                P05PICKINGLISTVAR.isChecked7 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked7;
                                               });
                                             },
                                             child: Container(
@@ -913,7 +882,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked7,
                                                       activeColor:
                                                           Colors.orange,
@@ -926,7 +895,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked7 =
                                                               value ?? false;
                                                         });
@@ -957,8 +926,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked8 =
-                                                    !P01DASHBOARDVAR.isChecked8;
+                                                P05PICKINGLISTVAR.isChecked8 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked8;
                                               });
                                             },
                                             child: Container(
@@ -986,7 +956,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked8,
                                                       activeColor: Colors.green,
                                                       checkColor: Colors.white,
@@ -998,7 +968,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked8 =
                                                               value ?? false;
                                                         });
@@ -1030,8 +1000,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isChecked9 =
-                                                    !P01DASHBOARDVAR.isChecked9;
+                                                P05PICKINGLISTVAR.isChecked9 =
+                                                    !P05PICKINGLISTVAR
+                                                        .isChecked9;
                                               });
                                             },
                                             child: Container(
@@ -1059,7 +1030,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isChecked9,
                                                       activeColor:
                                                           Colors.orange,
@@ -1072,7 +1043,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked9 =
                                                               value ?? false;
                                                         });
@@ -1103,36 +1074,36 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                P01DASHBOARDVAR.isCheckedALL =
-                                                    !P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isCheckedALL =
+                                                    !P05PICKINGLISTVAR
                                                         .isCheckedALL;
 
-                                                P01DASHBOARDVAR.isChecked1 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked1 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked2 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked2 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked3 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked3 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked4 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked4 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked5 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked5 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked6 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked6 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked7 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked7 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked8 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked8 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
-                                                P01DASHBOARDVAR.isChecked9 =
-                                                    P01DASHBOARDVAR
+                                                P05PICKINGLISTVAR.isChecked9 =
+                                                    P05PICKINGLISTVAR
                                                         .isCheckedALL;
                                               });
                                             },
@@ -1161,7 +1132,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                   Transform.scale(
                                                     scale: 1.3,
                                                     child: Checkbox(
-                                                      value: P01DASHBOARDVAR
+                                                      value: P05PICKINGLISTVAR
                                                           .isCheckedALL,
                                                       activeColor: Colors.red,
                                                       checkColor: Colors.white,
@@ -1173,45 +1144,45 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       ),
                                                       onChanged: (bool? value) {
                                                         setState(() {
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isCheckedALL =
                                                               value ?? false;
 
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked1 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked2 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked3 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked4 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked5 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked6 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked7 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked8 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
-                                                          P01DASHBOARDVAR
+                                                          P05PICKINGLISTVAR
                                                                   .isChecked9 =
-                                                              P01DASHBOARDVAR
+                                                              P05PICKINGLISTVAR
                                                                   .isCheckedALL;
                                                         });
                                                       },
@@ -1423,7 +1394,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                       color: Colors.blue,
                                       child: Center(
                                         child: Text(
-                                          'Inspection',
+                                          'Picking Data',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
@@ -1433,30 +1404,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                               ),
                             ),
                           ),
-                          TableCell(
-                            child: SizedBox(
-                              height: 50,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: 50,
-                                    child: Container(
-                                      color: Colors.blue,
-                                      child: Center(
-                                        child: Text(
-                                          'Delete',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                         
                         ],
                       ),
                     ],
@@ -1523,18 +1471,8 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                               TableCell(
                                 child: SizedBox(
                                   height: 30,
-                                  child: Row(
-                                    children: [
-                                      Checkbox(
-                                        value: item.isSelected,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            item.isSelected = !item.isSelected;
-                                          });
-                                        },
-                                      ),
-                                      Text(item.Order_Picking_DT)
-                                    ],
+                                  child: Center(
+                                    child: Text(item.Order_Picking_DT),
                                   ),
                                 ),
                               ),
@@ -1563,10 +1501,9 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    P01DASHBOARDVAR.OrderStatusForSwitchAPI =
+                                    P05PICKINGLISTVAR.OrderStatusForSwitchAPI =
                                         item.Order_Status;
-                                    P01DASHBOARDVAR.SendAllDataToAPI =
-                                        jsonEncode(item.toJson());
+                                    P05PICKINGLISTVAR.OrderNo =item.OrderNo;
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -1583,7 +1520,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                                       .size
                                                       .width *
                                                   0.8,
-                                              child: Page2(),
+                                              child: Page5_1(),
                                             ),
                                           ),
                                         );
@@ -1597,89 +1534,7 @@ class _P01DASHBOARDMAINState extends State<P01DASHBOARDMAIN> {
                                   ),
                                 ),
                               ),
-                              TableCell(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0.0),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: P01DASHBOARDMAINcontext,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          title: Row(
-                                            children: const [
-                                              Icon(Icons.delete_forever_rounded,
-                                                  color: Colors.red),
-                                              SizedBox(width: 8),
-                                              Text('Delete'),
-                                            ],
-                                          ),
-                                          content: Text(
-                                            'Are you sure you want to confirm delete?',
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text('Cancel',
-                                                  style: TextStyle(
-                                                      color: Colors.red)),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                P01DASHBOARDVAR
-                                                        .SendAllDataToAPI =
-                                                    jsonEncode(item.toJson());
-                                                var response = await Dio().post(
-                                                  "$APIArsa/soi8/DeleteOrder",
-                                                  data: {
-                                                    'dataOrder': P01DASHBOARDVAR
-                                                        .SendAllDataToAPI
-                                                  },
-                                                );
-                                                if (response.statusCode ==
-                                                    200) {
-                                                  Navigator.of(context).pop();
-                                                  P01DASHBOARDMAINcontext.read<
-                                                          P01DASHBOARDGETDATA_Bloc>()
-                                                      .add(
-                                                          P01DASHBOARDGETDATA_GET());
-                                                } else {
-                                                  print('Delete Fail');
-                                                  Navigator.of(context).pop();
-                                                }
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red,
-                                              ),
-                                              child: Text('Confirm',
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 20,
-                                  ),
-                                ),
-                              )
+                              
                             ],
                           );
                         }).toList(),
@@ -1715,359 +1570,3 @@ Color _getStatusColor(String status) {
       return Colors.red;
   }
 }
-
-// void PATTERNSET(BuildContext contextin) {
-//   showDialog(
-//     context: contextin,
-//     builder: (BuildContext context) {
-//       return Dialog(
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(16.0),
-//         ),
-//         child: _Page1blockget(),
-//       );
-//     },
-//   );
-// }
-
-// class _Page1blockget extends StatelessWidget {
-//   const _Page1blockget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//         create: (_) => P01DASHBOARDGETDATA_Bloc(),
-//         child: BlocBuilder<P01DASHBOARDGETDATA_Bloc,
-//             List<P01DASHBOARDGETDATAclass>>(
-//           builder: (context, data) {
-//             return testtest(
-//               datasearch: data,
-//             );
-//           },
-//         ));
-//   }
-// }
-
-// class testtest extends StatefulWidget {
-//   testtest({super.key, this.datasearch});
-//   List<P01DASHBOARDGETDATAclass>? datasearch;
-//   @override
-//   State<testtest> createState() => _testtestState();
-// }
-
-// class _testtestState extends State<testtest> {
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     context.read<P01DASHBOARDGETDATA_Bloc>().add(P01DASHBOARDGETDATA_GET2());
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     List<P01DASHBOARDGETDATAclass> _datasearch = widget.datasearch ?? [];
-//     return SingleChildScrollView(
-//       scrollDirection: Axis.vertical,
-//       child: SingleChildScrollView(
-//         scrollDirection: Axis.horizontal,
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.only(top: 16.0),
-//               child: Center(
-//                 child: ShaderMask(
-//                   shaderCallback: (bounds) => LinearGradient(
-//                     colors: const [Colors.blueAccent, Colors.lightBlueAccent],
-//                     begin: Alignment.topLeft,
-//                     end: Alignment.bottomRight,
-//                   ).createShader(bounds),
-//                   child: Text(
-//                     'Compare Data between SAP & SCADA',
-//                     style: TextStyle(
-//                       fontSize: 20.0,
-//                       fontWeight: FontWeight.bold,
-//                       color: Colors.white,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: Table(
-//                 border: TableBorder.all(),
-//                 columnWidths: const {
-//                   0: FixedColumnWidth(100.0),
-//                   1: FixedColumnWidth(100.0),
-//                   2: FixedColumnWidth(100.0),
-//                   3: FixedColumnWidth(100.0),
-//                   4: FixedColumnWidth(100.0),
-//                   5: FixedColumnWidth(100.0),
-//                   6: FixedColumnWidth(100.0),
-//                   7: FixedColumnWidth(100.0),
-//                   8: FixedColumnWidth(100.0),
-//                 },
-//                 children: [
-//                   TableRow(
-//                     children: [
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Order No',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Product Name',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Quantity',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Tank',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Lot',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Start Date',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                       TableCell(
-//                         child: SizedBox(
-//                           height: 50,
-//                           child: Stack(
-//                             children: [
-//                               Positioned(
-//                                 top: 0,
-//                                 left: 0,
-//                                 right: 0,
-//                                 height: 50,
-//                                 child: Container(
-//                                   color: Colors.blue,
-//                                   child: Center(
-//                                     child: Text(
-//                                       'Status',
-//                                       style: TextStyle(color: Colors.white),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   ..._datasearch.map((item) {
-//                     // int dataCount = _datasearch.indexOf(item) + 1;
-//                     return TableRow(
-//                       children: [
-//                         // TableCell(
-//                         //   child: SizedBox(
-//                         //     height: 30,
-//                         //     child: Center(
-//                         //       child: Text(dataCount.toString()),
-//                         //     ),
-//                         //   ),
-//                         // ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.ORDERNO),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Align(
-//                               alignment: Alignment.centerLeft,
-//                               child: Text('  ${item.PDNAME}'),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.QUANTITY),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.TANK),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.LOT),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.STDATE),
-//                             ),
-//                           ),
-//                         ),
-//                         TableCell(
-//                           child: SizedBox(
-//                             height: 30,
-//                             child: Center(
-//                               child: Text(item.STATUS),
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     );
-//                   }),
-//                 ],
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(bottom: 16.0),
-//               child: ElevatedButton(
-//                 onPressed: () {},
-//                 child: Text(
-//                   'Confirm compare',
-//                   style: const TextStyle(fontSize: 14, color: Colors.blue),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

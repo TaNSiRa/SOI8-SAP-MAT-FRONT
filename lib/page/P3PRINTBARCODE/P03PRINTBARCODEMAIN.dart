@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import '../../bloc/BlocEvent/03-01-P03PRINTBARCODEGETDATA.dart';
 import '../../widget/common/Loading.dart';
 import '../../widget/function/helper.dart';
@@ -305,7 +304,7 @@ class _P03PRINTBARCODEMAINState extends State<P03PRINTBARCODEMAIN> {
                             ...entry.value.map((item) {
                               return TableRow(
                                 children: [
-                                  TableCell(
+                                  /* TableCell(
                                     child: SizedBox(
                                       height: 60,
                                       child: Center(
@@ -319,7 +318,7 @@ class _P03PRINTBARCODEMAINState extends State<P03PRINTBARCODEMAIN> {
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ), */
                                   TableCell(
                                     child: SizedBox(
                                       height: 60,
@@ -328,7 +327,7 @@ class _P03PRINTBARCODEMAINState extends State<P03PRINTBARCODEMAIN> {
                                       ),
                                     ),
                                   ),
-                                  TableCell(
+                                  /* TableCell(
                                     child: SizedBox(
                                       height: 60,
                                       child: Center(
@@ -342,7 +341,7 @@ class _P03PRINTBARCODEMAINState extends State<P03PRINTBARCODEMAIN> {
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ), */
                                 ],
                               );
                             }),
